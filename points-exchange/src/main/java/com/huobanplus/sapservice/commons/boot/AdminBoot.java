@@ -7,9 +7,9 @@
  * 2013-2015. All rights reserved.
  */
 
-package com.huobanplus.sapservice.boot;
+package com.huobanplus.sapservice.commons.boot;
 
-import com.huobanplus.sapservice.config.WebConfig;
+import com.huobanplus.sapservice.commons.config.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 

@@ -7,8 +7,10 @@
  * 2013-2016. All rights reserved.
  */
 
-package com.huobanplus.sapservice.config;
+package com.huobanplus.sapservice.commons.config;
 
+import com.huobanplus.sapservice.controller.PlatformInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -29,6 +31,9 @@ import java.util.List;
 @Import(ApplicationConfig.class)
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    private PlatformInterceptor platformInterceptor;
+
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -46,15 +51,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(authorizeInterceptor).addPathPatterns("/**/hotApi/rest/**");
 //        registry.addInterceptor(userAuthorizeInterceptor).addPathPatterns("/**/hotProxy/**");
-//        registry.addInterceptor(platformInterceptor).addPathPatterns("/**/erpService/platform/**");
+        registry.addInterceptor(platformInterceptor).addPathPatterns("/**");
 //        registry.addInterceptor(sandboxInterceptor).addPathPatterns("/**/erpService/sandbox/rest/**");
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-//        super.addArgumentResolvers(argumentResolvers);
-//
-//        argumentResolvers.add(new AttributeArgumentResolver());
+        super.addArgumentResolvers(argumentResolvers);
+
+        argumentResolvers.add(new AttributeArgumentResolver());
     }
 
     @Override

@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+    font-family: Helvetica, STHeiti STXihei, /*Microsoft JhengHei,*/ Microsoft YaHei, Arial;
+}
+.imgsize {
+    width: 16px;
+    height: 16px;
+    margin-top: px;
+    vertical-align: middle;
+}.f-fleft i {
+    font-size: 14px;
+    font-style: normal;
+}.col {
+    color: #ff3d00;
+}.f-frighttwo {
+    right: 10px;
+    position: absolute;
+}.f-frighttwo i {
+    margin-right: 6px;
+    font-size: 14px;
+    font-style: normal;
+}
+.weui_navbar.bn a{ font-size:12px}
+.weui_navbar_item.weui_bar_item_on{ color:#111;  background-color:#fff}
+
+.cont-zhbox {
+    margin: 6px;
+}.cont-zhbox-t {
+    background-color: #fff;
+    padding:6px ;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}.cont-zhbox-t a.bz {
+    color: #000;
+}.cont-zhbox-a {
+    line-height:18px;
+    font-size: 14px;
+}.cont-zhbox-img {
+    margin: 0px 0px 0px 0px;
+    color: #4D4D4D;
+    line-height: 20px;
+    font-size: 14px; position:relative
+}.cont-zhbox-img img {
+    width: 100%;
+    display: block;
+    border: 0px;
+}.cont-zhbox-nav {
+        padding: 6px 0px 6px 0px;
+    color: #FFF;
+    line-height: 16px;
+    font-size: 12px;
+    background-color: rgba(255, 158, 158, 0.5);
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+}
+.mnb{padding-left:14px;color:#333;font-family: Helvetica, STHeiti STXihei, /*Microsoft JhengHei,*/ Microsoft YaHei, Arial;}
+
+.cont-zhbox-navs {
+        padding: 6px 0px 6px 0px;
+    color: #FFF;
+    line-height: 16px;
+    font-size: 12px;
+    background-color: rgba(36, 104, 255, 0.5);
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+}
+.cont-zhbox-navs.on{background-color: rgba(255, 158, 158, 0.5);}

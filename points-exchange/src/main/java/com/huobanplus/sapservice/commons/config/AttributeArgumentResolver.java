@@ -9,7 +9,7 @@
 
 package com.huobanplus.sapservice.commons.config;
 
-import com.huobanplus.sapservice.commons.annotation.RequestAttribute;
+import com.huobanplus.sapservice.commons.annotation.OpenID;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,12 +24,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AttributeArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return methodParameter.getParameterAnnotation(RequestAttribute.class) != null;
+        return methodParameter.getParameterAnnotation(OpenID.class) != null;
     }
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String attributeName = methodParameter.getParameterAnnotation(RequestAttribute.class).value();
+        String attributeName = methodParameter.getParameterAnnotation(OpenID.class).value();
         if (StringUtils.isEmpty(attributeName)) {
             attributeName = methodParameter.getParameterName();
         }

@@ -18,7 +18,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,10 +66,44 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        InternalResourceViewResolver resourceViewResolver = new InternalResourceViewResolver();
-        resourceViewResolver.setPrefix("/WEB-INF/views/");
-        resourceViewResolver.setSuffix(".jsp");
-        registry.viewResolver(resourceViewResolver);
+//        InternalResourceViewResolver resourceViewResolver = new InternalResourceViewResolver();
+//        resourceViewResolver.setPrefix("/WEB-INF/views/");
+//        resourceViewResolver.setSuffix(".jsp");
+//        registry.viewResolver(resourceViewResolver);
+        super.configureViewResolvers(registry);
+        registry.viewResolver(viewResolver());
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        super.addResourceHandlers(registry);
+        registry.addResourceHandler("/resource/**/*").addResourceLocations("/resource/");
+    }
+
+    public ThymeleafViewResolver viewResolver() {
+
+        ServletContextTemplateResolver rootTemplateResolver = new ServletContextTemplateResolver();
+        rootTemplateResolver.setPrefix("/");
+        rootTemplateResolver.setSuffix(".html");
+        rootTemplateResolver.setTemplateMode("HTML5");
+        rootTemplateResolver.setCharacterEncoding("UTF-8");
+//        if (env.acceptsProfiles("!container")) {
+//            rootTemplateResolver.setCacheable(false);
+//        } else {
+//            rootTemplateResolver.setCacheable(true);
+//        }
+
+        rootTemplateResolver.setCacheable(false);
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+//        engine.addDialect(new SpringSecurityDialect());
+        engine.setTemplateResolver(rootTemplateResolver);
+
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setOrder(1);
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setTemplateEngine(engine);
+        resolver.setContentType("text/html;charset=utf-8");
+        return resolver;
     }
 
 }

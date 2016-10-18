@@ -10,4 +10,16 @@ import java.util.List;
 public interface DataInitService {
 
     public List<ExchangeActivity> createExchangeActivityData();
+
+    public List<ExchangeActivity> createLevel1200Activity();
+
+    public List<ExchangeActivity> createLevel2200Activity();
+
+    public List<ExchangeActivity> createLevel3200Activity();
+
+    public List<ExchangeActivity> createLevel5000Activity();
+
+    public ExchangeActivity findActivityByLevelAndMeal(int level,int meal);
+
+
 }

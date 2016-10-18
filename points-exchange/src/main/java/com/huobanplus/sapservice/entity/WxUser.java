@@ -38,5 +38,12 @@ public class WxUser {
      * 该微信用户的珀莱雅会员积分
      */
     @Column(name = "points")
-    private Long points;
+    private int points;
+
+    /**
+     * 是否第一次兑换
+     */
+    @Column(name = "is_first_exchange")
+    private boolean isFirstExchange;
+
 }

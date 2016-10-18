@@ -36,4 +36,23 @@ public class ExchangeGoods {
      */
     @Column(name = "img_url")
     private String imgUrl;
+
+    /**
+     *  该产品的套餐类型码
+     */
+    private int levelCode;
+
+    /**
+     * 礼品编码
+     */
+    private String unitCode;
+
+    /**
+     * 礼品条码
+     */
+    private String barCode;
+
+
+
+
 }

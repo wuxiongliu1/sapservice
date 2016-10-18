@@ -117,7 +117,7 @@ public class ExchangeInfo {
      * 预约前的积分 有则填。
      */
     @JSONField(name= "PointBeforeBooking")
-    private String pointBeforeBooking;
+    private int pointBeforeBooking;
 
     /**
      * 验证码 有则填。柜台领用时的验证码

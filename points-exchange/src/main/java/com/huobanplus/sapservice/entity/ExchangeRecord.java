@@ -37,9 +37,28 @@ public class ExchangeRecord {
     private boolean isVerification;
 
     /**
-     * 是否第一次兑换
+     * 微信用户id (自增字段id,不是openId)
      */
-    @Column(name = "is_first_exchange")
-    private boolean isFirstExchange;
+    private String wxOpenId;
+
+    /**
+     * 领用开始日期
+     */
+    private String startDate;
+
+    /**
+     * 领用截止日期
+     */
+    private String endDate;
+
+    /**
+     * 记录生成日期
+     */
+    private String createTime;
+
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "goods_id")
+    private ExchangeGoods exchangeGoods;
 
 }

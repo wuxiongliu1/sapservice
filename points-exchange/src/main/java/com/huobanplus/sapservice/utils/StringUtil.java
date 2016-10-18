@@ -554,4 +554,12 @@ public class StringUtil {
         }
         return String.valueOf(object);
     }
+
+    public static String parseArrarToCommaStr(Object[] array){
+        StringBuffer sb = new StringBuffer();
+        for (Object o : array) {
+            sb.append(String.valueOf(o)).append(",");
+        }
+        return sb.toString();
+    }
 }

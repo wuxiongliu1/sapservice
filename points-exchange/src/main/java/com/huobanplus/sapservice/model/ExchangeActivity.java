@@ -34,4 +34,9 @@ public class ExchangeActivity {
      */
     private String[] giftsName;
 
+    /**
+     *  所需积分
+     */
+    private int points;
+
 }

@@ -8,10 +8,10 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="description" content=""/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
     <link rel="stylesheet" type="text/css"
-          href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css" />
-    <link rel="stylesheet" type="text/css" th:href="@{resources/css/weui-diy-blys.css}" />
+          href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{resources/css/weui-diy-blys.css}"/>
     <title></title>
 </head>
 <body style="background-color:#efeff4">
@@ -34,8 +34,11 @@
                     <img th:src="@{/resources/images/CgMBmVOOY3SAArHEAANAIV0Z2xg29200.jpg}" style="width:100%"/>
                     <p class="cont-zhbox-navs " style="margin-bottom:0px">已兑换</p>
                 </div>
-                <div style="font-size:14px; padding:4px 10px 0px 10px;"><Span>西湖银泰店</Span><Span
-                        style="float:right">x1</Span></div>
+                <div style="font-size:14px; padding:4px 10px 0px 10px;">
+                    <Span th:text="${record.shopName}">西湖银泰店</Span>
+                    <span>|地址：<span th:text="${record.shopAddr}">地址</span></span>
+                    <Span style="float:right">x1</Span>
+                </div>
             </a>
         </div>
         <p style="text-align:center; font-size:12px; color:#ccc; margin-top:4px">2016-10-10 10:00</p>
@@ -51,8 +54,8 @@
 
 
 <!--<div class="weui-infinite-scroll">-->
-    <!--<div class="infinite-preloader"></div>&lt;!&ndash; 菊花 &ndash;&gt;-->
-    <!--正在加载... &lt;!&ndash; 文案，可以自行修改 &ndash;&gt;-->
+<!--<div class="infinite-preloader"></div>&lt;!&ndash; 菊花 &ndash;&gt;-->
+<!--正在加载... &lt;!&ndash; 文案，可以自行修改 &ndash;&gt;-->
 <!--</div>-->
 
 </body>

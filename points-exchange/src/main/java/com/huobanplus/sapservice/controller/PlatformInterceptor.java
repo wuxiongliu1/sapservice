@@ -62,7 +62,7 @@ public class PlatformInterceptor extends HandlerInterceptorAdapter {
 //                return false;
 //            }
 //        }
-        request.setAttribute("openId", "13512112162");
+        request.setAttribute("openId", "15067134475");
         return true;
     }
 }

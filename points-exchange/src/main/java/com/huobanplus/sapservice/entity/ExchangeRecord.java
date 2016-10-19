@@ -56,6 +56,16 @@ public class ExchangeRecord {
      */
     private String createTime;
 
+    /**
+     *  兑换的门店名称
+     */
+    private String shopName;
+
+    /**
+     *  兑换门店地址
+     */
+    private String shopAddr;
+
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "goods_id")

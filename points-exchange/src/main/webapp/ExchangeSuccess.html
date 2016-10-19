@@ -31,7 +31,9 @@
                 <img th:src="@{/resources/images/CgMBmVOOY3SAArHEAANAIV0Z2xg29200.jpg}" style="width:100%" />
             </div>
             <div style="font-size:14px; padding:4px 10px 0px 10px;">
-                <Span>西湖银泰店</Span><Span style="float:right">x1</Span>
+                <Span th:text="${shopName}">西湖银泰店</Span>
+                <span> |地址:</span> <span th:text="${shopAddr}">店铺地址</span>
+                <Span style="float:right">兑换数量：x1</Span>
             </div>
         </a>
     </div>

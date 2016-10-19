@@ -33,7 +33,7 @@ import java.util.List;
  * Created by wuxiongliu on 2016-10-12.
  */
 @Controller
-//@RequestMapping(value = "/sapservice")
+@RequestMapping(value = "/sapservice")
 public class IndexController {
 
     @Autowired

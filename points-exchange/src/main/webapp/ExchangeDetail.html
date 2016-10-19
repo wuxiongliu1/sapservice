@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/weui-diy-blys.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/weui-diy-blys.css}"
+          data-th-href="@{/resources/css/weui-diy-blys.css}" />
     <title></title>
 </head>
 
@@ -34,7 +35,7 @@
 </div>
 
 
-<p><img th:src="@{resources/images/CgMBmVOOY3SAArHEAANAIV0Z2xg29200.jpg}" style="width:100%; display:block"/></p>
+<p><img th:src="@{/resources/images/CgMBmVOOY3SAArHEAANAIV0Z2xg29200.jpg}" style="width:100%; display:block"/></p>
 
 
 <div class="weui_cells weui_cells_form" style="color:#333; margin-top:0px">
@@ -93,11 +94,10 @@
         $("#select_province").on("change", function () {
             var province = $(this).val();
             $.ajax({
-                url: "/changeProvince",
+                url: "/sapservice/changeProvince",
                 type: "get",
                 data: {"provinceName": province},
                 success: function (resp) {
-                    console.log(resp.data);
                     var list = resp.data;
                     var options = "";
                     for (var i = 0; i < list.length; i++) {
@@ -112,11 +112,10 @@
 
         function changeShop(city) {
             $.ajax({
-                url: "/changeCity",
+                url: "/sapservice/changeCity",
                 type: "get",
                 data: {"cityName": city},
                 success: function (resp) {
-                    console.log(resp.data);
                     var list = resp.data;
                     var options = "";
                     for (var i = 0; i < list.length; i++) {
@@ -159,13 +158,13 @@
                     var shopAddr = $("#select_shop option:selected").attr("data-addr");
                     var points = /*[[${activity.points}]]*/;
                     $.ajax({
-                        url: "/exchange",
+                        url: "/sapservice/exchange",
                         type: "post",
                         data: {"level": level, "meal": meal, "points": points, "counterCode": counterCode,
                             "shopName":shopName,"shopAddr":shopAddr},
                         success: function (resp) {
                             if (resp.resultCode == 200) {
-                                window.location.href = "/toSuccess?shopName=" + shopName+"&shopAddr="+shopAddr;
+                                window.location.href = "/sapservice/toSuccess?shopName=" + shopName+"&shopAddr="+shopAddr;
                             } else {
                                 alert(resp);
                             }

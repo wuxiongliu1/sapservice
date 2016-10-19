@@ -77,7 +77,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
-        registry.addResourceHandler("/resource/**/*").addResourceLocations("/resource/");
+        registry.addResourceHandler("/resources/**/*").addResourceLocations("/resources/");
     }
 
     public ThymeleafViewResolver viewResolver() {

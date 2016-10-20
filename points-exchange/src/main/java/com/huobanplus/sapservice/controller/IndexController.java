@@ -3,7 +3,6 @@ package com.huobanplus.sapservice.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huobanplus.sapservice.commons.Constant;
-import com.huobanplus.sapservice.commons.annotation.OpenID;
 import com.huobanplus.sapservice.commons.bean.ApiResult;
 import com.huobanplus.sapservice.commons.bean.ResultCode;
 import com.huobanplus.sapservice.entity.ExchangeGoods;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +47,8 @@ public class IndexController {
     @Autowired
     private ShopInfoRepository shopInfoRepository;
 
-    @RequestMapping(value = {"/test", "/index"})
-    public String index(@OpenID String openId, HttpServletRequest request, Model model) throws Exception {
+    @RequestMapping(value = {"/index"})
+    public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
 
 
         // 先判断该用户是否是珀莱雅的会员，如果不是，则进入会员注册页面
@@ -104,7 +104,7 @@ public class IndexController {
 
 
     @RequestMapping(value = "/toExchange")
-    public String toExchangeDetail(@OpenID String openId, int level, int meal, Model model) {
+    public String toExchangeDetail(String openId, int level, int meal, Model model) {
 
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
         int isFirstExchange = 0;
@@ -143,7 +143,7 @@ public class IndexController {
 
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResult exchange(@OpenID String openId, int level, int meal, String counterCode, String shopName,String shopAddr) {
+    public ApiResult exchange(String openId, int level, int meal, String counterCode, String shopName,String shopAddr) {
         // 判断是否是第一次兑换，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
         ExchangeActivity activity = dataInitService.findActivityByLevelAndMeal(level,meal);
@@ -158,8 +158,8 @@ public class IndexController {
                 // 保存积分兑换记录
 
                 ExchangeRecord exchangeRecord = new ExchangeRecord();
-                exchangeRecord.setExchangeCode(resultMap.getCouponCode());// TODO: 2016-10-18
-                exchangeRecord.setExchangeShop("test");// TODO: 2016-10-18  
+                exchangeRecord.setExchangeCode(resultMap.getCouponCode());
+                exchangeRecord.setExchangeShop(shopName);
                 exchangeRecord.setVerification(false);
                 exchangeRecord.setStartDate(resultMap.getObtainFromDate());
                 exchangeRecord.setEndDate(resultMap.getObtainToDate());
@@ -181,9 +181,9 @@ public class IndexController {
 
                 boolean isFirstExchange = wxUser.isFirstExchange();
                 if(isFirstExchange){
-                    wxUser.setPoints(wxUser.getPoints()-(activity.getPoints()-200));// TODO: 2016-10-18 当前积分减去兑换掉的积分
+                    wxUser.setPoints(wxUser.getPoints()-(activity.getPoints()-200));
                 } else{
-                    wxUser.setPoints(wxUser.getPoints()-activity.getPoints());// TODO: 2016-10-18 当前积分减去兑换掉的积分
+                    wxUser.setPoints(wxUser.getPoints()-activity.getPoints());
                 }
 
                 wxUser.setFirstExchange(false);
@@ -249,14 +249,14 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/myExchangeRecord")
-    public String myExchangeRecord(@OpenID String openId,Model model) {
+    public String myExchangeRecord(String openId,Model model) {
         List<ExchangeRecord> exchangeRecords = exchangeRecordRepository.findByWxOpenId(openId);
         model.addAttribute("exchangeRecords", exchangeRecords);
         return "ExchangeRecords";
     }
 
     @RequestMapping(value = "/toSuccess")
-    public String toSuccessPage(@OpenID String openId,String shopName,String shopAddr,Model model){
+    public String toSuccessPage(String openId,String shopName,String shopAddr,Model model){
         model.addAttribute("shopName",shopName);
         model.addAttribute("shopAddr",shopAddr);
 //        model.
@@ -265,14 +265,14 @@ public class IndexController {
 
     @RequestMapping(value = "/changeProvince")
     @ResponseBody
-    public ApiResult changeProvinceGetCitys(@OpenID String openId,String provinceName){
+    public ApiResult changeProvinceGetCitys(String openId,String provinceName){
         List<String> citys = shopInfoRepository.findCityByProvince(provinceName);
         return ApiResult.resultWith(ResultCode.SUCCESS,citys);
     }
 
     @RequestMapping(value = "/changeCity")
     @ResponseBody
-    public ApiResult changeCityGetShopNames(@OpenID String openId,String cityName){
+    public ApiResult changeCityGetShopNames(String openId,String cityName){
         List<ShopInfo> shopNames = shopInfoRepository.findShopInfoByCity(cityName);
         List<ShopModel> shopModels = new ArrayList<>();
         shopNames.forEach(shopInfo -> {

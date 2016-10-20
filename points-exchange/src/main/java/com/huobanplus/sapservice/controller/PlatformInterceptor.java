@@ -31,38 +31,8 @@ public class PlatformInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        String erpUserType = request.getParameter("erpUserType");
-//        Integer customerId;
-//        if (erpUserType.equals("0")) {
-//            customerId = CookieHelper.getCookieValInteger(request, "UserID");
-//            if (environment.acceptsProfiles("development")) {
-//                customerId = 296;
-//            }
-//
-//            if (customerId == null || customerId == 0) {
-//                String requestCustomerId = request.getParameter("customerid");
-//                if (StringUtils.isEmpty(requestCustomerId)) {
-//                    response.sendRedirect(environment.getProperty("huobanplus_login", "http://localhost:8080"));
-//                    return false;
-//                }
-//                customerId = Integer.valueOf(requestCustomerId);
-//            }
-//
-////            request.setAttribute("customerId", );
-//        } else {
-//            customerId = CookieHelper.getCookieValInteger(request, "supplierId");
-//
-//            if (environment.acceptsProfiles("development")) {
-////                customerId = 23367;
-//                customerId = 7297;
-//            }
-//
-//            if (customerId == null || customerId == 0) {
-//                response.sendRedirect(environment.getProperty("supplier_login", "http://login.huobanplus.com"));
-//                return false;
-//            }
-//        }
-        request.setAttribute("openId", "15067134475");
+        String userMobile = request.getParameter("usermobile");
+        request.setAttribute("openId", userMobile);
         return true;
     }
 }

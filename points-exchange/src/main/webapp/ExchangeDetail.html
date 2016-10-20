@@ -21,6 +21,7 @@
 <input type="hidden" id="meal" th:value="${activity.activityLevel.getCode()}"/>
 <input type="hidden" id="open_id" th:value="${openId}"/>
 <input type="hidden" id="level" th:value="${level}"/>
+<input type="hidden" id="imgName" th:value="${activity.imgName}"/>
 
 <div style="position:fixed; bottom:0px;left:0px;right:0px; z-index:999">
     <div style="padding:10px 10px; background-color:#fff; font-size:13px;">
@@ -35,7 +36,7 @@
 </div>
 
 
-<p><img th:src="@{/resources/images/CgMBmVOOY3SAArHEAANAIV0Z2xg29200.jpg}" style="width:100%; display:block"/></p>
+<p><img th:src="${activity.imgName}" style="width:100%; display:block"/></p>
 
 
 <div class="weui_cells weui_cells_form" style="color:#333; margin-top:0px">
@@ -134,18 +135,29 @@
     });
     $(document).on("click", "#show-custom-duihuan", function () {
 
+        var provinceVal = $("#select_province option:selected").val();
+        var cityVal = $("#select_city option:selected").val();
+        var shopVal = $("#select_shop option:selected").val();
+
+        if(provinceVal== 0 || cityVal== 0 || shopVal==0){
+            $.alert("请输入省市及兑换门店");
+            return;
+        }
+
+
         var isFirstExchange = /*[[${isFirstExchange}]]*/;
+        var title = /*[[${activity.activityLevel.getName()}]]*/ ;
 
         var text = "";
         if (isFirstExchange == 0) {// 不是初次兑换
             text = "本次兑换只扣除您" + /*[[${activity.points}]]*/ +"积分确定兑换码?";
         } else {// 初次登录
-            text = "初次兑换只扣除您" + /*[[${activity.points-200}]]*/ +"积分确定兑换码?";
+            text = "初次兑换将扣除您" + /*[[${activity.points-200}]]*/ +"积分确定兑换码?";
         }
 
 
         $.modal({
-            title: "套餐A",
+            title: title,
             text: text,
             buttons: [
                 {
@@ -157,6 +169,7 @@
                     var shopName = $("#select_shop option:selected").text();
                     var shopAddr = $("#select_shop option:selected").attr("data-addr");
                     var points = /*[[${activity.points}]]*/;
+                    var imgUrl = $("#imgName").val();
                     $.ajax({
                         url: "/sapservice/exchange",
                         type: "post",
@@ -164,7 +177,9 @@
                             "shopName":shopName,"shopAddr":shopAddr},
                         success: function (resp) {
                             if (resp.resultCode == 200) {
-                                window.location.href = "/sapservice/toSuccess?shopName=" + shopName+"&shopAddr="+shopAddr;
+                                window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
+                                        "&shopAddr="+shopAddr+
+                                        "&imgUrl="+imgUrl;
                             } else {
                                 alert(resp);
                             }

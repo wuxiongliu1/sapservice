@@ -53,6 +53,7 @@ public class DataInitServiceImpl implements DataInitService {
         level1200A.setGiftsBarCode(level1200ABarcode);
         level1200A.setGiftsName(level1200AName);
         level1200A.setPoints(1200);
+        level1200A.setImgName("/resources/images/1200-a.png");
 
         ExchangeActivity level1200B = new ExchangeActivity();
         String[] level1200BCode = {"10008210","DH000213"};
@@ -64,6 +65,7 @@ public class DataInitServiceImpl implements DataInitService {
         level1200B.setGiftsBarCode(level1200BBarcode);
         level1200B.setGiftsName(level1200BName);
         level1200B.setPoints(1200);
+        level1200B.setImgName("/resources/images/1200-b.png");
 
         ExchangeActivity level1200C = new ExchangeActivity();
         String[] level1200CCode = {"10008772","10008777","DH000214"};
@@ -75,6 +77,7 @@ public class DataInitServiceImpl implements DataInitService {
         level1200C.setGiftsBarCode(level1200CBarcode);
         level1200C.setGiftsName(level1200CName);
         level1200C.setPoints(1200);
+        level1200C.setImgName("/resources/images/1200-c.png");
 
         ExchangeActivity level1200D = new ExchangeActivity();
         String[] level1200DCode = {"10006714","DH000215"};
@@ -86,6 +89,7 @@ public class DataInitServiceImpl implements DataInitService {
         level1200D.setGiftsBarCode(level1200DBarcode);
         level1200D.setGiftsName(level1200DName);
         level1200D.setPoints(1200);
+        level1200D.setImgName("/resources/images/1200-d.png");
 
         level1200.add(level1200A);
         level1200.add(level1200B);
@@ -112,6 +116,7 @@ public class DataInitServiceImpl implements DataInitService {
         level2200A.setGiftsBarCode(level2200ABarcode);
         level2200A.setGiftsName(level2200AName);
         level2200A.setPoints(2200);
+        level2200A.setImgName("/resources/images/2200-a.png");
 
         ExchangeActivity level2200B = new ExchangeActivity();
         String[] level2200BCode = {"10008210","10008762","DH000217"};
@@ -123,6 +128,7 @@ public class DataInitServiceImpl implements DataInitService {
         level2200B.setGiftsBarCode(level2200BBarcode);
         level2200B.setGiftsName(level2200BName);
         level2200B.setPoints(2200);
+        level2200B.setImgName("/resources/images/2200-b.png");
 
         ExchangeActivity level2200C = new ExchangeActivity();
         String[] level2200CCode = {"10007530","DH000218"};
@@ -134,6 +140,7 @@ public class DataInitServiceImpl implements DataInitService {
         level2200C.setGiftsBarCode(level2200CBarcode);
         level2200C.setGiftsName(level2200CName);
         level2200C.setPoints(2200);
+        level2200C.setImgName("/resources/images/2200-c.png");
 
         ExchangeActivity level2200D = new ExchangeActivity();
         String[] level2200DCode = {"10006757","DH000219"};
@@ -145,6 +152,7 @@ public class DataInitServiceImpl implements DataInitService {
         level2200D.setGiftsBarCode(level2200DBarcode);
         level2200D.setGiftsName(level2200DName);
         level2200D.setPoints(2200);
+        level2200D.setImgName("/resources/images/2200-d.png");
 
         level2200.add(level2200A);
         level2200.add(level2200B);
@@ -169,6 +177,7 @@ public class DataInitServiceImpl implements DataInitService {
         level3200A.setGiftsBarCode(level3200ABarcode);
         level3200A.setGiftsName(level3200AName);
         level3200A.setPoints(3200);
+        level3200A.setImgName("/resources/images/3200-a.png");
 
         ExchangeActivity level3200B = new ExchangeActivity();
         String[] level3200BCode = {"10007301","10008210","10008764","DH000221"};
@@ -180,6 +189,7 @@ public class DataInitServiceImpl implements DataInitService {
         level3200B.setGiftsBarCode(level3200BBarcode);
         level3200B.setGiftsName(level3200BName);
         level3200B.setPoints(3200);
+        level3200B.setImgName("/resources/images/3200-b.png");
 
         ExchangeActivity level3200C = new ExchangeActivity();
         String[] level3200CCode = {"10006755","10008211","DH000222"};
@@ -191,6 +201,7 @@ public class DataInitServiceImpl implements DataInitService {
         level3200C.setGiftsBarCode(level3200CBarcode);
         level3200C.setGiftsName(level3200CName);
         level3200C.setPoints(3200);
+        level3200C.setImgName("/resources/images/3200-c.png");
 
         ExchangeActivity level3200D = new ExchangeActivity();
         String[] level3200DCode = {"10006759","10008772","DH000223"};
@@ -202,6 +213,7 @@ public class DataInitServiceImpl implements DataInitService {
         level3200D.setGiftsBarCode(level3200DBarcode);
         level3200D.setGiftsName(level3200DName);
         level3200D.setPoints(3200);
+        level3200D.setImgName("/resources/images/3200-d.png");
 
         level3200.add(level3200A);
         level3200.add(level3200B);
@@ -225,6 +237,7 @@ public class DataInitServiceImpl implements DataInitService {
         level5000B.setGiftsBarCode(level5000BBarcode);
         level5000B.setGiftsName(level5000BName);
         level5000B.setPoints(5000);
+        level5000B.setImgName("/resources/images/5000-a.png");
 
         ExchangeActivity level5000A = new ExchangeActivity();
         String[] level5000ACode = {"10005818","10006754","10008764","10008775","10008776","DH000225"};
@@ -236,6 +249,7 @@ public class DataInitServiceImpl implements DataInitService {
         level5000A.setGiftsBarCode(level5000ABarcode);
         level5000A.setGiftsName(level5000AName);
         level5000A.setPoints(5000);
+        level5000A.setImgName("/resources/images/5000-b.png");
 
         ExchangeActivity level5000D = new ExchangeActivity();
         String[] level5000DCode = {"10006714","10006759","10008764","DH000226"};
@@ -247,6 +261,7 @@ public class DataInitServiceImpl implements DataInitService {
         level5000D.setGiftsBarCode(level5000DBarcode);
         level5000D.setGiftsName(level5000DName);
         level5000D.setPoints(5000);
+        level5000D.setImgName("/resources/images/5000-c.png");
 
         ExchangeActivity level5000C = new ExchangeActivity();
         String[] level5000CCode = {"10006755","10008211","10008762","10008772","10008777","DH000227"};
@@ -258,7 +273,8 @@ public class DataInitServiceImpl implements DataInitService {
         level5000C.setGiftsBarCode(level5000CBarcode);
         level5000C.setGiftsName(level5000CName);
         level5000C.setPoints(5000);
-        
+        level5000C.setImgName("/resources/images/5000-d.png");
+
         level5000.add(level5000A);
         level5000.add(level5000B);
         level5000.add(level5000C);

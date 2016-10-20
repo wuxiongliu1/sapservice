@@ -3,6 +3,7 @@ package com.huobanplus.sapservice.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huobanplus.sapservice.commons.Constant;
+import com.huobanplus.sapservice.commons.annotation.OpenID;
 import com.huobanplus.sapservice.commons.bean.ApiResult;
 import com.huobanplus.sapservice.commons.bean.ResultCode;
 import com.huobanplus.sapservice.entity.ExchangeGoods;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +48,7 @@ public class IndexController {
     private ShopInfoRepository shopInfoRepository;
 
     @RequestMapping(value = {"/index"})
-    public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
+    public String index(@OpenID String openId, HttpServletRequest request, Model model) throws Exception {
 
 
         // 先判断该用户是否是珀莱雅的会员，如果不是，则进入会员注册页面
@@ -104,7 +104,7 @@ public class IndexController {
 
 
     @RequestMapping(value = "/toExchange")
-    public String toExchangeDetail(String openId, int level, int meal, Model model) {
+    public String toExchangeDetail(@OpenID String openId, int level, int meal, Model model) {
 
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
         int isFirstExchange = 0;
@@ -143,7 +143,7 @@ public class IndexController {
 
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResult exchange(String openId, int level, int meal, String counterCode, String shopName,String shopAddr) {
+    public ApiResult exchange(@OpenID String openId, int level, int meal, String counterCode, String shopName,String shopAddr) {
         // 判断是否是第一次兑换，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
         ExchangeActivity activity = dataInitService.findActivityByLevelAndMeal(level,meal);
@@ -173,7 +173,7 @@ public class IndexController {
                 exchangeGoods.setLevelCode(meal);
                 exchangeGoods.setUnitCode(StringUtil.parseArrarToCommaStr(activity.getGiftsCode()));
                 exchangeGoods.setBarCode(StringUtil.parseArrarToCommaStr(activity.getGiftsBarCode()));
-//                exchangeGoods.setImgUrl("test");
+                exchangeGoods.setImgUrl(activity.getImgName());
 
                 exchangeRecord.setExchangeGoods(exchangeGoods);
 
@@ -249,30 +249,31 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/myExchangeRecord")
-    public String myExchangeRecord(String openId,Model model) {
+    public String myExchangeRecord(@OpenID String openId,Model model) {
         List<ExchangeRecord> exchangeRecords = exchangeRecordRepository.findByWxOpenId(openId);
         model.addAttribute("exchangeRecords", exchangeRecords);
         return "ExchangeRecords";
     }
 
     @RequestMapping(value = "/toSuccess")
-    public String toSuccessPage(String openId,String shopName,String shopAddr,Model model){
+    public String toSuccessPage(String openId,String shopName,String shopAddr,Model model,String imgUrl){
         model.addAttribute("shopName",shopName);
         model.addAttribute("shopAddr",shopAddr);
+        model.addAttribute("imgUrl",imgUrl);
 //        model.
         return "ExchangeSuccess";
     }
 
     @RequestMapping(value = "/changeProvince")
     @ResponseBody
-    public ApiResult changeProvinceGetCitys(String openId,String provinceName){
+    public ApiResult changeProvinceGetCitys( @OpenID String openId,String provinceName){
         List<String> citys = shopInfoRepository.findCityByProvince(provinceName);
         return ApiResult.resultWith(ResultCode.SUCCESS,citys);
     }
 
     @RequestMapping(value = "/changeCity")
     @ResponseBody
-    public ApiResult changeCityGetShopNames(String openId,String cityName){
+    public ApiResult changeCityGetShopNames( @OpenID String openId,String cityName){
         List<ShopInfo> shopNames = shopInfoRepository.findShopInfoByCity(cityName);
         List<ShopModel> shopModels = new ArrayList<>();
         shopNames.forEach(shopInfo -> {

@@ -39,4 +39,9 @@ public class ExchangeActivity {
      */
     private int points;
 
+    /**
+     * 套餐对应图片名称
+     */
+    private String imgName;
+
 }

@@ -31,8 +31,8 @@ public class PlatformInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String userMobile = request.getParameter("usermobile");
-        request.setAttribute("openId", userMobile);
+//        String userMobile = request.getParameter("usermobile");
+        request.setAttribute("openId", "15067134475");
         return true;
     }
 }

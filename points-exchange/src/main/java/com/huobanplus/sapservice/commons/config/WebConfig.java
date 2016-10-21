@@ -10,9 +10,13 @@
 package com.huobanplus.sapservice.commons.config;
 
 import com.huobanplus.sapservice.controller.PlatformInterceptor;
+import com.huobanplus.sapservice.model.ActivityDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,10 +35,30 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @Import(ApplicationConfig.class)
+@PropertySource(value = "classpath:sapservice.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private PlatformInterceptor platformInterceptor;
+
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public ActivityDate test(){
+        String startDate = env.getProperty("startDate");
+        String endDate = env.getProperty("endDate");
+        String benefitStartDate = env.getProperty("benefitStartDate");
+        String benefitEndDate = env.getProperty("benefitEndDate");
+
+        ActivityDate activityDate = new ActivityDate();
+        activityDate.setStartDate(startDate);
+        activityDate.setEndDate(endDate);
+        activityDate.setBenefitStartDate(benefitStartDate);
+        activityDate.setBenefitEndDate(benefitEndDate);
+        return activityDate;
+    }
+
 
 
     @Override

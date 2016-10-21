@@ -22,7 +22,7 @@ body {
     font-style: normal;
 }
 .weui_navbar.bn a{ font-size:12px}
-.weui_navbar_item.weui_bar_item_on{ color:#111;  background-color:#fff}
+.weui_navbar_item.weui_bar_item_on{ color:red;  background-color:#fff}
 
 .cont-zhbox {
     margin: 6px;
@@ -51,10 +51,10 @@ body {
     line-height: 16px;
     font-size: 12px;
     background-color: rgba(255, 158, 158, 0.5);
-    width: 100%;
+    width: 30%;
     position: absolute;
     bottom: 0px;
-    left: 0px;
+/*left: 0;*/
     right: 0px;
     text-align: center;
 }

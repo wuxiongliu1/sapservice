@@ -140,19 +140,20 @@
         var shopVal = $("#select_shop option:selected").val();
 
         if(provinceVal== 0 || cityVal== 0 || shopVal==0){
-            $.alert("请输入省市及兑换门店");
+            $.alert("请选择省市及兑换门店");
             return;
         }
 
 
         var isFirstExchange = /*[[${isFirstExchange}]]*/;
         var title = /*[[${activity.activityLevel.getName()}]]*/ ;
+        var isBenefit = /*[[${isBenefit}]]*/;
 
         var text = "";
-        if (isFirstExchange == 0) {// 不是初次兑换
-            text = "本次兑换只扣除您" + /*[[${activity.points}]]*/ +"积分确定兑换码?";
-        } else {// 初次登录
-            text = "初次兑换将扣除您" + /*[[${activity.points-200}]]*/ +"积分确定兑换码?";
+        if (isBenefit == 0) {// 不优惠
+            text = "本次兑换将扣除您" + /*[[${activity.points}]]*/ +"积分确定兑换码?";
+        } else {// 优惠200积分
+            text = "本次兑换只扣除您" + /*[[${activity.points-200}]]*/ +"积分确定兑换码?";
         }
 
 
@@ -174,7 +175,7 @@
                         url: "/sapservice/exchange",
                         type: "post",
                         data: {"level": level, "meal": meal, "points": points, "counterCode": counterCode,
-                            "shopName":shopName,"shopAddr":shopAddr},
+                            "shopName":shopName,"shopAddr":shopAddr,"openId":openId},
                         success: function (resp) {
                             if (resp.resultCode == 200) {
                                 window.location.href = "/sapservice/toSuccess?shopName=" + shopName +

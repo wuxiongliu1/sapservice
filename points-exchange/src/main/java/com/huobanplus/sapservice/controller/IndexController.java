@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,9 +47,11 @@ public class IndexController {
     private ExchangeRecordRepository exchangeRecordRepository;
     @Autowired
     private ShopInfoRepository shopInfoRepository;
+    @Autowired
+    private ActivityDate activityDate;
 
     @RequestMapping(value = {"/index"})
-    public String index(@OpenID String openId, HttpServletRequest request, Model model) throws Exception {
+    public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
 
 
         // 先判断该用户是否是珀莱雅的会员，如果不是，则进入会员注册页面
@@ -67,34 +70,33 @@ public class IndexController {
                 int points = jsonObject.getIntValue("CurrentPoint");
 
 
-        WxUser wxUser = wxUserRepository.findByOpenId(openId);
-        if(wxUser == null){
-            wxUser = new WxUser();
-            wxUser.setPoints(100);// 首次积分 // TODO: 2016-10-18  
-            wxUser.setFirstExchange(true);
-            wxUser.setOpenId(openId);
-            wxUser.setWxName("");
-            wxUser.setWxImgUrl("");
-            wxUserRepository.save(wxUser);
-        } else{
-            wxUser.setPoints(points);// TODO: 2016-10-18
-            wxUserRepository.save(wxUser);
-        }
+                WxUser wxUser = wxUserRepository.findByOpenId(openId);
+                if (wxUser == null) {
+                    wxUser = new WxUser();
+                    wxUser.setPoints(100);// 首次积分 // TODO: 2016-10-18
+                    wxUser.setFirstExchange(true);
+                    wxUser.setOpenId(openId);
+                    wxUser.setWxName("");
+                    wxUser.setWxImgUrl("");
+                    wxUserRepository.save(wxUser);
+                } else {
+                    wxUser.setPoints(points);// TODO: 2016-10-18
+                    wxUserRepository.save(wxUser);
+                }
 
 
+                List<ExchangeActivity> level1200ActivityList = dataInitService.createLevel1200Activity();
+                List<ExchangeActivity> level2200ActivityList = dataInitService.createLevel2200Activity();
+                List<ExchangeActivity> level3200ActivityList = dataInitService.createLevel3200Activity();
+                List<ExchangeActivity> level5000ActivityList = dataInitService.createLevel5000Activity();
+                model.addAttribute("points", wxUser.getPoints());
+                model.addAttribute("openId", openId);
+                model.addAttribute("level1200ActivityList", level1200ActivityList);
+                model.addAttribute("level2200ActivityList", level2200ActivityList);
+                model.addAttribute("level3200ActivityList", level3200ActivityList);
+                model.addAttribute("level5000ActivityList", level5000ActivityList);
 
-        List<ExchangeActivity> level1200ActivityList = dataInitService.createLevel1200Activity();
-        List<ExchangeActivity> level2200ActivityList = dataInitService.createLevel2200Activity();
-        List<ExchangeActivity> level3200ActivityList = dataInitService.createLevel3200Activity();
-        List<ExchangeActivity> level5000ActivityList = dataInitService.createLevel5000Activity();
-        model.addAttribute("points", wxUser.getPoints());
-        model.addAttribute("openId",openId);
-        model.addAttribute("level1200ActivityList", level1200ActivityList);
-        model.addAttribute("level2200ActivityList", level2200ActivityList);
-        model.addAttribute("level3200ActivityList", level3200ActivityList);
-        model.addAttribute("level5000ActivityList", level5000ActivityList);
-
-        return "ExchangeGoodsList";
+                return "ExchangeGoodsList";
             } else {
                 return "redirect:/";
             }
@@ -104,29 +106,40 @@ public class IndexController {
 
 
     @RequestMapping(value = "/toExchange")
-    public String toExchangeDetail(@OpenID String openId, int level, int meal, Model model) {
+    public String toExchangeDetail(@RequestParam(name = "openId") String openId, int level, int meal, Model model) {
 
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
         int isFirstExchange = 0;
-        if(wxUser == null){
+        int isBenefit = 0;
+        if (wxUser == null) {
             // 去会员注册？
 
-        } else{
-            isFirstExchange = wxUser.isFirstExchange()?1:0;
+        } else {
+            isFirstExchange = wxUser.isFirstExchange() ? 1 : 0;
         }
 
-        ExchangeActivity exchangeActivity = dataInitService.findActivityByLevelAndMeal(level,meal);
+        ExchangeActivity exchangeActivity = dataInitService.findActivityByLevelAndMeal(level, meal);
 
-        int enableExchange  = 0;
+        int enableExchange = 0;
 
-        if(wxUser.isFirstExchange()){
-            if(wxUser.getPoints()>=(exchangeActivity.getPoints()-200)){
+        if (wxUser.isFirstExchange()) {
+            if (wxUser.getPoints() >= (exchangeActivity.getPoints() - 200)) {
                 enableExchange = 1;
             }
+        } else {
+            if (wxUser.getPoints() >= exchangeActivity.getPoints()) {
+                enableExchange = 1;
+            }
+        }
+
+        String exchangeDate = StringUtil.DateFormat(new Date(), StringUtil.DATE_PATTERN);
+
+
+        if (wxUser.isFirstExchange() && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
+                && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
+            isBenefit = 1;
         } else{
-            if(wxUser.getPoints()>=exchangeActivity.getPoints()){
-                enableExchange = 1;
-            }
+            isBenefit = 0;
         }
 
         List<String> provinces = shopInfoRepository.findProvince();
@@ -134,22 +147,23 @@ public class IndexController {
         model.addAttribute("level", level);
         model.addAttribute("openId", openId);
         model.addAttribute("activity", exchangeActivity);
-        model.addAttribute("isFirstExchange",isFirstExchange);
-        model.addAttribute("userPoints",wxUser.getPoints());
-        model.addAttribute("enableExchange",enableExchange);
-        model.addAttribute("provinces",provinces);
+        model.addAttribute("isFirstExchange", isFirstExchange);
+        model.addAttribute("userPoints", wxUser.getPoints());
+        model.addAttribute("enableExchange", enableExchange);
+        model.addAttribute("provinces", provinces);
+        model.addAttribute("isBenefit",isBenefit);
         return "ExchangeDetail";
     }
 
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResult exchange(@OpenID String openId, int level, int meal, String counterCode, String shopName,String shopAddr) {
-        // 判断是否是第一次兑换，如果是，则优惠200积分，否则不优惠
+    public ApiResult exchange(@RequestParam(name = "openId") String openId, int level, int meal, String counterCode, String shopName, String shopAddr) {
+        // 判断是否是第一次兑换，并且当前时间是在珀莱雅的优惠期间里，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
-        ExchangeActivity activity = dataInitService.findActivityByLevelAndMeal(level,meal);
+        ExchangeActivity activity = dataInitService.findActivityByLevelAndMeal(level, meal);
 
         if (wxUser != null) {
-            ExchangeInfo exchangeInfo = createExchangeInfo(openId,counterCode, level, meal, wxUser.isFirstExchange());
+            ExchangeInfo exchangeInfo = createExchangeInfo(openId, counterCode, level, meal, wxUser.isFirstExchange());
 
             ApiResult apiResult = exchangeService.exchangePoints(exchangeInfo);
             if (apiResult.getResultCode() == ResultCode.SUCCESS.getResultCode()) {
@@ -166,9 +180,10 @@ public class IndexController {
                 exchangeRecord.setWxOpenId(wxUser.getOpenId());
                 exchangeRecord.setShopName(shopName);
                 exchangeRecord.setShopAddr(shopAddr);
+                exchangeRecord.setCreateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
 
                 ExchangeGoods exchangeGoods = new ExchangeGoods();
-                exchangeGoods.setGoodsName(activity.getGiftsName()[activity.getGiftsName().length-1]);
+                exchangeGoods.setGoodsName(activity.getGiftsName()[activity.getGiftsName().length - 1]);
                 exchangeGoods.setExchangePoints(activity.getPoints());
                 exchangeGoods.setLevelCode(meal);
                 exchangeGoods.setUnitCode(StringUtil.parseArrarToCommaStr(activity.getGiftsCode()));
@@ -180,10 +195,16 @@ public class IndexController {
                 exchangeRecordRepository.save(exchangeRecord);
 
                 boolean isFirstExchange = wxUser.isFirstExchange();
-                if(isFirstExchange){
-                    wxUser.setPoints(wxUser.getPoints()-(activity.getPoints()-200));
-                } else{
-                    wxUser.setPoints(wxUser.getPoints()-activity.getPoints());
+
+
+                String exchangeDate = StringUtil.DateFormat(new Date(), StringUtil.DATE_PATTERN);
+
+
+                if (isFirstExchange && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
+                        && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
+                    wxUser.setPoints(wxUser.getPoints() - (activity.getPoints() - 200));
+                } else {
+                    wxUser.setPoints(wxUser.getPoints() - activity.getPoints());
                 }
 
                 wxUser.setFirstExchange(false);
@@ -199,7 +220,7 @@ public class IndexController {
         }
     }
 
-    private ExchangeInfo createExchangeInfo(String openId,String counterCode, int level, int meal, boolean isFirstExchange) {
+    private ExchangeInfo createExchangeInfo(String openId, String counterCode, int level, int meal, boolean isFirstExchange) {
 
         ExchangeActivity exchangeActivity = dataInitService.findActivityByLevelAndMeal(level, meal);
 
@@ -226,18 +247,18 @@ public class IndexController {
         for (int i = 0; i < giftsCode.length; i++) {
             ExchangeDetail exchangeDetail = new ExchangeDetail();
             exchangeDetail.setSubCampCode(exchangeActivity.getActivityCode());
-            if(giftsCode[i].startsWith("DH")){
+            if (giftsCode[i].startsWith("DH")) {
                 exchangeDetail.setDetailType("P");
-            } else{
+            } else {
                 exchangeDetail.setDetailType("N");
             }
             exchangeDetail.setBarCode(giftsBarCode[i]);
             exchangeDetail.setUnitCode(giftsCode[i]);
             exchangeDetail.setQuantity(1);
             exchangeDetail.setPrice(0);
-            if(i==(giftsCode.length-1)){
+            if (i == (giftsCode.length - 1)) {
                 exchangeDetail.setExPoint(isFirstExchange ? exchangeActivity.getPoints() - 200 : exchangeActivity.getPoints());// TODO: 2016-10-18
-            } else{
+            } else {
                 exchangeDetail.setExPoint(0);
             }
             exchangeDetails.add(exchangeDetail);
@@ -249,31 +270,31 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/myExchangeRecord")
-    public String myExchangeRecord(@OpenID String openId,Model model) {
-        List<ExchangeRecord> exchangeRecords = exchangeRecordRepository.findByWxOpenId(openId);
+    public String myExchangeRecord(@RequestParam(name = "openId") String openId, Model model) {
+        List<ExchangeRecord> exchangeRecords = exchangeRecordRepository.findByWxOpenIdOrderByCreateTimeDesc(openId);
         model.addAttribute("exchangeRecords", exchangeRecords);
         return "ExchangeRecords";
     }
 
     @RequestMapping(value = "/toSuccess")
-    public String toSuccessPage(String openId,String shopName,String shopAddr,Model model,String imgUrl){
-        model.addAttribute("shopName",shopName);
-        model.addAttribute("shopAddr",shopAddr);
-        model.addAttribute("imgUrl",imgUrl);
+    public String toSuccessPage(String openId, String shopName, String shopAddr, Model model, String imgUrl) {
+        model.addAttribute("shopName", shopName);
+        model.addAttribute("shopAddr", shopAddr);
+        model.addAttribute("imgUrl", imgUrl);
 //        model.
         return "ExchangeSuccess";
     }
 
     @RequestMapping(value = "/changeProvince")
     @ResponseBody
-    public ApiResult changeProvinceGetCitys( @OpenID String openId,String provinceName){
+    public ApiResult changeProvinceGetCitys(@OpenID String openId, String provinceName) {
         List<String> citys = shopInfoRepository.findCityByProvince(provinceName);
-        return ApiResult.resultWith(ResultCode.SUCCESS,citys);
+        return ApiResult.resultWith(ResultCode.SUCCESS, citys);
     }
 
     @RequestMapping(value = "/changeCity")
     @ResponseBody
-    public ApiResult changeCityGetShopNames( @OpenID String openId,String cityName){
+    public ApiResult changeCityGetShopNames(@OpenID String openId, String cityName) {
         List<ShopInfo> shopNames = shopInfoRepository.findShopInfoByCity(cityName);
         List<ShopModel> shopModels = new ArrayList<>();
         shopNames.forEach(shopInfo -> {
@@ -283,7 +304,9 @@ public class IndexController {
             shopModel.setShopAddr(shopInfo.getShopAddr());
             shopModels.add(shopModel);
         });
-        return ApiResult.resultWith(ResultCode.SUCCESS,shopModels);
+        return ApiResult.resultWith(ResultCode.SUCCESS, shopModels);
     }
+
+
 
 }

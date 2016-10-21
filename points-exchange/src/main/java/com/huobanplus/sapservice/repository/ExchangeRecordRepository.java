@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface ExchangeRecordRepository extends JpaRepository<ExchangeRecord,Long> {
 
-    List<ExchangeRecord> findByWxOpenId(String wxUserId);
+    List<ExchangeRecord> findByWxOpenIdOrderByCreateTimeDesc(String wxUserId);
 }

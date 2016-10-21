@@ -62,7 +62,7 @@ public class IndexController {
         memberInfoBean.setCondition(openId);
         ApiResult apiResult = exchangeService.memberInfoQuery(memberInfoBean);
         if (apiResult.getResultCode() != ResultCode.SUCCESS.getResultCode()) {
-            return "redirect:/";
+            return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL +"?usermobile"+openId;
         } else {
             JSONArray jsonArray = (JSONArray) apiResult.getData();
             if (jsonArray.size() > 0) {// 是会员
@@ -98,7 +98,7 @@ public class IndexController {
 
                 return "ExchangeGoodsList";
             } else {
-                return "redirect:/";
+                return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL +"?usermobile"+openId;
             }
 
         }
@@ -113,6 +113,7 @@ public class IndexController {
         int isBenefit = 0;
         if (wxUser == null) {
             // 去会员注册？
+            return "redirect:/sapservice/index?usermobile="+openId;
 
         } else {
             isFirstExchange = wxUser.isFirstExchange() ? 1 : 0;

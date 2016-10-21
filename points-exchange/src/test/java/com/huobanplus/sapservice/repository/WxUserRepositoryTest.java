@@ -20,7 +20,7 @@ public class WxUserRepositoryTest extends TestBase{
     private WxUserRepository wxUserRepository;
 
     @Test
-    @Rollback(value = false)
+//    @Rollback(value = false)
     public void testSave(){
         WxUser wxUser = new WxUser();
         wxUser.setOpenId("13512112162");

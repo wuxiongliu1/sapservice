@@ -15,4 +15,6 @@ public class Constant {
     //http://202.107.243.44:60080/Cherry/webservice/cherryws
 
     public static String APP_ID = "weshop";
+
+    public static String UNBIND_USER_REDIRECT_URL = "http://www.baidu.com";
 }

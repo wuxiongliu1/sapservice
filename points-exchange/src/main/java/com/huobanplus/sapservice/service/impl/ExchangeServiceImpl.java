@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huobanplus.sapservice.commons.Constant;
+import com.huobanplus.sapservice.commons.SapServiceEnum;
 import com.huobanplus.sapservice.commons.bean.ApiResult;
 import com.huobanplus.sapservice.commons.bean.ResultCode;
+import com.huobanplus.sapservice.commons.ienum.EnumHelper;
 import com.huobanplus.sapservice.model.ExchangeInfo;
 import com.huobanplus.sapservice.model.MemberInfoSearch;
 import com.huobanplus.sapservice.model.ResultMap;
@@ -51,7 +53,13 @@ public class ExchangeServiceImpl implements ExchangeService {
                         ResultMap resultMap = JSONArray.parseObject(resultMapJson,ResultMap.class);
                       return ApiResult.resultWith(ResultCode.SUCCESS,resultMap);
                     } else {
-                        return ApiResult.resultWith(ResultCode.ERROR,resultJson.getString("ERRORCODE"),null);
+                        int errorCode = resultJson.getInteger("ERRORCODE");
+                        SapServiceEnum.ErrorCodeEnum errorCodeEnum = EnumHelper.getEnumType(SapServiceEnum.ErrorCodeEnum.class,errorCode);
+                        if(errorCodeEnum != null){
+                            return ApiResult.resultWith(ResultCode.ERROR,errorCodeEnum.getName(),null);
+                        } else{
+                            return ApiResult.resultWith(ResultCode.ERROR,"兑换失败",null);
+                        }
                     }
                 }
                 return ApiResult.resultWith(ResultCode.SUCCESS);

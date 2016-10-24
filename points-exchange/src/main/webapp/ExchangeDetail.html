@@ -100,7 +100,7 @@
                 data: {"provinceName": province},
                 success: function (resp) {
                     var list = resp.data;
-                    var options = "";
+                    var options = "<option value=0>请选择所在城市</option>";
                     for (var i = 0; i < list.length; i++) {
                         options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
                     }
@@ -118,7 +118,7 @@
                 data: {"cityName": city},
                 success: function (resp) {
                     var list = resp.data;
-                    var options = "";
+                    var options = "<option value=0>请选择兑换门店</option>";
                     for (var i = 0; i < list.length; i++) {
                         options += "<option value='" + list[i].shopCode +"' data-addr='"+list[i].shopAddr + "'>" + list[i].shopName + "</option>";
                     }
@@ -182,7 +182,7 @@
                                         "&shopAddr="+shopAddr+
                                         "&imgUrl="+imgUrl;
                             } else {
-                                alert(resp);
+                                $.alert(resp.resultMsg);
                             }
                         },
                         error: function (resp) {

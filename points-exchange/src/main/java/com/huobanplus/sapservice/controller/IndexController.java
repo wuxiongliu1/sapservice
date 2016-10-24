@@ -14,6 +14,7 @@ import com.huobanplus.sapservice.model.*;
 import com.huobanplus.sapservice.repository.ExchangeRecordRepository;
 import com.huobanplus.sapservice.repository.ShopInfoRepository;
 import com.huobanplus.sapservice.repository.WxUserRepository;
+import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
 import com.huobanplus.sapservice.utils.StringUtil;
@@ -49,6 +50,8 @@ public class IndexController {
     private ShopInfoRepository shopInfoRepository;
     @Autowired
     private ActivityDate activityDate;
+    @Autowired
+    private ActivityInfoService activityInfoService;
 
     @RequestMapping(value = {"/index"})
     public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
@@ -84,11 +87,10 @@ public class IndexController {
                     wxUserRepository.save(wxUser);
                 }
 
-
-                List<ExchangeActivity> level1200ActivityList = dataInitService.createLevel1200Activity();
-                List<ExchangeActivity> level2200ActivityList = dataInitService.createLevel2200Activity();
-                List<ExchangeActivity> level3200ActivityList = dataInitService.createLevel3200Activity();
-                List<ExchangeActivity> level5000ActivityList = dataInitService.createLevel5000Activity();
+                List<ExchangeActivity> level1200ActivityList = activityInfoService.findByLevelGroup(1);
+                List<ExchangeActivity> level2200ActivityList = activityInfoService.findByLevelGroup(2);
+                List<ExchangeActivity> level3200ActivityList = activityInfoService.findByLevelGroup(3);
+                List<ExchangeActivity> level5000ActivityList = activityInfoService.findByLevelGroup(4);
                 model.addAttribute("points", wxUser.getPoints());
                 model.addAttribute("openId", openId);
                 model.addAttribute("level1200ActivityList", level1200ActivityList);
@@ -119,7 +121,7 @@ public class IndexController {
             isFirstExchange = wxUser.isFirstExchange() ? 1 : 0;
         }
 
-        ExchangeActivity exchangeActivity = dataInitService.findActivityByLevelAndMeal(level, meal);
+        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(meal);
 
         int enableExchange = 0;
 
@@ -161,7 +163,7 @@ public class IndexController {
     public ApiResult exchange(@RequestParam(name = "openId") String openId, int level, int meal, String counterCode, String shopName, String shopAddr) {
         // 判断是否是第一次兑换，并且当前时间是在珀莱雅的优惠期间里，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
-        ExchangeActivity activity = dataInitService.findActivityByLevelAndMeal(level, meal);
+        ExchangeActivity activity = activityInfoService.findByLevel(meal);
 
         if (wxUser != null) {
             ExchangeInfo exchangeInfo = createExchangeInfo(openId, counterCode, level, meal, wxUser.isFirstExchange());
@@ -214,7 +216,7 @@ public class IndexController {
 
                 return ApiResult.resultWith(ResultCode.SUCCESS);
             } else {
-                return ApiResult.resultWith(ResultCode.ERROR);
+                return ApiResult.resultWith(ResultCode.ERROR,apiResult.getResultMsg(),null);
             }
         } else {
             return ApiResult.resultWith(ResultCode.ERROR);
@@ -223,7 +225,7 @@ public class IndexController {
 
     private ExchangeInfo createExchangeInfo(String openId, String counterCode, int level, int meal, boolean isFirstExchange) {
 
-        ExchangeActivity exchangeActivity = dataInitService.findActivityByLevelAndMeal(level, meal);
+        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(meal);
 
         ExchangeInfo exchangeInfo = new ExchangeInfo();
 

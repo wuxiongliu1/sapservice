@@ -562,4 +562,8 @@ public class StringUtil {
         }
         return sb.toString();
     }
+
+    public static String[] splitStrToArray(String str,String pstrSep){
+        return str.split(pstrSep);
+    }
 }

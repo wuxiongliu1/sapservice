@@ -73,7 +73,7 @@ public class IndexController {
                 WxUser wxUser = wxUserRepository.findByOpenId(openId);
                 if (wxUser == null) {
                     wxUser = new WxUser();
-                    wxUser.setPoints(100);// 首次积分 // TODO: 2016-10-18
+                    wxUser.setPoints(points);// 首次积分
                     wxUser.setFirstExchange(true);
                     wxUser.setOpenId(openId);
                     wxUser.setWxName("");

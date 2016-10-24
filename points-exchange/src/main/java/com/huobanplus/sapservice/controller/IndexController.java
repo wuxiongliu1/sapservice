@@ -62,7 +62,7 @@ public class IndexController {
         memberInfoBean.setCondition(openId);
         ApiResult apiResult = exchangeService.memberInfoQuery(memberInfoBean);
         if (apiResult.getResultCode() != ResultCode.SUCCESS.getResultCode()) {
-            return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL +"?usermobile"+openId;
+            return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL;
         } else {
             JSONArray jsonArray = (JSONArray) apiResult.getData();
             if (jsonArray.size() > 0) {// 是会员
@@ -98,7 +98,7 @@ public class IndexController {
 
                 return "ExchangeGoodsList";
             } else {
-                return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL +"?usermobile"+openId;
+                return "redirect:"+Constant.UNBIND_USER_REDIRECT_URL;
             }
 
         }

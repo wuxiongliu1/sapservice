@@ -16,5 +16,7 @@ public class Constant {
 
     public static String APP_ID = "weshop";
 
-    public static String UNBIND_USER_REDIRECT_URL = "http://www.baidu.com";
+    public static int CUSTOMER_ID = 7171;
+
+    public static String UNBIND_USER_REDIRECT_URL = "http://proya.huobanmall.com/UserCenter/Securitycenter/proya/ProyaMobileBind.aspx?customerid=" + CUSTOMER_ID;
 }

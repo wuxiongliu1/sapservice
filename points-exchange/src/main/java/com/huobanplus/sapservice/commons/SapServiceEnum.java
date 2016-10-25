@@ -52,4 +52,44 @@ public interface SapServiceEnum {
             return this.name;
         }
     }
+
+    enum ErrorCodeEnum implements ICommonEnum{
+        ACTIVITY_NOT_EXIST(3,"活动不存在"),
+        BOOK_NUM_LIMIT(4,"预约单据总数已达活动上线"),
+        USER_BOOK_TIME_LIMIT(5,"单个对象预约次数大于活动上限"),
+        NO_BOOK_TIME(6,"活动无预约阶段,无法预约"),
+        ACTIVITY_END(7,"活动已结束"),
+        ACTIVITY_NOT_START(8,"活动未开始"),
+        JSON_PARSE_ERROR(9,"活动领用日期参考规则JSON解析失败"),
+        BILL_DATE_ERROR(10,"生成会员单据领用日期失败"),
+        BOOK_DATE_BIGGER(12,"预约日期大于预约截止日期"),
+        BOOK_DATE_LOWER(13,"预约日期小于预约开始日期"),
+        ACTIVITY_CODE_LOSE(21,"活动码参数缺失"),
+        GUITAI_CODE_LOSE(22,"领取柜台参数缺失"),
+        GUITAI_CODE_ERROR(23,"领取柜台无效"),
+        BILL_FILL_ERROR(24,"单据填充失败"),
+        POINTS_SERVICE_ERROR(25,"积分维护失败"),
+        BOOK_TIME_EXIST(26,"预约时间段已存在，请修改预约日期或时间段"),
+        BOOK_NUMBER_DAILY_LIMIT(27,"预约超出每天最大预约数"),
+        BOOK_EXCEPTION(30,"预约异常")
+        ;
+
+        ErrorCodeEnum(int code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        private int code;
+        private String name;
+
+        @Override
+        public int getCode() {
+            return this.code;
+        }
+
+        @Override
+        public String getName() {
+            return this.name;
+        }
+    }
 }

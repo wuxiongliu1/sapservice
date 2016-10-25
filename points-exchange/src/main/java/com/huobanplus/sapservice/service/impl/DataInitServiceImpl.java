@@ -42,9 +42,10 @@ public class DataInitServiceImpl implements DataInitService {
         level3200ActivityList = createLevel3200Activity();
         level5000ActivityList = createLevel5000Activity();
 
-        log.info("初始化活动信息.......");
+
 
         if(activityInfoRepository.findAll().size()==0){
+            log.info("初始化活动信息.......");
             level1200ActivityList.forEach(level1200A->{
                 ActivityInfo activityInfo = new ActivityInfo();
                 activityInfo.setActivityCode(level1200A.getActivityCode());
@@ -100,9 +101,10 @@ public class DataInitServiceImpl implements DataInitService {
                 activityInfoRepository.save(activityInfo);
 
             });
+            log.info("活动信息初始化完成.");
         }
 
-        log.info("活动信息初始化完成.");
+
     }
 
     @Override

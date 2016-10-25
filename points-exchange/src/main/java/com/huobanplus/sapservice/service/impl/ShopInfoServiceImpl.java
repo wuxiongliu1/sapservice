@@ -30,7 +30,7 @@ public class ShopInfoServiceImpl implements ShopInfoService {
     public void initShopInfo() throws IOException {
         ShopInfo info = shopInfoRepository.findOne(1);
         if(info == null){// 未初始化过数据，则初始化，否则不初始化
-            InputStream fin = ShopInfoServiceImpl.class.getResourceAsStream("/guitaiinfo.xlsx");
+            InputStream fin = ShopInfoServiceImpl.class.getResourceAsStream("/shop_info_10.17.xlsx");
             XSSFWorkbook workbook= new XSSFWorkbook(fin);
             for(int i=0;i<workbook.getNumberOfSheets();i++){
                 XSSFSheet sheet = workbook.getSheetAt(i);

@@ -1,0 +1,270 @@
+/****/
+body {
+    font-family: Helvetica, STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial;
+}
+
+/*.weui_cell{ font-size:15px} */
+
+ 
+.ddbg {
+    background-color: #efeff4
+} 
+.ddfr.red{ color:#EF0003}
+.ddfr.gr{ color:#1CD000}
+.ddfr{float:right}
+
+.sms .weui_media_box.weui_media_text .weui_media_info{ margin-top:10px}
+.sms .weui_media_box.weui_media_text .weui_media_title{ margin-bottom:0px}
+
+ 
+.sms .weui_media_box.weui_media_text .weui_media_info.heizi{ color:#999}
+
+.bxm{ background-image:url(../images/ddnic.png); background-size:14px 14px; width:14px; height:14px; display:inline-block; margin:0px 4px; background-repeat:no-repeat; vertical-align: text-bottom}
+
+.bsm{ background-image:url(../images/ddbm.png); background-size:14px 14px; width:14px; height:14px; display:inline-block; margin:0px 4px; background-repeat:no-repeat; vertical-align: text-bottom}
+
+.ddtime{ background-image:url(../images/ddtime.png); background-size:14px 14px; width:14px; height:14px; display:inline-block; margin:0px 4px; background-repeat:no-repeat; vertical-align: text-bottom}
+
+ 
+.xxg.weui_panel_hd:after{ border-bottom:0px} 
+
+.weui_panel_access .weui_panel_ft{ color:#999}
+.weui_panel_bd.xxg .weui_media_box{ padding:0px; }
+
+ 
+.weui_media_desc.bddx{width:75%; float:left; color:#111; font-size:14px}
+.bddxs{float:right; width:12%; font-size:14px; text-align:right; min-height:45px}
+ 
+ 
+.bddxs p {
+    display: block;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+.weui_media_box.weui_media_appmsg .weui_media_hd.jf{ line-height:57px}
+ 
+ .weui_dialog_ft a{ font-size:14px; color:#111; padding:5px 0px}
+ 
+ 
+ 
+ .weui_panel_access .none.weui_panel_ft:after {
+    content: " ";
+    display: none;
+}
+.wzfbg{ background-color:#E74700; color:#fff; padding:10px;}
+
+ 
+.left_in_s_sdf{  height:100%; border-top:1px solid #e5e5e5 }
+.ljcy{
+	display:block;
+	background-color: #fff;	 
+	color: #111;
+	width:100%;
+	height:48px;
+	line-height:48px;
+ 
+	text-align:center;
+}
+.weui_cell.sq{font-size:16px}
+.weui_cell .sbq{float:right; margin-right:10px;}
+.weui_cell.sq .sbq{float:right; margin-right:10px;color:red;}
+.ddzdy{clear: both; padding-top:0px;padding-bottom:0px}
+.ddzdy.weui_media_box{ }
+.ddzdy.weui_media_box .weui_media_box{ padding-left:0px; padding-right:0px;}
+.shshg{float:right;margin-top: -37px; z-index:9}
+.shshg.none{ display:none}
+.weui_btn_primary.s{ background-color:#E00003}
+
+
+
+
+.weui_btn_primary.s{background-color:#E00003}.s.weui_btn_primary:not(.weui_btn_disabled):visited{color:#fff}.s.weui_btn_primary:not(.weui_btn_disabled):active{color:hsla(0,0%,100%,.4);background-color:#E00003}
+
+.weui-popup-modal.s{ background-color:#fff}
+
+
+ a.q-coupon_item {
+    color: #fff;
+}
+.q-coupon_item {
+    min-height: 95px;
+    padding-left: 120px;
+}
+.q-coupon_item {
+    overflow: hidden;
+    display: block;
+    position: relative;
+     padding-right: 30px;
+    background: #09bb07;
+    color: #fff;
+    font-size: 12px;border-radius:4px
+}
+ 
+ .q-coupon_item .date {
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: 700;
+}.q-coupon_item .id {
+    font-size: 12px;
+}.q-coupon_item .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}.q-coupon_item .q-count {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    width: 100px;
+    text-align: center;
+    font-weight: normal;
+}.q-coupon_item .q-count em {
+    margin-right: 5px;
+    font-style: normal;
+}.q-count span {
+    font-size: 12px;
+}
+.q-card_content_pane{ width:100%; margin-right:10px; }
+
+.weui_cell.weui_check_label.sbs{ padding:4px 2px}
+
+ .weui_btn_plain_primary.kl{ color: #111;
+    border: 1px solid #ddd; background-color:#fff}
+	
+	.weui_navbar.s{ position:fixed;top:0px;left:0px;right:0px; z-index:999999}
+	
+	
+	.sbs.weui_cell:before,.sbs.weui_cell:after,.weui_cells_checkbox.scv.weui_cells:before,.weui_cells_checkbox.scv.weui_cells:after{ border:none;}
+	
+	
+.on.weui_media_box.weui_media_text .weui_media_desc{color:#FC4600}
+
+
+
+
+.weui_navbar.s.vs{ }
+.weui_navbar.s.vs .weui_navbar_item{ }
+
+.weui_navbar.s.vs .weui_navbar_item.weui_bar_item_on {
+    background-color:#fff; color:#E00003; font-weight:700;
+	
+}
+.weui_panel_bd.fa{background-color:#fafafa}
+
+.zffsy a{ display:block; width:100%; padding:10px; margin:1px 0px; border:0px}
+
+
+/*20160809*/
+
+.weui_cells_access .weui_cells_checkbox .weui_cell_ft:after {
+	content: " ";
+	display: none;
+	-webkit-transform: none;
+	transform: none;
+	height: none;
+	width: none;
+	border-width: 2px 2px 0 0;
+	border-color: #c8c8cd;
+	border-style: solid;
+	position: inherit;
+	top: none;
+	margin-left: none;
+}
+.qudiao.weui_media_box .weui_media_box:before {
+	border-top: 0px;
+}
+.weui_cell.weui_check_label.gwc {
+	padding-top: 7px;
+	padding-left: 0px;
+}
+.qudiao.weui_media_box {
+	padding: 0px 8px 0px 8px
+}
+.weui_panel.ko {
+	background-color: transparent;
+}
+.ko.weui_panel:after {
+	border-bottom: none
+}
+.weui_media_desc.bddx.s {
+	width: 70%
+}
+.yzys {
+	box-sizing: border-box;
+	float: left;
+	display: flex;
+}
+.item-info2 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+.edit-quantity {
+	height: 15px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex; 
+}
+.edit-quantity .btn-plus, .edit-quantity .btn-minus {
+	width: 30px;
+	cursor: pointer;
+}
+.edit-quantity .btn {
+	display: block;
+	margin-top: 2px;
+	height: 15px;
+	position: relative;
+	border: 1px solid #ddd;
+}
+.edit-quantity .btn:after {
+	position: absolute;
+	top: 7px;
+	left: 9px;
+	border-bottom: 1px solid #878787;
+	width: 10px;
+	height: 1px;
+	content: ' ';
+}
+.edit-quantity .btn:after, .edit-quantity .btn:before {
+	position: absolute;
+	top: 7px;
+	left: 9px;
+	border-bottom: 1px solid #878787;
+	width: 10px;
+	height: 1px;
+	content: ' ';
+}
+.edit-quantity .btn.plus:before {
+	-webkit-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+.edit-quantity input {
+	width: 100%;
+	font-size: 12px;
+	height: 15px;
+	text-align: center;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-tap-highlight-color: transparent;
+	outline: 0;
+	border-radius: 0px;
+	border: 1px solid #ddd
+}
+.edit-quantity .btn-input {
+	-webkit-box-flex:1;
+	-webkit-flex:1;
+	-ms-flex: 1;
+	flex: 1;
+	cursor: pointer;
+	margin-top: -3px;
+}

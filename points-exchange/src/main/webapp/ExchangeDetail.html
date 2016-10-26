@@ -27,10 +27,13 @@
     <div style="padding:10px 10px; background-color:#fff; font-size:13px;">
         <span style="float:left; line-height:30px">兑换所需积分:<span style="color:red"
                                                                 th:text="${activity.points}">1200积分</span></span>
+
+        <a href="#" id="add_shop_cart"><span
+                style="margin:0 3px;float:right; background-color:#ff9402; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">加入购物车</span></a>
         <a th:if="${enableExchange==1}" href="#" id="show-custom-duihuan"><span
-                style="float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
+                style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
         <span th:if="${enableExchange==0}"
-              style="float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">积分不足</span>
+              style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">积分不足</span>
         <p style="clear:both"></p>
     </div>
 </div>

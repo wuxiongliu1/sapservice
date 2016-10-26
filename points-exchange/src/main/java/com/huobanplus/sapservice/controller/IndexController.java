@@ -3,20 +3,18 @@ package com.huobanplus.sapservice.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huobanplus.sapservice.commons.Constant;
+import com.huobanplus.sapservice.commons.SapServiceEnum;
 import com.huobanplus.sapservice.commons.annotation.OpenID;
 import com.huobanplus.sapservice.commons.bean.ApiResult;
 import com.huobanplus.sapservice.commons.bean.ResultCode;
-import com.huobanplus.sapservice.entity.ExchangeGoods;
-import com.huobanplus.sapservice.entity.ExchangeRecord;
-import com.huobanplus.sapservice.entity.ShopInfo;
-import com.huobanplus.sapservice.entity.WxUser;
+import com.huobanplus.sapservice.commons.ienum.EnumHelper;
+import com.huobanplus.sapservice.entity.*;
 import com.huobanplus.sapservice.model.*;
-import com.huobanplus.sapservice.repository.ExchangeRecordRepository;
-import com.huobanplus.sapservice.repository.ShopInfoRepository;
-import com.huobanplus.sapservice.repository.WxUserRepository;
+import com.huobanplus.sapservice.repository.*;
 import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
+import com.huobanplus.sapservice.service.ShopCarService;
 import com.huobanplus.sapservice.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,9 +47,15 @@ public class IndexController {
     @Autowired
     private ShopInfoRepository shopInfoRepository;
     @Autowired
+    private ActivityInfoRepository activityInfoRepository;
+    @Autowired
+    private ShopCarRepository shopCarRepository;
+    @Autowired
     private ActivityDate activityDate;
     @Autowired
     private ActivityInfoService activityInfoService;
+    @Autowired
+    private ShopCarService shopCarService;
 
     @RequestMapping(value = {"/index"})
     public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
@@ -310,6 +314,61 @@ public class IndexController {
         return ApiResult.resultWith(ResultCode.SUCCESS, shopModels);
     }
 
+    /**
+     * 增加套餐至购物车
+     * @param openId
+     * @param level
+     * @return
+     */
+    @RequestMapping(value = "/addToShopCar")
+    @ResponseBody
+    public ApiResult addToShopCar(@RequestParam(name = "openId") String openId,int level){
 
+        SapServiceEnum.ActivityLevel activityLevel = EnumHelper.getEnumType(SapServiceEnum.ActivityLevel.class,level);
+        ActivityInfo activityInfo = activityInfoRepository.findByActivityLevel(activityLevel);
+//
+        List<ShopCar> shopCars = shopCarRepository.findByWxOpenId(openId);
+        ShopCar shopCar = shopCarRepository.findByWxOpenIdAndActivityInfo(openId,activityInfo);
 
+        if(shopCar == null){
+            shopCar = new ShopCar();
+            shopCar.setNum(1);
+            shopCar.setCreateTime(StringUtil.DateFormat(new Date(),StringUtil.TIME_PATTERN));
+            shopCar.setActivityInfo(activityInfo);
+            shopCar.setWxOpenId(openId);
+            shopCarRepository.save(shopCar);
+        } else{
+            shopCar.setNum(shopCar.getNum()+1);
+            shopCarRepository.save(shopCar);
+        }
+
+        return ApiResult.resultWith(ResultCode.SUCCESS);
+    }
+
+    @RequestMapping(value = "/myShopCar")
+    public String myShopCar(@RequestParam(name = "openId") String openId,Model model){
+        List<ShopCar> shopCars = shopCarRepository.findByWxOpenId(openId);
+        model.addAttribute("shopCarList",shopCars);
+        return "ShopCarList";
+    }
+
+    /**
+     * 从购物车中删除某套餐
+     * @param openId
+     * @param level
+     * @return
+     */
+    @RequestMapping(value = "/removeItem")
+    @ResponseBody
+    public ApiResult removeItem(@RequestParam(name = "openId") String openId,int level){
+        SapServiceEnum.ActivityLevel activityLevel = EnumHelper.getEnumType(SapServiceEnum.ActivityLevel.class,level);
+        ActivityInfo activityInfo = activityInfoRepository.findByActivityLevel(activityLevel);
+        ShopCar shopCar = shopCarRepository.findByWxOpenIdAndActivityInfo(openId,activityInfo);
+        if(shopCar != null){
+            shopCarRepository.delete(shopCar);
+            return ApiResult.resultWith(ResultCode.SUCCESS);
+        } else {
+            return ApiResult.resultWith(ResultCode.ERROR);
+        }
+    }
 }

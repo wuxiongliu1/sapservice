@@ -1,0 +1,222 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/weui.min-dd-diy.css" th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui.min-dd-diy.css}" />
+
+    <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.js"></script>
+    <title></title>
+</head>
+
+<body style=" background-color:#efeff4">
+<div class="weui_tab_bd_item weui_tab_bd_item_active">
+    <div class="ddbg">
+        <div class="weui_panel weui_panel_access ko">
+
+            <div class="weui_panel weui_panel_access" style="border:1px solid #E8E8E8; border-top:0px;border-bottom:0px;">
+                <div class="weui_cells weui_cells_access" style="margin-top:0px; font-size:14px;white-space:nowrap; ">
+                    <a class="weui_cell yzys" href="javascript:;" style="padding-left:0px;margin-left:5px;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p >兑换列表</p>
+                        </div>
+                        <div class="weui_cell_ft"></div>
+                    </a>
+                    <a href="#" class="weui_cell" style="float:right; padding-right:8px">编辑</a>
+                </div>
+
+                <div class="weui_panel_bd fa">
+
+                    <div class="ddzdy weui_media_box qudiao" th:each="item,itemStat : ${shopCarList}">
+                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                            <label class="weui_cell weui_check_label gwc" th:for="${itemStat.index}">
+                                <div class="weui_cell_ft">
+                                    <input type="checkbox" class="weui_check" name="weui-select" th:id="${itemStat.index}" value="4" data-title="4" />
+                                    <span class="weui_icon_checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div  class="weui_media_box weui_media_appmsg">
+                            <div class="weui_media_hd jf">
+                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-a.png" alt="" th:src="${item.activityInfo.imgName}" /></div>
+                            <div class="weui_media_bd">
+                                <div>
+                                    <div class="weui_media_desc bddx s" th:text="${item.activityInfo.giftsName}">1200分A套餐(水漾系列)</div>
+                                    <div  class="bddxs">
+                                        <p class="ddfr" style="font-size:12px"> <b th:text="${item.activityInfo.points}">￥1312.00</b>
+                                        </p>
+                                        <!--小数点为零的不显示-->
+                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                    </div>
+                                    <p style="clear:both;"></p>
+                                </div>
+
+                                <div class="edit-quantity" style="">
+                                    <p class="btn-minus">
+                                        <a class="btn minus off"></a>
+                                    </p>
+                                    <p class="btn-input" >
+                                        <input type="tel" max="151" min="1" value="1" /></p>
+                                    <p class="btn-plus" >
+                                        <a class="btn plus" max="151" ></a>
+                                    </p>
+                                    <p style="padding:15%">&nbsp;</p>
+                                    <p>
+                                        <a href="javascript:;" class="delete_item" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ddzdy weui_media_box qudiao" th:remove="all">
+                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                            <label class="weui_cell weui_check_label gwc" for="weui-select-id-5">
+                                <div class="weui_cell_ft">
+                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-5" value="5" data-title="5" />
+                                    <span class="weui_icon_checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div   class="weui_media_box weui_media_appmsg">
+                            <div class="weui_media_hd jf">
+                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-b.png" alt="" /></div>
+                            <div class="weui_media_bd">
+                                <div>
+                                    <div class="weui_media_desc bddx s">1200分B套餐(靓白系列)</div>
+                                    <div  class="bddxs">
+                                        <p class="ddfr" style="font-size:12px"> <b>￥1312.00</b>
+                                        </p>
+                                        <!--小数点为零的不显示-->
+                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                    </div>
+                                    <p style="clear:both;"></p>
+                                </div>
+                                <!-- <p class="weui_media_desc" style="display:">红色,XL</p>
+                              -->
+                                <div class="edit-quantity" style="">
+                                    <p class="btn-minus">
+                                        <a class="btn minus off"></a>
+                                    </p>
+                                    <p class="btn-input" >
+                                        <input type="tel" max="151" min="1" value="1" /></p>
+                                    <p class="btn-plus" >
+                                        <a class="btn plus" max="151" ></a>
+                                    </p>
+                                    <p style="padding:15%">&nbsp;</p>
+                                    <p>
+                                        <a href="javascript:;" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ddzdy weui_media_box qudiao" th:remove="all">
+                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                            <label class="weui_cell weui_check_label gwc" for="weui-select-id-6">
+                                <div class="weui_cell_ft">
+                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6" value="5" data-title="5" />
+                                    <span class="weui_icon_checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div   class="weui_media_box weui_media_appmsg">
+                            <div class="weui_media_hd jf">
+                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-c.png" alt="" /></div>
+                            <div class="weui_media_bd">
+                                <div>
+                                    <div class="weui_media_desc bddx s">1200分C套餐(紧致系列)</div>
+                                    <div  class="bddxs">
+                                        <p class="ddfr" style="font-size:12px"> <b>￥1312.00</b>
+                                        </p>
+                                        <!--小数点为零的不显示-->
+                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                    </div>
+                                    <p style="clear:both;"></p>
+                                </div>
+                                <!-- <p class="weui_media_desc" style="display:">红色,XL</p>
+                              -->
+                                <div class="edit-quantity" style="">
+                                    <p class="btn-minus">
+                                        <a class="btn minus off"></a>
+                                    </p>
+                                    <p class="btn-input" >
+                                        <input type="tel" max="151" min="1" value="1" /></p>
+                                    <p class="btn-plus" >
+                                        <a class="btn plus" max="151" ></a>
+                                    </p>
+                                    <p style="padding:15%">&nbsp;</p>
+                                    <p>
+                                        <a href="javascript:;" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="weui_cell" style="font-size: 14px;clear: both;background-color: #fff;">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p style="float:right">
+                            共3件商品&nbsp;合计￥
+                            <span style="color:red">1000.00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p style="clear:both"></p>
+        </div>
+    </div>
+
+</div>
+<div style="display:block; position:fixed;bottom:0px; z-index:2; width:100%;background-color:#fff;">
+    <div style="padding:8px 10px;">
+        <div style="float:left; width:100%; font-size:12px">
+            <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;  margin:0px;width: 25px;float: left;">
+                <label class="weui_cell weui_check_label gwc" for="weui-select-id-6">
+                    <div class="weui_cell_ft">
+                        <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6" value="6" data-title="6" />
+                        <span class="weui_icon_checked"></span>
+                    </div>
+                </label>
+            </div>
+            <p>
+                &nbsp;总计
+                <span style="color:red">111220.00元</span>
+            </p>
+            <p style="margin-top:-6px; color:#999">
+                <span>（含邮费10元）</span>
+            </p>
+            <p class="clear"></p>
+        </div>
+        <div style="position:absolute; right:10px;bottom:10px">
+            <a href="#" style="padding:5px 10px; border-radius:4px; border:1px solid #E00003; background-color:#E00003; color:#fff;margin-left:2px" id="">结算</a>
+        </div>
+        <p class="clear"></p>
+    </div>
+</div>
+<p style="height:48px"></p>
+
+<script>
+    $(document).ready(function(){
+       $(".delete_item").click(function(){
+           $.alert("确认删除?");
+       });
+    });
+</script>
+
+</body>
+</html>

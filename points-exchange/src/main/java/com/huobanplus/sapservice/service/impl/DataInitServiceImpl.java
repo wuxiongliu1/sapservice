@@ -1,3 +1,12 @@
+/*
+ * 版权所有:杭州火图科技有限公司
+ * 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+ *
+ * (c) Copyright Hangzhou Hot Technology Co., Ltd.
+ * Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+ * 2013-2015. All rights reserved.
+ */
+
 package com.huobanplus.sapservice.service.impl;
 
 import com.huobanplus.sapservice.commons.SapServiceEnum;
@@ -105,16 +114,6 @@ public class DataInitServiceImpl implements DataInitService {
         }
 
 
-    }
-
-    @Override
-    public List<ExchangeActivity> createExchangeActivityData() {
-        List<ExchangeActivity> exchangeActivityList = new ArrayList<>();
-        exchangeActivityList.addAll(createLevel1200Activity());
-        exchangeActivityList.addAll(createLevel2200Activity());
-        exchangeActivityList.addAll(createLevel3200Activity());
-        exchangeActivityList.addAll(createLevel5000Activity());
-        return exchangeActivityList;
     }
 
     @Override
@@ -360,37 +359,5 @@ public class DataInitServiceImpl implements DataInitService {
         level5000.add(level5000D);
 
         return level5000;
-    }
-
-    @Override
-    public ExchangeActivity findActivityByLevelAndMeal(int level, int meal) {
-        List<ExchangeActivity> exchangeActivityList = null;
-        switch (level) {
-            case 1: {
-                exchangeActivityList = level1200ActivityList;
-                break;
-            }
-            case 2: {
-                exchangeActivityList = level2200ActivityList;
-                break;
-            }
-            case 3: {
-                exchangeActivityList = level3200ActivityList;
-                break;
-            }
-            case 4:{
-                exchangeActivityList = level5000ActivityList;
-                break;
-            }
-        }
-
-        ExchangeActivity activity = new ExchangeActivity();
-        for (ExchangeActivity exchangeActivity : exchangeActivityList) {
-            if(exchangeActivity.getActivityLevel().getCode() == meal){
-                activity = exchangeActivity;
-                break;
-            }
-        }
-        return activity;
     }
 }

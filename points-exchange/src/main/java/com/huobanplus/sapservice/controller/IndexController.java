@@ -1,3 +1,12 @@
+/*
+ * 版权所有:杭州火图科技有限公司
+ * 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+ *
+ * (c) Copyright Hangzhou Hot Technology Co., Ltd.
+ * Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+ * 2013-2015. All rights reserved.
+ */
+
 package com.huobanplus.sapservice.controller;
 
 import com.alibaba.fastjson.JSONArray;
@@ -13,7 +22,6 @@ import com.huobanplus.sapservice.repository.*;
 import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
-import com.huobanplus.sapservice.service.ShopCarService;
 import com.huobanplus.sapservice.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,9 +61,16 @@ public class IndexController {
     private ActivityDate activityDate;
     @Autowired
     private ActivityInfoService activityInfoService;
-    @Autowired
-    private ShopCarService shopCarService;
 
+
+    /**
+     *  积分兑换首页
+     * @param openId
+     * @param request
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = {"/index"})
     public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
 
@@ -110,6 +125,14 @@ public class IndexController {
     }
 
 
+    /**
+     *  兑换详情页
+     * @param openId
+     * @param level
+     * @param meal
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/toExchange")
     public String toExchangeDetail(@RequestParam(name = "openId") String openId, int level, int meal, Model model) {
 
@@ -161,6 +184,16 @@ public class IndexController {
         return "ExchangeDetail";
     }
 
+    /**
+     *  兑换
+     * @param openId
+     * @param counterCode
+     * @param shopName
+     * @param shopAddr
+     * @param level
+     * @param num
+     * @return
+     */
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ApiResult exchange(@RequestParam(name = "openId") String openId, String counterCode, String shopName, String shopAddr,@RequestParam(value = "level[]") int[] level,@RequestParam(value = "num[]") int[] num) {
@@ -235,6 +268,15 @@ public class IndexController {
         }
     }
 
+    /**
+     * 创建积分兑换请求bean
+     * @param openId
+     * @param counterCode
+     * @param quantity
+     * @param level
+     * @param isFirstExchange
+     * @return
+     */
     private ExchangeInfo createExchangeInfo(String openId,String counterCode,int[] quantity,int[] level, boolean isFirstExchange) {
 
         ExchangeActivity exchangeActivity = activityInfoService.findByLevel(level[0]);
@@ -289,55 +331,12 @@ public class IndexController {
         return exchangeInfo;
     }
 
-    private ExchangeInfo createExchangeInfo(String openId, String counterCode,int level, boolean isFirstExchange) {
-
-        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(level);
-
-        ExchangeInfo exchangeInfo = new ExchangeInfo();
-
-        exchangeInfo.setBrandCode(Constant.BRAND_CODE);
-        exchangeInfo.setTradeType(Constant.TRADE_TYPE);
-        exchangeInfo.setTicketType(0);
-        exchangeInfo.setSubCampCode(exchangeActivity.getActivityCode());
-        exchangeInfo.setSubType("PX");
-        exchangeInfo.setBookDateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
-        exchangeInfo.setMemberCode(openId);
-        exchangeInfo.setCounterCode(counterCode);// TODO: 2016-10-18  
-        exchangeInfo.setCounterCodeGet(counterCode);
-        exchangeInfo.setDataSourse(3);
-        exchangeInfo.setSendPos(0);
-        exchangeInfo.setModifyCounts(1);// TODO: 2016-10-18
-
-        List<ExchangeDetail> exchangeDetails = new ArrayList<>();
-        String[] giftsCode = exchangeActivity.getGiftsCode();
-        String[] giftsBarCode = exchangeActivity.getGiftsBarCode();
-        String[] giftsName = exchangeActivity.getGiftsName();
-
-        for (int i = 0; i < giftsCode.length; i++) {
-            ExchangeDetail exchangeDetail = new ExchangeDetail();
-            exchangeDetail.setSubCampCode(exchangeActivity.getActivityCode());
-            if (giftsCode[i].startsWith("DH")) {
-                exchangeDetail.setDetailType("P");
-            } else {
-                exchangeDetail.setDetailType("N");
-            }
-            exchangeDetail.setBarCode(giftsBarCode[i]);
-            exchangeDetail.setUnitCode(giftsCode[i]);
-            exchangeDetail.setQuantity(1);
-            exchangeDetail.setPrice(0);
-            if (i == (giftsCode.length - 1)) {
-                exchangeDetail.setExPoint(isFirstExchange ? exchangeActivity.getPoints() - 200 : exchangeActivity.getPoints());// TODO: 2016-10-18
-            } else {
-                exchangeDetail.setExPoint(0);
-            }
-            exchangeDetails.add(exchangeDetail);
-        }
-
-        exchangeInfo.setDetailList(exchangeDetails);
-
-        return exchangeInfo;
-    }
-
+    /**
+     *  我的兑换记录
+     * @param openId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/myExchangeRecord")
     public String myExchangeRecord(@RequestParam(name = "openId") String openId, Model model) {
         List<ExchangeRecord> exchangeRecords = exchangeRecordRepository.findByWxOpenIdOrderByCreateTimeDesc(openId);
@@ -345,6 +344,16 @@ public class IndexController {
         return "ExchangeRecords";
     }
 
+    /**
+     *  兑换成功页面
+     * @param openId
+     * @param shopName
+     * @param shopAddr
+     * @param model
+     * @param imgUrl
+     * @param num
+     * @return
+     */
     @RequestMapping(value = "/toSuccess")
     public String toSuccessPage(String openId, String shopName, String shopAddr, Model model, String[] imgUrl,int[] num) {
 
@@ -363,6 +372,11 @@ public class IndexController {
         return "ExchangeSuccess";
     }
 
+    /**
+     * 选择省时查询相应市
+     * @param provinceName
+     * @return
+     */
     @RequestMapping(value = "/changeProvince")
     @ResponseBody
     public ApiResult changeProvinceGetCitys(String provinceName) {
@@ -370,6 +384,11 @@ public class IndexController {
         return ApiResult.resultWith(ResultCode.SUCCESS, citys);
     }
 
+    /**
+     * 选择市时查询相应门店
+     * @param cityName
+     * @return
+     */
     @RequestMapping(value = "/changeCity")
     @ResponseBody
     public ApiResult changeCityGetShopNames(String cityName) {

@@ -30,20 +30,14 @@
 
     <div th:each="record : ${exchangeRecords}">
         <div class="cont-zhbox-t">
-            <a href="#" class="bz">
                 <div class="cont-zhbox-img">
                     <img th:src="${record.exchangeGoods.imgUrl}" style="width:100%"/>
-                    <!--<p th:if="${record.Verification}" class="cont-zhbox-navs " style="margin-bottom:0px;color:#458B00">已兑换</p>-->
-                    <!--<p th:if="${!record.Verification}" class="cont-zhbox-navs " style="margin-bottom:0px">未兑换</p>-->
                 </div>
                 <div style="font-size:14px; padding:4px 10px 0px 10px;">
                     <span>门店:</span><Span th:text="${record.shopName}">西湖银泰店</Span><br />
                     <span>地址：<span th:text="${record.shopAddr}"></span></span><br/>
-                    <Span style="float:left">兑换数量：x1</Span><br/>
+                    <Span style="float:left">兑换数量：<span th:text="${record.num}">1</span></Span><br/>
                 </div>
-            </a>
-
-            <!--<p style="text-align:center; font-size:12px; color:#000000; margin-top:4px" th:text="${record.createTime}">2016-10-10 10:00</p>-->
         </div>
         <p style="text-align:center; font-size:12px; color:#000000; margin-top:4px"></p>
 

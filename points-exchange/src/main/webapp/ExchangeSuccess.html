@@ -17,25 +17,30 @@
 </head>
 <body style="background-color:#fff">
 <p><img th:src="@{/resources/images/sdgrew.jpg}" style="width:100%; display:block" /></p>
+
 <div class="weui_cells" style="margin-top:0px;">
     <div class="weui_cell">
         <p class="f-fleft" style="line-height:16px;">
             <span style="font-size:12px;">恭喜你兑换成功，兑换码稍后将以短信形式发送到你的手机上，请注意查收！</span><br/>
-            <span style="font-size:12px; color:red">【会员中心】-【专属礼券】去查看兑换码</span>
+            <span style="font-size:12px; color:red">【会员中心】-【专属礼券】去查看兑换码</span> <br/><br/>
+            <span style="font-size:12px;">兑换门店:</span><Span style="font-size:12px;" th:text="${shopName}">西湖银泰店</Span><br/>
+            <span style="font-size:12px;">门店地址:</span> <span style="font-size:12px;" th:text="${shopAddr}">店铺地址</span><br/>
         </p>
     </div>
 </div>
-<div class="cont-zhbox">
+
+<div style="font-size:14px; padding:4px 10px 0px 10px;">
+
+</div>
+
+<div class="cont-zhbox" th:each="level : ${levelModels}" style="border-bottom: 1px solid #CFCFCF">
     <div class="cont-zhbox-t" style="border:0px;">
         <a href="#" class="bz">
             <div class="cont-zhbox-img">
-                <img th:src="${imgUrl}" style="width:100%" />
+                <img th:src="${level.imgUrl}" style="width:100%" />
+                <span style="float:left">兑换数量：x<span th:text="${level.num}"> 1</span></span><br/>
             </div>
-            <div style="font-size:14px; padding:4px 10px 0px 10px;">
-                <span>门店:</span><Span th:text="${shopName}">西湖银泰店</Span><br/>
-                <span>地址:</span> <span th:text="${shopAddr}">店铺地址</span><br/>
-                <Span style="float:left">兑换数量：x1</Span>
-            </div>
+
         </a>
     </div>
 </div>

@@ -66,6 +66,11 @@ public class ExchangeRecord {
      */
     private String shopAddr;
 
+    /**
+     *  兑换数量
+     */
+    private int num;
+
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "goods_id")

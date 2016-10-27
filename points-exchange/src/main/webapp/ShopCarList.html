@@ -11,52 +11,72 @@
     <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/weui.min-dd-diy.css" th:href="@{/resources/css/weui.min-dd-diy.css}"
-          data-th-href="@{/resources/css/weui.min-dd-diy.css}" />
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui.min-dd-diy.css}"/>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui-diy-blys.css}"/>
 
     <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.js"></script>
-    <title></title>
+    <title>购物车列表</title>
 </head>
 
 <body style=" background-color:#efeff4">
+<input type="hidden" th:value="${openId}" id="openId"/>
+<input type="hidden" th:value="${userPoints}" id="userPoints" />
 <div class="weui_tab_bd_item weui_tab_bd_item_active">
     <div class="ddbg">
         <div class="weui_panel weui_panel_access ko">
 
-            <div class="weui_panel weui_panel_access" style="border:1px solid #E8E8E8; border-top:0px;border-bottom:0px;">
+            <div class="weui_panel weui_panel_access"
+                 style="border:1px solid #E8E8E8; border-top:0px;border-bottom:0px;">
                 <div class="weui_cells weui_cells_access" style="margin-top:0px; font-size:14px;white-space:nowrap; ">
                     <a class="weui_cell yzys" href="javascript:;" style="padding-left:0px;margin-left:5px;">
                         <div class="weui_cell_bd weui_cell_primary">
-                            <p >兑换列表</p>
+                            <p>购物车列表</p>
                         </div>
+
+
                         <div class="weui_cell_ft"></div>
                     </a>
-                    <a href="#" class="weui_cell" style="float:right; padding-right:8px">编辑</a>
+
                 </div>
 
                 <div class="weui_panel_bd fa">
 
                     <div class="ddzdy weui_media_box qudiao" th:each="item,itemStat : ${shopCarList}">
-                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
-                            <label class="weui_cell weui_check_label gwc" th:for="${itemStat.index}">
+
+                        <input type="hidden" class="level_code"
+                               th:value="${item.activityInfo.activityLevel.getCode()}"/>
+                        <div class="weui_cells weui_cells_checkbox scv"
+                             style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                            <label class="weui_cell weui_check_label gwc " th:for="${itemStat.index}">
                                 <div class="weui_cell_ft">
-                                    <input type="checkbox" class="weui_check" name="weui-select" th:id="${itemStat.index}" value="4" data-title="4" />
+                                    <input type="checkbox" class="activity_checkbox weui_check" name="weui-select"
+                                           th:id="${itemStat.index}"
+                                           th:value="${item.activityInfo.activityLevel.getCode()}" data-title="4"/>
                                     <span class="weui_icon_checked"></span>
                                 </div>
                             </label>
                         </div>
-                        <div  class="weui_media_box weui_media_appmsg">
+                        <div class="weui_media_box weui_media_appmsg">
                             <div class="weui_media_hd jf">
-                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-a.png" alt="" th:src="${item.activityInfo.imgName}" /></div>
+                                <img class="weui_media_appmsg_thumb level_image" src="/resources/images/1200-a.png" alt=""
+                                     th:src="${item.activityInfo.imgName}"/></div>
                             <div class="weui_media_bd">
                                 <div>
-                                    <div class="weui_media_desc bddx s" th:text="${item.activityInfo.giftsName}">1200分A套餐(水漾系列)</div>
-                                    <div  class="bddxs">
-                                        <p class="ddfr" style="font-size:12px"> <b th:text="${item.activityInfo.points}">￥1312.00</b>
+                                    <div class="weui_media_desc bddx s"
+                                         th:text="${item.activityInfo.activityLevel.getName()}">1200分A套餐(水漾系列)
+                                    </div>
+                                    <div class="bddxs">
+                                        <p class="ddfr activity_points" style="font-size:12px"><b
+                                                th:text="${item.activityInfo.points*item.num}">1312.00</b>
                                         </p>
                                         <!--小数点为零的不显示-->
-                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                        <p class="ddfr"
+                                           style="font-size:12px; color:#999; margin-top:-5px;clear: both;"></p>
                                     </div>
                                     <p style="clear:both;"></p>
                                 </div>
@@ -65,41 +85,86 @@
                                     <p class="btn-minus">
                                         <a class="btn minus off"></a>
                                     </p>
-                                    <p class="btn-input" >
-                                        <input type="tel" max="151" min="1" value="1" /></p>
-                                    <p class="btn-plus" >
-                                        <a class="btn plus" max="151" ></a>
+                                    <p class="btn-input">
+                                        <input class="level_num" type="tel" max="151" min="1" th:value="${item.num}"/>
+                                    </p>
+                                    <p class="btn-plus">
+                                        <a class="btn plus" max="151"></a>
                                     </p>
                                     <p style="padding:15%">&nbsp;</p>
                                     <p>
-                                        <a href="javascript:;" class="delete_item" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                        <a href="javascript:void(0);" class="delete_item"
+                                           th:onclick="|removeItem(${openId},${item.activityInfo.activityLevel.getCode()})|"
+                                           style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="weui_cell weui_cell_select">
+                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                            <select class="weui_select mnb" name="select1" id="select_province">
+                                <option selected="" value="0">请选择所在省份</option>
+                                <option th:value="${province}" th:each=" province : ${provinces}"><span
+                                        th:text="${province}"></span>
+                                </option>
+                                <option value="0731004S">xxxx</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui_cell weui_cell_select">
+                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                            <select class="weui_select mnb" name="select1" id="select_city">
+                                <option selected="" value="0">请选择所在城市</option>
+                                <option th:value="${city}" th:each=" city : ${citys}"><span th:text="${city}"></span>
+                                </option>
+                                <option value="0731004S">xxxx</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui_cell weui_cell_select">
+                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                            <select class="weui_select mnb" name="select1" id="select_shop">
+                                <option selected="" value="0">请选择兑换门店</option>
+                                <option th:value="${name}" th:each=" name : ${shopNames}"><span
+                                        th:text="${name}"></span></option>
+                                <option value="0731004S">xxxx</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="weui_cell">
+                        <div class="weui_cell_hd" ><label class="weui_label" style="font-size:14px;width: 100%">门店地址: <span id="shop_addr"></span></label></div>
+                    </div>
+
+
 
                     <div class="ddzdy weui_media_box qudiao" th:remove="all">
-                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                        <div class="weui_cells weui_cells_checkbox scv"
+                             style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
                             <label class="weui_cell weui_check_label gwc" for="weui-select-id-5">
                                 <div class="weui_cell_ft">
-                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-5" value="5" data-title="5" />
+                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-5"
+                                           value="5" data-title="5"/>
                                     <span class="weui_icon_checked"></span>
                                 </div>
                             </label>
                         </div>
-                        <div   class="weui_media_box weui_media_appmsg">
+                        <div class="weui_media_box weui_media_appmsg">
                             <div class="weui_media_hd jf">
-                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-b.png" alt="" /></div>
+                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-b.png" alt=""/></div>
                             <div class="weui_media_bd">
                                 <div>
                                     <div class="weui_media_desc bddx s">1200分B套餐(靓白系列)</div>
-                                    <div  class="bddxs">
-                                        <p class="ddfr" style="font-size:12px"> <b>￥1312.00</b>
+                                    <div class="bddxs">
+                                        <p class="ddfr" style="font-size:12px"><b>￥1312.00</b>
                                         </p>
                                         <!--小数点为零的不显示-->
-                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                        <p class="ddfr"
+                                           style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
                                     </div>
                                     <p style="clear:both;"></p>
                                 </div>
@@ -109,40 +174,45 @@
                                     <p class="btn-minus">
                                         <a class="btn minus off"></a>
                                     </p>
-                                    <p class="btn-input" >
-                                        <input type="tel" max="151" min="1" value="1" /></p>
-                                    <p class="btn-plus" >
-                                        <a class="btn plus" max="151" ></a>
+                                    <p class="btn-input">
+                                        <input type="tel" max="151" min="1" value="1"/></p>
+                                    <p class="btn-plus">
+                                        <a class="btn plus" max="151"></a>
                                     </p>
                                     <p style="padding:15%">&nbsp;</p>
                                     <p>
-                                        <a href="javascript:;" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                        <a href="javascript:;"
+                                           style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+
                     <div class="ddzdy weui_media_box qudiao" th:remove="all">
-                        <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
+                        <div class="weui_cells weui_cells_checkbox scv"
+                             style="background-color:transparent;margin: 10px 10px 0px 0px;width: 25px;float: left;">
                             <label class="weui_cell weui_check_label gwc" for="weui-select-id-6">
                                 <div class="weui_cell_ft">
-                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6" value="5" data-title="5" />
+                                    <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6"
+                                           value="5" data-title="5"/>
                                     <span class="weui_icon_checked"></span>
                                 </div>
                             </label>
                         </div>
-                        <div   class="weui_media_box weui_media_appmsg">
+                        <div class="weui_media_box weui_media_appmsg">
                             <div class="weui_media_hd jf">
-                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-c.png" alt="" /></div>
+                                <img class="weui_media_appmsg_thumb" src="/resources/images/1200-c.png" alt=""/></div>
                             <div class="weui_media_bd">
                                 <div>
                                     <div class="weui_media_desc bddx s">1200分C套餐(紧致系列)</div>
-                                    <div  class="bddxs">
-                                        <p class="ddfr" style="font-size:12px"> <b>￥1312.00</b>
+                                    <div class="bddxs">
+                                        <p class="ddfr" style="font-size:12px"><b>￥1312.00</b>
                                         </p>
                                         <!--小数点为零的不显示-->
-                                        <p class="ddfr" style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
+                                        <p class="ddfr"
+                                           style="font-size:12px; color:#999; margin-top:-5px;clear: both;">x1</p>
                                     </div>
                                     <p style="clear:both;"></p>
                                 </div>
@@ -152,14 +222,15 @@
                                     <p class="btn-minus">
                                         <a class="btn minus off"></a>
                                     </p>
-                                    <p class="btn-input" >
-                                        <input type="tel" max="151" min="1" value="1" /></p>
-                                    <p class="btn-plus" >
-                                        <a class="btn plus" max="151" ></a>
+                                    <p class="btn-input">
+                                        <input type="tel" max="151" min="1" value="1"/></p>
+                                    <p class="btn-plus">
+                                        <a class="btn plus" max="151"></a>
                                     </p>
                                     <p style="padding:15%">&nbsp;</p>
                                     <p>
-                                        <a href="javascript:;" style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
+                                        <a href="javascript:;"
+                                           style="font-size:14px; color:#111; display:block; margin-left:15px; padding:0px 0px 10px 10px;">删除</a>
                                     </p>
                                 </div>
                             </div>
@@ -171,8 +242,8 @@
                 <div class="weui_cell" style="font-size: 14px;clear: both;background-color: #fff;">
                     <div class="weui_cell_bd weui_cell_primary">
                         <p style="float:right">
-                            共3件商品&nbsp;合计￥
-                            <span style="color:red">1000.00</span>
+                            <!--共3件商品&nbsp;合计￥-->
+                            <!--<span style="color:red">1000.00</span>-->
                         </p>
                     </div>
                 </div>
@@ -185,37 +256,313 @@
 <div style="display:block; position:fixed;bottom:0px; z-index:2; width:100%;background-color:#fff;">
     <div style="padding:8px 10px;">
         <div style="float:left; width:100%; font-size:12px">
-            <div class="weui_cells weui_cells_checkbox scv" style="background-color:transparent;  margin:0px;width: 25px;float: left;">
+            <div class="weui_cells weui_cells_checkbox scv"
+                 style="background-color:transparent;  margin:0px;width: 25px;float: left;">
                 <label class="weui_cell weui_check_label gwc" for="weui-select-id-6">
                     <div class="weui_cell_ft">
-                        <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6" value="6" data-title="6" />
+                        <input type="checkbox" class="weui_check" name="weui-select" id="weui-select-id-6" value="6"
+                               data-title="6"/>
                         <span class="weui_icon_checked"></span>
                     </div>
                 </label>
             </div>
             <p>
-                &nbsp;总计
-                <span style="color:red">111220.00元</span>
+                &nbsp;所需积分
+                <span style="color:red" id="total_points">0</span>
             </p>
-            <p style="margin-top:-6px; color:#999">
-                <span>（含邮费10元）</span>
+            <p>
+                &nbsp;我的积分
+                <span style="color:red" id="my_points" th:text="${userPoints}">0</span>
             </p>
+            <!--<p style="margin-top:-6px; color:#999">-->
+            <!--<span>（含邮费10元）</span>-->
+            <!--</p>-->
             <p class="clear"></p>
         </div>
         <div style="position:absolute; right:10px;bottom:10px">
-            <a href="#" style="padding:5px 10px; border-radius:4px; border:1px solid #E00003; background-color:#E00003; color:#fff;margin-left:2px" id="">结算</a>
+            <a href="#" id="exchange"><span
+                    style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
+            <span id="no_enough_points" style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px; display: none">积分不足</span>
         </div>
         <p class="clear"></p>
     </div>
 </div>
 <p style="height:48px"></p>
 
-<script>
-    $(document).ready(function(){
-       $(".delete_item").click(function(){
-           $.alert("确认删除?");
-       });
+<script type="application/javascript" data-th-inline="javascript">
+    /*<![CDATA[*/
+
+    function removeItem(openId, level) {
+
+        $.modal({
+            title: "提示",
+            text: "确定要删除该套餐吗?",
+            buttons: [
+                {
+                    text: "确定", onClick: function () {
+                    $.ajax({
+                        url: "/sapservice/removeItem",
+                        type: "post",
+                        data: {"openId": openId, "level": level},
+                        success: function (resp) {
+                            location.reload();
+                        },
+                        error: function (resp) {
+
+                        }
+                    });
+                }
+                },
+
+                {text: "取消", className: "default"},
+            ]
+        });
+    }
+
+    $(document).ready(function () {
+
+        var openId = $("#openId").val();
+
+        $(".btn-minus").click(function () {
+            var index = $(".btn-minus").index($(this));
+            var $levelNum = $(".level_num").eq(index);
+            var levelNum = $levelNum.val();
+            var points = parseInt($(".activity_points").eq(index).text()) / levelNum;
+
+            var levelCode = $(".level_code").eq(index).val();
+            if (levelNum == 1) {
+                $(this).attr("disabled", true);
+            } else {
+                levelNum -= 1;
+                $levelNum.val(levelNum);
+                updateNum(openId, levelCode, 0);
+                $(".activity_points").eq(index).text(points * levelNum);
+
+                // 当前行必须选中,更新总积分
+                if ($(".activity_checkbox").eq(index).prop("checked")) {
+                    var totalPoints = parseInt($("#total_points").text());
+                    $("#total_points").text(totalPoints - points);
+                    checkPointsEnough(parseInt($("#total_points").text()));
+                };
+            }
+        });
+
+        $(".btn-plus").click(function () {
+            var index = $(".btn-plus").index($(this));
+            var $levelNum = $(".level_num").eq(index);
+            var levelNum = parseInt($levelNum.val());
+            var points = parseInt($(".activity_points").eq(index).text()) / levelNum;
+
+            levelNum += 1;
+            $levelNum.val(levelNum);
+            var levelCode = $(".level_code").eq(index).val();
+            updateNum(openId, levelCode, 1);
+            $(".activity_points").eq(index).text(points * levelNum);
+
+            // 当前行必须选中,更新总积分
+            if ($(".activity_checkbox").eq(index).prop("checked")) {
+                var totalPoints = parseInt($("#total_points").text());
+                $("#total_points").text(totalPoints + points);
+                checkPointsEnough(parseInt($("#total_points").text()));
+            }
+            ;
+        });
+
+        function updateNum(openId, level, flag) {
+            $.ajax({
+                url: "/sapservice/addToShopCar",
+                type: "post",
+                data: {"openId": openId, "level": level, "flag": flag},
+                success: function (resp) {
+//                    location.reload();
+                },
+                error: function (resp) {
+
+                }
+            });
+        }
+
+
+        $(".activity_checkbox").click(function () {
+            var index = $(".activity_checkbox").index($(this));
+            var points = parseInt($(".activity_points").eq(index).text());
+            var total_points = parseInt($("#total_points").text());
+
+            if ($(this).prop("checked")) {
+                $("#total_points").text(total_points + points);
+            } else {
+                $("#total_points").text(total_points - points);
+            }
+
+            checkPointsEnough(parseInt($("#total_points").text()));
+        });
+
+        $("#select_province").on("change", function () {
+            var province = $(this).val();
+            $.ajax({
+                url: "/sapservice/changeProvince",
+                type: "get",
+                data: {"provinceName": province},
+                success: function (resp) {
+                    var list = resp.data;
+                    var options = "<option value=0>请选择所在城市</option>";
+                    for (var i = 0; i < list.length; i++) {
+                        options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
+                    }
+                    $("#select_city").html(options);
+                    var city = list[0];
+                    changeShop(city);
+                }
+            });
+        });
+
+
+        function changeShop(city) {
+            $.ajax({
+                url: "/sapservice/changeCity",
+                type: "get",
+                data: {"cityName": city},
+                success: function (resp) {
+                    var list = resp.data;
+                    var options = "<option value=0>请选择兑换门店</option>";
+                    for (var i = 0; i < list.length; i++) {
+                        options += "<option value='" + list[i].shopCode + "' data-addr='" + list[i].shopAddr + "'>" + list[i].shopName + "</option>";
+                    }
+                    $("#select_shop").html(options);
+                }
+            });
+        }
+
+        function checkPointsEnough(totalPoints){
+            console.log(totalPoints);
+
+
+            var userPoints = $("#userPoints").val();
+            if(userPoints < totalPoints){
+
+                console.log(userPoints);
+
+                $("#exchange").hide();
+                $("#no_enough_points").show();
+            } else{
+
+                console.log(userPoints);
+
+                $("#exchange").show();
+                $("#no_enough_points").hide();
+            }
+        }
+
+        $("#select_city").on("change", function () {
+            var city = $(this).val();
+            changeShop(city);
+        });
+        $("#select_shop").on("change",function(){
+            var shopAddr = $("#select_shop option:selected").attr("data-addr");
+            console.log(shopAddr);
+            $("#shop_addr").text(shopAddr);
+        });
+
+        $("#exchange").click(function () {
+
+            if ($(".activity_checkbox:checked").length == 0) {
+                $.alert("请选择要兑换的套餐");
+                return;
+            } else {
+                var provinceVal = $("#select_province option:selected").val();
+                var cityVal = $("#select_city option:selected").val();
+                var shopVal = $("#select_shop option:selected").val();
+
+                if (provinceVal == 0 || cityVal == 0 || shopVal == 0) {
+                    $.alert("请选择省市及兑换门店");
+                    return;
+                }
+
+
+                var isFirstExchange = /*[[${isFirstExchange}]]*/;
+                var isBenefit = /*[[${isBenefit}]]*/;
+
+                var text = "";
+                if (isBenefit == 0) {// 不优惠
+                    text = "本次兑换将扣除您" + $("#total_points").text() + "积分,确定兑换吗?";
+                } else {// 优惠200积分
+                    text = "本次兑换只扣除您" + ($("#total_points").text()-200) + "积分,确定兑换吗?";
+                }
+
+                var level = [];
+                $(".activity_checkbox:checked").each(function () {
+                    level.push($(this).val());
+                });
+
+                var num = [];// 数量
+                var imgUrl = [];
+
+                $(".activity_checkbox:checked").each(function () {
+                    var index = $(".activity_checkbox").index($(this));
+                    num.push($(".level_num").eq(index).val());
+                    imgUrl.push($(".level_image").eq(index).attr("src"));
+                });
+
+                $.modal({
+                    title: "兑换",
+                    text: text,
+                    buttons: [
+                        {
+                            text: "确定兑换", onClick: function () {
+                            var counterCode = $("#select_shop option:selected").val();
+                            var shopName = $("#select_shop option:selected").text();
+                            var shopAddr = $("#select_shop option:selected").attr("data-addr");
+                            var points = 1000;
+
+
+                            $.ajax({
+                                url: "/sapservice/exchange",
+                                type: "post",
+                                data: {
+                                    "level": level, "num": num, "points": points, "counterCode": counterCode,
+                                    "shopName": shopName, "shopAddr": shopAddr, "openId": openId
+                                },
+                                success: function (resp) {
+                                    if (resp.resultCode == 200) {
+
+                                        for(var i=0;i<level.length;i++){
+                                            $.ajax({
+                                                url: "/sapservice/removeItem",
+                                                type: "post",
+                                                data: {"openId": openId, "level": level[i]},
+                                                success: function (resp) {
+                                                },
+                                                error: function (resp) {
+
+                                                }
+                                            });
+                                        }
+
+                                        window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
+                                                "&shopAddr=" + shopAddr +
+                                                "&imgUrl=" + imgUrl+"&num="+num;
+                                    } else {
+                                        $.alert(resp.resultMsg);
+                                    }
+                                },
+                                error: function (resp) {
+
+                                }
+                            })
+                        }
+                        },
+
+                        {text: "放弃兑换", className: "default"},
+                    ]
+                });
+
+            }
+
+
+        });
+
     });
+    /*]]>*/
 </script>
 
 </body>

@@ -13,7 +13,10 @@
           href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/resources/css/weui-diy-blys.css}"
           data-th-href="@{/resources/css/weui-diy-blys.css}" />
-    <title></title>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui.min-dd-diy.css}"/>
+    <title>套餐详情</title>
 </head>
 
 
@@ -22,13 +25,13 @@
 <input type="hidden" id="open_id" th:value="${openId}"/>
 <input type="hidden" id="level" th:value="${level}"/>
 <input type="hidden" id="imgName" th:value="${activity.imgName}"/>
+<input type="hidden" id="activity_points" th:value="${activity.points}" />
 
 <div style="position:fixed; bottom:0px;left:0px;right:0px; z-index:999">
     <div style="padding:10px 10px; background-color:#fff; font-size:13px;">
-        <span style="float:left; line-height:30px">兑换所需积分:<span style="color:red"
-                                                                th:text="${activity.points}">1200积分</span></span>
+        <span style="float:left; line-height:30px">兑换所需积分:<span style="color:red" id="need_points" th:text="${activity.points}">1200</span></span>
 
-        <a href="#" id="add_shop_cart"><span
+        <a href="javascript:void(0)" id="add_shop_cart"><span
                 style="margin:0 3px;float:right; background-color:#ff9402; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">加入购物车</span></a>
         <a th:if="${enableExchange==1}" href="#" id="show-custom-duihuan"><span
                 style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
@@ -44,9 +47,22 @@
 
 <div class="weui_cells weui_cells_form" style="color:#333; margin-top:0px">
     <div class="weui_cell">
-        <div class="weui_cell_hd"><label class="weui_label" style="font-size:14px">数量</label></div>
-        <div class="weui_cell_bd weui_cell_primary">
-            <span style="text-align:right; display:block; color:#999">x1</span>
+        <div class="weui_cell_hd" style="padding-right: 30%;"><label class="weui_label" style="font-size:14px">数量</label></div>
+        <div class="weui_cell_bd weui_cell_primary" style="float: right; margin-top: -6px">
+            <!--<span style="text-align:right; display:block; color:#999">x1</span>-->
+            <div class="edit-quantity" style="">
+            <p class="btn-minus">
+                <a class="btn minus off"></a>
+            </p>
+            <p class="btn-input">
+                <input class="level_num" type="tel" max="151" min="1" value="1"  />
+            </p>
+            <p class="btn-plus">
+                <a class="btn plus" max="151"></a>
+            </p>
+            <!--<p style="padding:15%">&nbsp;</p>-->
+            </div>
+
         </div>
     </div>
 
@@ -82,6 +98,10 @@
         </div>
     </div>
 
+    <div class="weui_cell">
+        <div class="weui_cell_hd" ><label class="weui_label" style="font-size:14px;width: 100%">门店地址: <span id="shop_addr"></span></label></div>
+    </div>
+
 
 </div>
 
@@ -108,8 +128,6 @@
                         options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
                     }
                     $("#select_city").html(options);
-                    var city = list[0];
-                    changeShop(city);
                 }
             });
         });
@@ -135,6 +153,70 @@
             changeShop(city);
         });
 
+        $("#select_shop").on("change",function(){
+           var shopAddr = $("#select_shop option:selected").attr("data-addr");
+            console.log(shopAddr);
+            $("#shop_addr").text(shopAddr);
+        });
+
+        $("#add_shop_cart").click(function(){
+            var openId = $("#open_id").val();
+            var level = $("#meal").val();
+            var num = $(".level_num").val();
+
+            $.ajax({
+                url:"/sapservice/addToShopCar",
+                type:"post",
+                data:{"openId":openId,"level":level,"flag":1,"num":num},
+                success:function(resp){
+                    $.modal({
+                        title: "",
+                        text: "已添加至购物车",
+                        buttons: [
+                            {
+                                text: "再逛逛",className: "default"
+                            },
+
+                            {
+                                text: "去兑换", onClick:function(){
+                                window.location.href="/sapservice/myShopCar?openId="+openId;
+                            }
+                            },
+                        ]
+                    });
+                },
+                error:function(resp){
+
+                }
+            })
+
+
+        });
+
+
+
+        $(".btn-minus").click(function () {
+            var num = parseInt($(".level_num").val());
+            if(num <= 1){
+
+            } else{
+                $(".level_num").val(num-1);
+
+                var points = $("#need_points").text() - $("#activity_points").val();
+                $("#need_points").text(points);
+            }
+        });
+
+        $(".btn-plus").click(function () {
+            var num = parseInt($(".level_num").val());
+            $(".level_num").val(num+1);
+
+            var points = parseInt($("#need_points").text()) + parseInt($("#activity_points").val());
+
+            $("#need_points").text(points);
+        });
+
+
     });
     $(document).on("click", "#show-custom-duihuan", function () {
 
@@ -154,9 +236,9 @@
 
         var text = "";
         if (isBenefit == 0) {// 不优惠
-            text = "本次兑换将扣除您" + /*[[${activity.points}]]*/ +"积分确定兑换码?";
+            text = "本次兑换将扣除您" + /*[[${activity.points}]]*/ +"积分,确定兑换吗?";
         } else {// 优惠200积分
-            text = "本次兑换只扣除您" + /*[[${activity.points-200}]]*/ +"积分确定兑换码?";
+            text = "本次兑换只扣除您" + /*[[${activity.points-200}]]*/ +"积分,确定兑换吗?";
         }
 
 
@@ -167,23 +249,23 @@
                 {
                     text: "确定兑换", onClick: function () {
                     var openId = $("#open_id").val();
-                    var level = $("#level").val();
-                    var meal = $("#meal").val();
+                    var level = [$("#meal").val()];
                     var counterCode = $("#select_shop option:selected").val();
                     var shopName = $("#select_shop option:selected").text();
                     var shopAddr = $("#select_shop option:selected").attr("data-addr");
                     var points = /*[[${activity.points}]]*/;
-                    var imgUrl = $("#imgName").val();
+                    var imgUrl = [$("#imgName").val()];
+                    var num = [$(".level_num").val()];
                     $.ajax({
                         url: "/sapservice/exchange",
                         type: "post",
-                        data: {"level": level, "meal": meal, "points": points, "counterCode": counterCode,
+                        data: {"level": level,"num":num,"points": points, "counterCode": counterCode,
                             "shopName":shopName,"shopAddr":shopAddr,"openId":openId},
                         success: function (resp) {
                             if (resp.resultCode == 200) {
                                 window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
                                         "&shopAddr="+shopAddr+
-                                        "&imgUrl="+imgUrl;
+                                        "&imgUrl="+imgUrl+"&num="+num;
                             } else {
                                 $.alert(resp.resultMsg);
                             }

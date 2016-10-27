@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.huobanplus.sapservice.commons.Constant;
 import com.huobanplus.sapservice.commons.SapServiceEnum;
-import com.huobanplus.sapservice.commons.annotation.OpenID;
 import com.huobanplus.sapservice.commons.bean.ApiResult;
 import com.huobanplus.sapservice.commons.bean.ResultCode;
 import com.huobanplus.sapservice.commons.ienum.EnumHelper;
@@ -164,42 +163,51 @@ public class IndexController {
 
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResult exchange(@RequestParam(name = "openId") String openId, int level, int meal, String counterCode, String shopName, String shopAddr) {
+    public ApiResult exchange(@RequestParam(name = "openId") String openId, String counterCode, String shopName, String shopAddr,@RequestParam(value = "level[]") int[] level,@RequestParam(value = "num[]") int[] num) {
         // 判断是否是第一次兑换，并且当前时间是在珀莱雅的优惠期间里，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
-        ExchangeActivity activity = activityInfoService.findByLevel(meal);
+        int totalPoints = 0;
 
         if (wxUser != null) {
-            ExchangeInfo exchangeInfo = createExchangeInfo(openId, counterCode, level, meal, wxUser.isFirstExchange());
+            ExchangeInfo exchangeInfo = createExchangeInfo(openId, counterCode, num,level, wxUser.isFirstExchange());
 
             ApiResult apiResult = exchangeService.exchangePoints(exchangeInfo);
             if (apiResult.getResultCode() == ResultCode.SUCCESS.getResultCode()) {
 
-                ResultMap resultMap = (ResultMap) apiResult.getData();
-                // 保存积分兑换记录
+                for(int i=0;i<level.length;i++){
 
-                ExchangeRecord exchangeRecord = new ExchangeRecord();
-                exchangeRecord.setExchangeCode(resultMap.getCouponCode());
-                exchangeRecord.setExchangeShop(shopName);
-                exchangeRecord.setVerification(false);
-                exchangeRecord.setStartDate(resultMap.getObtainFromDate());
-                exchangeRecord.setEndDate(resultMap.getObtainToDate());
-                exchangeRecord.setWxOpenId(wxUser.getOpenId());
-                exchangeRecord.setShopName(shopName);
-                exchangeRecord.setShopAddr(shopAddr);
-                exchangeRecord.setCreateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
+                    ExchangeActivity activity = activityInfoService.findByLevel(level[i]);
+                    totalPoints += activity.getPoints()*num[i];
 
-                ExchangeGoods exchangeGoods = new ExchangeGoods();
-                exchangeGoods.setGoodsName(activity.getGiftsName()[activity.getGiftsName().length - 1]);
-                exchangeGoods.setExchangePoints(activity.getPoints());
-                exchangeGoods.setLevelCode(meal);
-                exchangeGoods.setUnitCode(StringUtil.parseArrarToCommaStr(activity.getGiftsCode()));
-                exchangeGoods.setBarCode(StringUtil.parseArrarToCommaStr(activity.getGiftsBarCode()));
-                exchangeGoods.setImgUrl(activity.getImgName());
+                    ResultMap resultMap = (ResultMap) apiResult.getData();
+                    // 保存积分兑换记录
 
-                exchangeRecord.setExchangeGoods(exchangeGoods);
+                    ExchangeRecord exchangeRecord = new ExchangeRecord();
+                    exchangeRecord.setExchangeCode(resultMap.getCouponCode());
+                    exchangeRecord.setExchangeShop(shopName);
+                    exchangeRecord.setVerification(false);
+                    exchangeRecord.setStartDate(resultMap.getObtainFromDate());
+                    exchangeRecord.setEndDate(resultMap.getObtainToDate());
+                    exchangeRecord.setWxOpenId(wxUser.getOpenId());
+                    exchangeRecord.setShopName(shopName);
+                    exchangeRecord.setShopAddr(shopAddr);
+                    exchangeRecord.setNum(num[i]);
+                    exchangeRecord.setCreateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
 
-                exchangeRecordRepository.save(exchangeRecord);
+                    ExchangeGoods exchangeGoods = new ExchangeGoods();
+                    exchangeGoods.setGoodsName(activity.getGiftsName()[activity.getGiftsName().length - 1]);
+                    exchangeGoods.setExchangePoints(activity.getPoints());
+                    exchangeGoods.setLevelCode(level[i]);
+                    exchangeGoods.setUnitCode(StringUtil.parseArrarToCommaStr(activity.getGiftsCode()));
+                    exchangeGoods.setBarCode(StringUtil.parseArrarToCommaStr(activity.getGiftsBarCode()));
+                    exchangeGoods.setImgUrl(activity.getImgName());
+
+                    exchangeRecord.setExchangeGoods(exchangeGoods);
+
+                    exchangeRecordRepository.save(exchangeRecord);
+                }
+
+
 
                 boolean isFirstExchange = wxUser.isFirstExchange();
 
@@ -209,9 +217,9 @@ public class IndexController {
 
                 if (isFirstExchange && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
                         && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
-                    wxUser.setPoints(wxUser.getPoints() - (activity.getPoints() - 200));
+                    wxUser.setPoints(wxUser.getPoints() - (totalPoints - 200));
                 } else {
-                    wxUser.setPoints(wxUser.getPoints() - activity.getPoints());
+                    wxUser.setPoints(wxUser.getPoints() - totalPoints);
                 }
 
                 wxUser.setFirstExchange(false);
@@ -227,9 +235,63 @@ public class IndexController {
         }
     }
 
-    private ExchangeInfo createExchangeInfo(String openId, String counterCode, int level, int meal, boolean isFirstExchange) {
+    private ExchangeInfo createExchangeInfo(String openId,String counterCode,int[] quantity,int[] level, boolean isFirstExchange) {
 
-        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(meal);
+        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(level[0]);
+
+        ExchangeInfo exchangeInfo = new ExchangeInfo();
+
+        exchangeInfo.setBrandCode(Constant.BRAND_CODE);
+        exchangeInfo.setTradeType(Constant.TRADE_TYPE);
+        exchangeInfo.setTicketType(0);
+        exchangeInfo.setSubCampCode(exchangeActivity.getActivityCode());
+        exchangeInfo.setSubType("PX");
+        exchangeInfo.setBookDateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
+        exchangeInfo.setMemberCode(openId);
+        exchangeInfo.setCounterCode(counterCode);
+        exchangeInfo.setCounterCodeGet(counterCode);
+        exchangeInfo.setDataSourse(3);
+        exchangeInfo.setSendPos(0);
+//        exchangeInfo.setModifyCounts(1);
+
+        List<ExchangeDetail> exchangeDetails = new ArrayList<>();
+
+        for(int j=0;j<level.length;j++){
+            ExchangeActivity activity = activityInfoService.findByLevel(level[j]);
+
+            String[] giftsCode = activity.getGiftsCode();
+            String[] giftsBarCode = activity.getGiftsBarCode();
+            String[] giftsName = activity.getGiftsName();
+
+            for (int i = 0; i < giftsCode.length; i++) {
+                ExchangeDetail exchangeDetail = new ExchangeDetail();
+                exchangeDetail.setSubCampCode(activity.getActivityCode());
+                if (giftsCode[i].startsWith("DH")) {
+                    exchangeDetail.setDetailType("P");
+                } else {
+                    exchangeDetail.setDetailType("N");
+                }
+                exchangeDetail.setBarCode(giftsBarCode[i]);
+                exchangeDetail.setUnitCode(giftsCode[i]);
+                exchangeDetail.setQuantity(quantity[j]);
+                exchangeDetail.setPrice(0);
+                if (i == (giftsCode.length - 1)) {
+                    exchangeDetail.setExPoint(isFirstExchange ? activity.getPoints() - 200 : activity.getPoints());// TODO: 2016-10-18
+                } else {
+                    exchangeDetail.setExPoint(0);
+                }
+                exchangeDetails.add(exchangeDetail);
+            }
+        }
+
+        exchangeInfo.setDetailList(exchangeDetails);
+
+        return exchangeInfo;
+    }
+
+    private ExchangeInfo createExchangeInfo(String openId, String counterCode,int level, boolean isFirstExchange) {
+
+        ExchangeActivity exchangeActivity = activityInfoService.findByLevel(level);
 
         ExchangeInfo exchangeInfo = new ExchangeInfo();
 
@@ -284,24 +346,33 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/toSuccess")
-    public String toSuccessPage(String openId, String shopName, String shopAddr, Model model, String imgUrl) {
+    public String toSuccessPage(String openId, String shopName, String shopAddr, Model model, String[] imgUrl,int[] num) {
+
+        List<LevelModel> levelModels = new ArrayList<>();
+        for(int i=0;i<imgUrl.length;i++){
+            LevelModel levelModel = new LevelModel();
+            levelModel.setImgUrl(imgUrl[i]);
+            levelModel.setNum(num[i]);
+            levelModels.add(levelModel);
+        }
         model.addAttribute("shopName", shopName);
         model.addAttribute("shopAddr", shopAddr);
-        model.addAttribute("imgUrl", imgUrl);
-//        model.
+
+
+        model.addAttribute("levelModels", levelModels);
         return "ExchangeSuccess";
     }
 
     @RequestMapping(value = "/changeProvince")
     @ResponseBody
-    public ApiResult changeProvinceGetCitys(@OpenID String openId, String provinceName) {
+    public ApiResult changeProvinceGetCitys(String provinceName) {
         List<String> citys = shopInfoRepository.findCityByProvince(provinceName);
         return ApiResult.resultWith(ResultCode.SUCCESS, citys);
     }
 
     @RequestMapping(value = "/changeCity")
     @ResponseBody
-    public ApiResult changeCityGetShopNames(@OpenID String openId, String cityName) {
+    public ApiResult changeCityGetShopNames(String cityName) {
         List<ShopInfo> shopNames = shopInfoRepository.findShopInfoByCity(cityName);
         List<ShopModel> shopModels = new ArrayList<>();
         shopNames.forEach(shopInfo -> {
@@ -318,37 +389,81 @@ public class IndexController {
      * 增加套餐至购物车
      * @param openId
      * @param level
+     * @param flag 1:增加一个 0:减少一个
      * @return
      */
     @RequestMapping(value = "/addToShopCar")
     @ResponseBody
-    public ApiResult addToShopCar(@RequestParam(name = "openId") String openId,int level){
+    public ApiResult addToShopCar(@RequestParam(name = "openId") String openId,int level,int flag,Integer num){
 
         SapServiceEnum.ActivityLevel activityLevel = EnumHelper.getEnumType(SapServiceEnum.ActivityLevel.class,level);
         ActivityInfo activityInfo = activityInfoRepository.findByActivityLevel(activityLevel);
-//
-        List<ShopCar> shopCars = shopCarRepository.findByWxOpenId(openId);
         ShopCar shopCar = shopCarRepository.findByWxOpenIdAndActivityInfo(openId,activityInfo);
 
         if(shopCar == null){
             shopCar = new ShopCar();
-            shopCar.setNum(1);
+            shopCar.setNum(num);
             shopCar.setCreateTime(StringUtil.DateFormat(new Date(),StringUtil.TIME_PATTERN));
             shopCar.setActivityInfo(activityInfo);
             shopCar.setWxOpenId(openId);
             shopCarRepository.save(shopCar);
         } else{
-            shopCar.setNum(shopCar.getNum()+1);
+
+            if(num != null){
+                shopCar.setNum(shopCar.getNum()+num);
+            } else{
+                if(flag==1){
+                    shopCar.setNum(shopCar.getNum()+1);
+                } else if(flag==0){
+                    shopCar.setNum(shopCar.getNum()-1);
+                }
+            }
             shopCarRepository.save(shopCar);
         }
 
         return ApiResult.resultWith(ResultCode.SUCCESS);
     }
 
+
+    /**
+     * 我的购物车
+     * @param openId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/myShopCar")
     public String myShopCar(@RequestParam(name = "openId") String openId,Model model){
+
+        WxUser wxUser = wxUserRepository.findByOpenId(openId);
+        int isFirstExchange = 0;
+        int isBenefit = 0;
+        if (wxUser == null) {
+            // 去会员注册？
+            return "redirect:/sapservice/index?usermobile="+openId;
+
+        } else {
+            isFirstExchange = wxUser.isFirstExchange() ? 1 : 0;
+        }
+        String exchangeDate = StringUtil.DateFormat(new Date(), StringUtil.DATE_PATTERN);
+
+        if (wxUser.isFirstExchange() && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
+                && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
+            isBenefit = 1;
+        } else{
+            isBenefit = 0;
+        }
+
+
         List<ShopCar> shopCars = shopCarRepository.findByWxOpenId(openId);
+        List<String> provinces = shopInfoRepository.findProvince();
+
         model.addAttribute("shopCarList",shopCars);
+        model.addAttribute("openId",openId);
+        model.addAttribute("provinces", provinces);
+        model.addAttribute("isBenefit",isBenefit);
+        model.addAttribute("isFirstExchange", isFirstExchange);
+        model.addAttribute("userPoints",wxUser.getPoints());
+
         return "ShopCarList";
     }
 

@@ -246,12 +246,17 @@
                     var points = /*[[${activity.points}]]*/ 100;
                     var imgUrl = [$("#imgName").val()];
                     var num = [$(".level_num").val()];
+
+                    $.showLoading("正在处理");
+
                     $.ajax({
                         url: "/sapservice/exchange",
                         type: "post",
                         data: {"level": level,"num":num,"points": points, "counterCode": counterCode,
                             "shopName":shopName,"shopAddr":shopAddr,"openId":openId},
                         success: function (resp) {
+                            $.hideLoading();
+
                             if (resp.resultCode == 200) {
                                 window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
                                         "&shopAddr="+shopAddr+

@@ -490,6 +490,7 @@
                             var shopAddr = $("#select_shop option:selected").attr("data-addr");
                             var points = 1000;
 
+                            $.showLoading("正在处理");
 
                             $.ajax({
                                 url: "/sapservice/exchange",
@@ -499,6 +500,8 @@
                                     "shopName": shopName, "shopAddr": shopAddr, "openId": openId
                                 },
                                 success: function (resp) {
+                                    $.hideLoading();
+
                                     if (resp.resultCode == 200) {
 
                                         for(var i=0;i<level.length;i++){

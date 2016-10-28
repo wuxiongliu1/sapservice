@@ -27,6 +27,7 @@
 <input type="hidden" id="level" th:value="${level}"/>
 <input type="hidden" id="imgName" th:value="${activity.imgName}"/>
 <input type="hidden" id="activity_points" th:value="${activity.points}" />
+<input type="hidden" id="userPoints" th:value="${userPoints}" />
 
 <div style="position:fixed; bottom:0px;left:0px;right:0px; z-index:999">
     <div style="padding:10px 10px; background-color:#fff; font-size:13px;">
@@ -36,7 +37,7 @@
                 style="margin:0 3px;float:right; background-color:#ff9402; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">加入购物车</span></a>
         <a th:if="${enableExchange==1}" href="#" id="show-custom-duihuan"><span
                 style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
-        <span th:if="${enableExchange==0}"
+        <span id="no_enough_points"
               style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">积分不足</span>
         <p style="clear:both"></p>
     </div>
@@ -104,6 +105,8 @@
     /*<![CDATA[*/
 
     $(document).ready(function () {
+
+        checkPointsEnough(parseInt($("#need_points").text()));
 
 //        $("#select_province").on("change", function () {
 //            var province = $(this).val();
@@ -179,11 +182,28 @@
 
                 }
             })
-
-
         });
 
 
+        function checkPointsEnough(totalPoints){
+            console.log(totalPoints);
+
+
+            var userPoints = parseInt($("#userPoints").val());
+            if(userPoints < totalPoints){
+
+                console.log(userPoints);
+
+                $("#show-custom-duihuan").hide();
+                $("#no_enough_points").show();
+            } else{
+
+                console.log(userPoints);
+
+                $("#show-custom-duihuan").show();
+                $("#no_enough_points").hide();
+            }
+        }
 
         $(".btn-minus").click(function () {
             var num = parseInt($(".level_num").val());
@@ -194,7 +214,9 @@
 
                 var points = $("#need_points").text() - $("#activity_points").val();
                 $("#need_points").text(points);
+                checkPointsEnough(parseInt($("#need_points").text()));
             }
+
         });
 
         $(".btn-plus").click(function () {
@@ -204,6 +226,7 @@
             var points = parseInt($("#need_points").text()) + parseInt($("#activity_points").val());
 
             $("#need_points").text(points);
+            checkPointsEnough(parseInt($("#need_points").text()));
         });
 
 
@@ -225,10 +248,13 @@
         var isBenefit = /*[[${isBenefit}]]*/ 1;
 
         var text = "";
+        var points = 0;
         if (isBenefit == 0) {// 不优惠
             text = "本次兑换将扣除您" + parseInt($("#need_points").text()) +"积分,确定兑换吗?";
+            points = parseInt($("#need_points").text());
         } else {// 优惠200积分
             text = "本次兑换只扣除您" + (parseInt($("#need_points").text())-200) +"积分,确定兑换吗?";
+            points = parseInt($("#need_points").text()) - 200;
         }
 
 
@@ -243,7 +269,7 @@
                     var counterCode = $("#select_shop option:selected").val();
                     var shopName = $("#select_shop option:selected").text();
                     var shopAddr = $("#select_shop option:selected").attr("data-addr");
-                    var points = /*[[${activity.points}]]*/ 100;
+
                     var imgUrl = [$("#imgName").val()];
                     var num = [$(".level_num").val()];
 

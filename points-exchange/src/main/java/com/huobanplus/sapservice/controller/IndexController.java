@@ -196,9 +196,15 @@ public class IndexController {
      */
     @RequestMapping(value = "/exchange", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResult exchange(@RequestParam(name = "openId") String openId, String counterCode, String shopName, String shopAddr,@RequestParam(value = "level[]") int[] level,@RequestParam(value = "num[]") int[] num) {
+    public ApiResult exchange(@RequestParam(name = "openId") String openId, String counterCode, String shopName, String shopAddr,
+                              @RequestParam(value = "level[]") int[] level,
+                              @RequestParam(value = "num[]") int[] num,
+                              int points) {
         // 判断是否是第一次兑换，并且当前时间是在珀莱雅的优惠期间里，如果是，则优惠200积分，否则不优惠
         WxUser wxUser = wxUserRepository.findByOpenId(openId);
+        if(points > wxUser.getPoints()){
+            return ApiResult.resultWith(ResultCode.ERROR,"积分不足",null);
+        }
         int totalPoints = 0;
 
         if (wxUser != null) {

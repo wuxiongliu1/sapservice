@@ -290,15 +290,35 @@ public class IndexController {
         exchangeInfo.setSubType("PX");
         exchangeInfo.setBookDateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
         exchangeInfo.setMemberCode(openId);
-        exchangeInfo.setCounterCode(counterCode);
-        exchangeInfo.setCounterCodeGet(counterCode);
+//        exchangeInfo.setCounterCode(counterCode);
+        exchangeInfo.setCounterCodeGet("ALL");
         exchangeInfo.setDataSourse(3);
         exchangeInfo.setSendPos(0);
 //        exchangeInfo.setModifyCounts(1);
 
+
+        ExchangeDetail benefitExchangeDetail = null;
+
+        String exchangeDate = StringUtil.DateFormat(new Date(), StringUtil.DATE_PATTERN);
+
+
+        // 第一次兑换并且在活动期间,才有优惠
+        if (isFirstExchange && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
+                && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
+            benefitExchangeDetail = new ExchangeDetail();
+            benefitExchangeDetail.setSubCampCode(exchangeActivity.getActivityCode());
+            benefitExchangeDetail.setDetailType("P");
+            benefitExchangeDetail.setBarCode("DH999999");
+            benefitExchangeDetail.setUnitCode("DH999999");
+            benefitExchangeDetail.setQuantity(1);
+            benefitExchangeDetail.setPrice(0);
+            benefitExchangeDetail.setExPoint(-200);
+        }
+
         List<ExchangeDetail> exchangeDetails = new ArrayList<>();
 
         for(int j=0;j<level.length;j++){
+
             ExchangeActivity activity = activityInfoService.findByLevel(level[j]);
 
             String[] giftsCode = activity.getGiftsCode();
@@ -318,7 +338,7 @@ public class IndexController {
                 exchangeDetail.setQuantity(quantity[j]);
                 exchangeDetail.setPrice(0);
                 if (i == (giftsCode.length - 1)) {
-                    exchangeDetail.setExPoint(isFirstExchange ? activity.getPoints() - 200 : activity.getPoints());// TODO: 2016-10-18
+                    exchangeDetail.setExPoint(activity.getPoints());
                 } else {
                     exchangeDetail.setExPoint(0);
                 }
@@ -326,6 +346,9 @@ public class IndexController {
             }
         }
 
+        if(benefitExchangeDetail != null){
+            exchangeDetails.add(benefitExchangeDetail);
+        }
         exchangeInfo.setDetailList(exchangeDetails);
 
         return exchangeInfo;

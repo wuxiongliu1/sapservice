@@ -299,7 +299,7 @@ public class IndexController {
 //        exchangeInfo.setCounterCode(counterCode);
         exchangeInfo.setCounterCodeGet("ALL");
         exchangeInfo.setDataSourse(3);
-        exchangeInfo.setSendPos(0);
+        exchangeInfo.setSendPos(1);
 //        exchangeInfo.setModifyCounts(1);
 
 

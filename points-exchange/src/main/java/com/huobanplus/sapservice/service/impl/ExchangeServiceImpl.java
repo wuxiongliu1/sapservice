@@ -24,6 +24,8 @@ import com.huobanplus.sapservice.service.ExchangeService;
 import com.huobanplus.sapservice.utils.CherryAESCoder;
 import com.huobanplus.sapservice.utils.HttpClientUtil;
 import com.huobanplus.sapservice.utils.HttpResult;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,8 @@ import java.util.Map;
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
 
+    private static final Log log = LogFactory.getLog(ExchangeServiceImpl.class);
+
     @Override
     public ApiResult exchangePoints(ExchangeInfo exchangeInfo) {
 
@@ -48,10 +52,7 @@ public class ExchangeServiceImpl implements ExchangeService {
             paramData = URLEncoder.encode(paramData, "utf-8");
             requestMap.put("paramData",paramData);
 
-            System.out.println("\n*******************");
-            System.out.println("requestJson:"+exchageInfoJson);
-            System.out.println("encrypt data:"+ paramData);
-            System.out.println("\n*******************");
+            log.info("requestJson:"+exchageInfoJson);
 
             HttpResult httpResult = HttpClientUtil.getInstance().get(Constant.BASE_URL,requestMap);
             if(httpResult.getHttpStatus() == HttpStatus.SC_OK){
@@ -70,13 +71,15 @@ public class ExchangeServiceImpl implements ExchangeService {
                             return ApiResult.resultWith(ResultCode.ERROR,"兑换失败",null);
                         }
                     }
+                } else{
+                    return ApiResult.resultWith(ResultCode.ERROR);
                 }
-                return ApiResult.resultWith(ResultCode.SUCCESS);
             } else{
                 return ApiResult.resultWith(ResultCode.ERROR);
             }
 
         } catch (Exception e){
+            log.info(e.getMessage());
             return ApiResult.resultWith(ResultCode.ERROR);
         }
 
@@ -85,6 +88,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     public ApiResult memberInfoQuery(MemberInfoSearch memberInfoBean) {
         String dataJson = JSON.toJSONString(memberInfoBean);
+        log.info("requestJson:"+dataJson);
 
         try {
 
@@ -117,6 +121,7 @@ public class ExchangeServiceImpl implements ExchangeService {
             }
 
         } catch (Exception e){
+            log.info(e.getMessage());
             return ApiResult.resultWith(ResultCode.ERROR,e.getMessage(),null);
         }
     }

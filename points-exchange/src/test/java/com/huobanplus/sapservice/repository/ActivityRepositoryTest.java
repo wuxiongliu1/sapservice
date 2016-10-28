@@ -36,14 +36,4 @@ public class ActivityRepositoryTest extends TestBase {
         }
     }
 
-    @Test
-    public void test(){
-        List<ExchangeActivity> ls1 = activityInfoService.findLevel1200Activity();
-        List<ExchangeActivity> ls2 = activityInfoService.findLevel2200Activity();
-        List<ExchangeActivity> ls3 = activityInfoService.findLevel3200Activity();
-        List<ExchangeActivity> ls4 = activityInfoService.findLevel5000Activity();
-        System.out.println();
-
-    }
-
 }

@@ -236,9 +236,9 @@
 
         var text = "";
         if (isBenefit == 0) {// 不优惠
-            text = "本次兑换将扣除您" + /*[[${activity.points}]]*/ +"积分,确定兑换吗?";
+            text = "本次兑换将扣除您" + parseInt($("#need_points").text()) +"积分,确定兑换吗?";
         } else {// 优惠200积分
-            text = "本次兑换只扣除您" + /*[[${activity.points-200}]]*/ +"积分,确定兑换吗?";
+            text = "本次兑换只扣除您" + (parseInt($("#need_points").text())-200) +"积分,确定兑换吗?";
         }
 
 

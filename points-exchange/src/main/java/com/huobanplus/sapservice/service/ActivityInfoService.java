@@ -18,14 +18,6 @@ import java.util.List;
  */
 public interface ActivityInfoService {
 
-    List<ExchangeActivity> findLevel1200Activity();
-
-    List<ExchangeActivity> findLevel2200Activity();
-
-    List<ExchangeActivity> findLevel3200Activity();
-
-    List<ExchangeActivity> findLevel5000Activity();
-
     /**
      *  根据 levelgruop 查询
      *  levegroup 1: 1200档

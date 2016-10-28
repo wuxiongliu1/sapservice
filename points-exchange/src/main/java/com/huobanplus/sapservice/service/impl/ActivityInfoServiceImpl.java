@@ -31,29 +31,6 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
     @Autowired
     private ActivityInfoRepository activityInfoRepository;
 
-    @Override
-    public List<ExchangeActivity> findLevel1200Activity() {
-        List<ActivityInfo> activityInfoList = activityInfoRepository.findByLevelGroup(1);
-        return convertEntityToModel(activityInfoList);
-    }
-
-    @Override
-    public List<ExchangeActivity> findLevel2200Activity() {
-        List<ActivityInfo> activityInfoList = activityInfoRepository.findByLevelGroup(2);
-        return convertEntityToModel(activityInfoList);
-    }
-
-    @Override
-    public List<ExchangeActivity> findLevel3200Activity() {
-        List<ActivityInfo> activityInfoList = activityInfoRepository.findByLevelGroup(3);
-        return convertEntityToModel(activityInfoList);
-    }
-
-    @Override
-    public List<ExchangeActivity> findLevel5000Activity() {
-        List<ActivityInfo> activityInfoList = activityInfoRepository.findByLevelGroup(4);
-        return convertEntityToModel(activityInfoList);
-    }
 
     @Override
     public List<ExchangeActivity> findByLevelGroup(int levelGroup) {

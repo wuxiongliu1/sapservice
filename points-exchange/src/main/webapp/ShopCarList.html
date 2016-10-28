@@ -20,6 +20,7 @@
 
     <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.js"></script>
+    <script src="./resources/cityInfo.js" th:src="@{/resources/cityInfo.js}"></script>
     <title>购物车列表</title>
 </head>
 
@@ -102,37 +103,23 @@
                         </div>
                     </div>
 
-                    <div class="weui_cell weui_cell_select">
-                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-                            <select class="weui_select mnb" name="select1" id="select_province">
-                                <option selected="" value="0">请选择所在省份</option>
-                                <option th:value="${province}" th:each=" province : ${provinces}"><span
-                                        th:text="${province}"></span>
-                                </option>
-                                <option value="0731004S">xxxx</option>
-                            </select>
+                    <div id="selectItem">
+                        <div class="weui_cell weui_cell_select">
+                            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                                <select class="province weui_select mnb" id="select_province"></select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="weui_cell weui_cell_select">
-                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-                            <select class="weui_select mnb" name="select1" id="select_city">
-                                <option selected="" value="0">请选择所在城市</option>
-                                <option th:value="${city}" th:each=" city : ${citys}"><span th:text="${city}"></span>
-                                </option>
-                                <option value="0731004S">xxxx</option>
-                            </select>
+                        <div class="weui_cell weui_cell_select">
+                            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                                <select class="city weui_select mnb" style="display:none" id="select_city"></select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="weui_cell weui_cell_select">
-                        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-                            <select class="weui_select mnb" name="select1" id="select_shop">
-                                <option selected="" value="0">请选择兑换门店</option>
-                                <option th:value="${name}" th:each=" name : ${shopNames}"><span
-                                        th:text="${name}"></span></option>
-                                <option value="0731004S">xxxx</option>
-                            </select>
+                        <div class="weui_cell weui_cell_select">
+                            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                                <select class="county weui_select mnb" style="display:none" id="select_shop"></select>
+                            </div>
                         </div>
                     </div>
 
@@ -387,39 +374,39 @@
             checkPointsEnough(parseInt($("#total_points").text()));
         });
 
-        $("#select_province").on("change", function () {
-            var province = $(this).val();
-            $.ajax({
-                url: "/sapservice/changeProvince",
-                type: "get",
-                data: {"provinceName": province},
-                success: function (resp) {
-                    var list = resp.data;
-                    var options = "<option value=0>请选择所在城市</option>";
-                    for (var i = 0; i < list.length; i++) {
-                        options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
-                    }
-                    $("#select_city").html(options);
-                }
-            });
-        });
+//        $("#select_province").on("change", function () {
+//            var province = $(this).val();
+//            $.ajax({
+//                url: "/sapservice/changeProvince",
+//                type: "get",
+//                data: {"provinceName": province},
+//                success: function (resp) {
+//                    var list = resp.data;
+//                    var options = "<option value=0>请选择所在城市</option>";
+//                    for (var i = 0; i < list.length; i++) {
+//                        options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
+//                    }
+//                    $("#select_city").html(options);
+//                }
+//            });
+//        });
 
 
-        function changeShop(city) {
-            $.ajax({
-                url: "/sapservice/changeCity",
-                type: "get",
-                data: {"cityName": city},
-                success: function (resp) {
-                    var list = resp.data;
-                    var options = "<option value=0>请选择兑换门店</option>";
-                    for (var i = 0; i < list.length; i++) {
-                        options += "<option value='" + list[i].shopCode + "' data-addr='" + list[i].shopAddr + "'>" + list[i].shopName + "</option>";
-                    }
-                    $("#select_shop").html(options);
-                }
-            });
-        }
+//        function changeShop(city) {
+//            $.ajax({
+//                url: "/sapservice/changeCity",
+//                type: "get",
+//                data: {"cityName": city},
+//                success: function (resp) {
+//                    var list = resp.data;
+//                    var options = "<option value=0>请选择兑换门店</option>";
+//                    for (var i = 0; i < list.length; i++) {
+//                        options += "<option value='" + list[i].shopCode + "' data-addr='" + list[i].shopAddr + "'>" + list[i].shopName + "</option>";
+//                    }
+//                    $("#select_shop").html(options);
+//                }
+//            });
+//        }
 
         function checkPointsEnough(totalPoints){
             console.log(totalPoints);
@@ -441,10 +428,11 @@
             }
         }
 
-        $("#select_city").on("change", function () {
-            var city = $(this).val();
-            changeShop(city);
-        });
+//        $("#select_city").on("change", function () {
+//            var city = $(this).val();
+//            changeShop(city);
+//        });
+
         $("#select_shop").on("change",function(){
             var shopAddr = $("#select_shop option:selected").attr("data-addr");
             console.log(shopAddr);
@@ -550,6 +538,135 @@
         });
 
     });
+    /*]]>*/
+</script>
+
+<script type="application/javascript" data-th-inline="javascript">
+    /*<![CDATA[*/
+
+    ;(function($, window, document, undefined){
+        $.fn.showCity = function(opt){
+            this.defaults = {
+                'cityjson'          : "",     //json字符串变量名
+                'defaultShow'       : true,        //市、县是否显示,默认不显示
+                'showCounty'        : true,         //是否显示县
+                'defaultCity'       : [0,0,0]       //默认城市，对应id
+            };
+            this.options = $.extend({}, this.defaults, opt);
+
+            var oCityJson = this.options.cityjson,
+                    oProvince = $('.province',this),
+                    oCity = $('.city',this),
+                    oCounty = $('.county',this),
+                    provinces = oCityJson.province,
+                    citys = oCityJson.city,
+                    countys = oCityJson.county;
+
+            //创建省
+            this.creatProvince = function(){
+                var html = '';
+                for(var i=0; i<provinces.length; i++){
+                    html += '<option value='+provinces[i].id+'>'+provinces[i].name+'</option>';
+                }
+                oProvince.append(html);
+            };
+
+            this.creat = function(){
+                oProvince.html('<option value="0">选择省</option>');
+                this.creatProvince();
+                if(this.options.defaultShow){
+                    oCity.show();
+                    oCounty.show();
+                    oCity.html('<option value="0">选择市</option>');
+                    oCounty.html('<option value="0">选择门店</option>');
+                };
+                this.defaultCity();
+                this.checkProvince();
+                if(this.options.showCounty){
+                    this.checkCounty();
+                }
+            };
+
+            //默认城市
+            this.defaultCity = function(){
+                if(this.options.defaultCity.toString() == '0,0,0'){
+                    return;
+                };
+
+                var optionsCity = '';
+                for(var i=0; i<provinces.length; i++){
+                    if(provinces[i].id == this.options.defaultCity[0]){
+                        oProvince.val(provinces[i].id);
+                        for(var j=0; j<citys.length; j++){
+                            if(citys[j].cid == provinces[i].id){
+                                optionsCity += '<option value='+citys[j].id+'>'+citys[j].name+'</option>'
+                            }
+                        }
+                        oCity.append(optionsCity).show();
+                    }
+                };
+
+                var optionscounty = '';
+                for(var i=0; i<citys.length; i++){
+                    if(citys[i].id == this.options.defaultCity[1] && citys[i].cid == oProvince.val()){
+                        oCity.val(citys[i].id);
+                        if(this.options.showCounty){
+                            for(var j=0; j<countys.length; j++){
+                                if(countys[j].cid == citys[i].id){
+                                    optionscounty += '<option value='+countys[j].id+'>'+countys[j].name+'</option>';
+                                }
+                            }
+                            oCounty.append(optionscounty).show();
+                        }
+                    }
+                };
+
+                if(this.options.showCounty){
+                    for(var i=0; i<countys.length; i++){
+                        if(countys[i].id == this.options.defaultCity[2] && countys[i].cid == oCity.val()){
+                            oCounty.val(countys[i].id);
+                        }
+                    };
+                }
+            }
+
+
+            this.checkProvince = function(){
+                oProvince.bind('change',function(){
+                    var html = '<option value="0">选择市</option>';
+                    var val = $(this).val();
+                    for(var i=0; i<citys.length; i++){
+                        if(citys[i].cid == val){
+                            html += '<option value='+citys[i].id+'>'+citys[i].name+'</option>'
+                        }
+                    }
+                    oCity.html(html).show();
+                    oCounty.html('<option value="0">选择门店</option>');
+                })
+            };
+
+            this.checkCounty = function(){
+                oCity.bind('change',function(){
+                    var html = '<option value="0">选择门店</option>';
+                    var val = $(this).val();
+                    for(var i=0; i<countys.length; i++){
+                        if(countys[i].cid == val){
+                            html += '<option value='+countys[i].code+ ' data-addr=' +countys[i].addr+'>'+countys[i].name+'</option>'
+                        }
+                    }
+                    oCounty.html(html).show();
+                })
+            };
+            return this.creat();
+        }
+    }(jQuery, window, document))
+
+    $(function(){
+        $('#selectItem').showCity({
+            "defaultCity" : [0,0,0],
+            "cityjson": cityjson
+        });
+    })
     /*]]>*/
 </script>
 

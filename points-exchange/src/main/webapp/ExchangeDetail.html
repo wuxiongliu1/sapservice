@@ -167,7 +167,9 @@
                         text: "已添加至购物车",
                         buttons: [
                             {
-                                text: "再逛逛",className: "default"
+                                text: "再逛逛",onClick:function(){
+                                window.location.href="/sapservice/index?usermobile="+openId;
+                            }
                             },
 
                             {

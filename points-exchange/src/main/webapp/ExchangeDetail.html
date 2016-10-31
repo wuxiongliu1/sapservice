@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css"
           href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/resources/css/weui-diy-blys.css}"
-          data-th-href="@{/resources/css/weui-diy-blys.css}" />
+          data-th-href="@{/resources/css/weui-diy-blys.css}"/>
     <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
           th:href="@{/resources/css/weui.min-dd-diy.css}"
           data-th-href="@{/resources/css/weui.min-dd-diy.css}"/>
@@ -26,19 +26,26 @@
 <input type="hidden" id="open_id" th:value="${openId}"/>
 <input type="hidden" id="level" th:value="${level}"/>
 <input type="hidden" id="imgName" th:value="${activity.imgName}"/>
-<input type="hidden" id="activity_points" th:value="${activity.points}" />
-<input type="hidden" id="userPoints" th:value="${userPoints}" />
+<input type="hidden" id="activity_points" th:value="${activity.points}"/>
+<input type="hidden" id="userPoints" th:value="${userPoints}"/>
 
 <div style="position:fixed; bottom:0px;left:0px;right:0px; z-index:999">
     <div style="padding:10px 10px; background-color:#fff; font-size:13px;">
-        <span style="float:left; line-height:30px">兑换所需积分:<span style="color:red" id="need_points" th:text="${activity.points}">1200</span></span>
+        <span style="float:left; line-height:30px">兑换所需积分:<span style="color:red" id="need_points"
+                                                                th:text="${activity.points}">1200</span></span>
 
-        <a href="javascript:void(0)" id="add_shop_cart"><span
-                style="margin:0 3px;float:right; background-color:#ff9402; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">加入购物车</span></a>
-        <a th:if="${enableExchange==1}" href="#" id="show-custom-duihuan"><span
-                style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
-        <span id="no_enough_points"
-              style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">积分不足</span>
+        <div th:if="${activity.isEnable==1}">
+            <a href="javascript:void(0)" id="add_shop_cart"><span
+                    style="margin:0 3px;float:right; background-color:#ff9402; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">加入购物车</span></a>
+            <a th:if="${enableExchange==1}" href="#" id="show-custom-duihuan"><span
+                    style="margin:0 3px;float:right; background-color:#00B738; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">我要兑换</span></a>
+            <span id="no_enough_points"
+                  style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">积分不足</span>
+        </div>
+        <div th:if="${activity.isEnable==0}">
+            <span
+                  style="margin:0 3px;float:right; background-color:#FF0000; color:#fff; font-size:14px; border-radius:4px; padding:4px 8px;">该套餐已兑换完</span>
+        </div>
         <p style="clear:both"></p>
     </div>
 </div>
@@ -49,20 +56,21 @@
 
 <div class="weui_cells weui_cells_form" style="color:#333; margin-top:0px">
     <div class="weui_cell">
-        <div class="weui_cell_hd" style="padding-right: 30%;"><label class="weui_label" style="font-size:14px">数量</label></div>
+        <div class="weui_cell_hd" style="padding-right: 30%;"><label class="weui_label"
+                                                                     style="font-size:14px">数量</label></div>
         <div class="weui_cell_bd weui_cell_primary" style="float: right; margin-top: -6px">
             <!--<span style="text-align:right; display:block; color:#999">x1</span>-->
             <div class="edit-quantity" style="">
-            <p class="btn-minus">
-                <a class="btn minus off"></a>
-            </p>
-            <p class="btn-input">
-                <input class="level_num" type="tel" max="151" min="1" value="1"  />
-            </p>
-            <p class="btn-plus">
-                <a class="btn plus" max="151"></a>
-            </p>
-            <!--<p style="padding:15%">&nbsp;</p>-->
+                <p class="btn-minus">
+                    <a class="btn minus off"></a>
+                </p>
+                <p class="btn-input">
+                    <input class="level_num" type="tel" max="151" min="1" value="1"/>
+                </p>
+                <p class="btn-plus">
+                    <a class="btn plus" max="151"></a>
+                </p>
+                <!--<p style="padding:15%">&nbsp;</p>-->
             </div>
 
         </div>
@@ -70,27 +78,28 @@
 
 
     <div id="selectItem">
-    <div class="weui_cell weui_cell_select">
-        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-            <select class="province weui_select mnb" id="select_province"></select>
+        <div class="weui_cell weui_cell_select">
+            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                <select class="province weui_select mnb" id="select_province"></select>
+            </div>
         </div>
-    </div>
 
-    <div class="weui_cell weui_cell_select">
-        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-            <select class="city weui_select mnb" style="display:none" id="select_city"></select>
+        <div class="weui_cell weui_cell_select">
+            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                <select class="city weui_select mnb" style="display:none" id="select_city"></select>
+            </div>
         </div>
-    </div>
 
-    <div class="weui_cell weui_cell_select">
-        <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
-            <select class="county weui_select mnb" style="display:none" id="select_shop"></select>
+        <div class="weui_cell weui_cell_select">
+            <div class="weui_cell_bd h weui_cell_primary" style="font-size:14px">
+                <select class="county weui_select mnb" style="display:none" id="select_shop"></select>
+            </div>
         </div>
-    </div>
     </div>
 
     <div class="weui_cell">
-        <div class="weui_cell_hd" ><label class="weui_label" style="font-size:14px;width: 100%">门店地址: <span id="shop_addr"></span></label></div>
+        <div class="weui_cell_hd"><label class="weui_label" style="font-size:14px;width: 100%">门店地址: <span
+                id="shop_addr"></span></label></div>
     </div>
 
 
@@ -146,59 +155,59 @@
 //            changeShop(city);
 //        });
 
-        $("#select_shop").on("change",function(){
-           var shopAddr = $("#select_shop option:selected").attr("data-addr");
+        $("#select_shop").on("change", function () {
+            var shopAddr = $("#select_shop option:selected").attr("data-addr");
             console.log(shopAddr);
             $("#shop_addr").text(shopAddr);
         });
 
-        $("#add_shop_cart").click(function(){
+        $("#add_shop_cart").click(function () {
             var openId = $("#open_id").val();
             var level = $("#meal").val();
             var num = $(".level_num").val();
 
             $.ajax({
-                url:"/sapservice/addToShopCar",
-                type:"post",
-                data:{"openId":openId,"level":level,"flag":1,"num":num},
-                success:function(resp){
+                url: "/sapservice/addToShopCar",
+                type: "post",
+                data: {"openId": openId, "level": level, "flag": 1, "num": num},
+                success: function (resp) {
                     $.modal({
                         title: "",
                         text: "已添加至购物车",
                         buttons: [
                             {
-                                text: "再逛逛",onClick:function(){
-                                window.location.href="/sapservice/index?usermobile="+openId;
+                                text: "再逛逛", onClick: function () {
+                                window.location.href = "/sapservice/index?usermobile=" + openId;
                             }
                             },
 
                             {
-                                text: "去兑换", onClick:function(){
-                                window.location.href="/sapservice/myShopCar?openId="+openId;
+                                text: "去兑换", onClick: function () {
+                                window.location.href = "/sapservice/myShopCar?openId=" + openId;
                             }
                             },
                         ]
                     });
                 },
-                error:function(resp){
+                error: function (resp) {
 
                 }
             })
         });
 
 
-        function checkPointsEnough(totalPoints){
+        function checkPointsEnough(totalPoints) {
             console.log(totalPoints);
 
 
             var userPoints = parseInt($("#userPoints").val());
-            if(userPoints < totalPoints){
+            if (userPoints < totalPoints) {
 
                 console.log(userPoints);
 
                 $("#show-custom-duihuan").hide();
                 $("#no_enough_points").show();
-            } else{
+            } else {
 
                 console.log(userPoints);
 
@@ -209,10 +218,10 @@
 
         $(".btn-minus").click(function () {
             var num = parseInt($(".level_num").val());
-            if(num <= 1){
+            if (num <= 1) {
 
-            } else{
-                $(".level_num").val(num-1);
+            } else {
+                $(".level_num").val(num - 1);
 
                 var points = $("#need_points").text() - $("#activity_points").val();
                 $("#need_points").text(points);
@@ -223,7 +232,7 @@
 
         $(".btn-plus").click(function () {
             var num = parseInt($(".level_num").val());
-            $(".level_num").val(num+1);
+            $(".level_num").val(num + 1);
 
             var points = parseInt($("#need_points").text()) + parseInt($("#activity_points").val());
 
@@ -239,7 +248,7 @@
         var cityVal = $("#select_city option:selected").val();
         var shopVal = $("#select_shop option:selected").val();
 
-        if(provinceVal== 0 || cityVal== 0 || shopVal==0){
+        if (provinceVal == 0 || cityVal == 0 || shopVal == 0) {
             $.alert("请选择省市及兑换门店");
             return;
         }
@@ -252,10 +261,10 @@
         var text = "";
         var points = 0;
         if (isBenefit == 0) {// 不优惠
-            text = "本次兑换将扣除您" + parseInt($("#need_points").text()) +"积分,确定兑换吗?";
+            text = "本次兑换将扣除您" + parseInt($("#need_points").text()) + "积分,确定兑换吗?";
             points = parseInt($("#need_points").text());
         } else {// 优惠200积分
-            text = "本次兑换只扣除您" + (parseInt($("#need_points").text())-200) +"积分,确定兑换吗?";
+            text = "本次兑换只扣除您" + (parseInt($("#need_points").text()) - 200) + "积分,确定兑换吗?";
             points = parseInt($("#need_points").text()) - 200;
         }
 
@@ -280,15 +289,17 @@
                     $.ajax({
                         url: "/sapservice/exchange",
                         type: "post",
-                        data: {"level": level,"num":num,"points": points, "counterCode": counterCode,
-                            "shopName":shopName,"shopAddr":shopAddr,"openId":openId},
+                        data: {
+                            "level": level, "num": num, "points": points, "counterCode": counterCode,
+                            "shopName": shopName, "shopAddr": shopAddr, "openId": openId
+                        },
                         success: function (resp) {
                             $.hideLoading();
 
                             if (resp.resultCode == 200) {
                                 window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
-                                        "&shopAddr="+shopAddr+
-                                        "&imgUrl="+imgUrl+"&num="+num;
+                                        "&shopAddr=" + shopAddr +
+                                        "&imgUrl=" + imgUrl + "&num=" + num;
                             } else {
                                 $.alert(resp.resultMsg);
                             }
@@ -310,100 +321,106 @@
 <script type="application/javascript" data-th-inline="javascript">
     /*<![CDATA[*/
 
-    ;(function($, window, document, undefined){
-        $.fn.showCity = function(opt){
+    ;
+    (function ($, window, document, undefined) {
+        $.fn.showCity = function (opt) {
             this.defaults = {
-                'cityjson'          : "",     //json字符串变量名
-                'defaultShow'       : true,        //市、县是否显示,默认不显示
-                'showCounty'        : true,         //是否显示县
-                'defaultCity'       : [0,0,0]       //默认城市，对应id
+                'cityjson': "",     //json字符串变量名
+                'defaultShow': true,        //市、县是否显示,默认不显示
+                'showCounty': true,         //是否显示县
+                'defaultCity': [0, 0, 0]       //默认城市，对应id
             };
             this.options = $.extend({}, this.defaults, opt);
 
             var oCityJson = this.options.cityjson,
-                    oProvince = $('.province',this),
-                    oCity = $('.city',this),
-                    oCounty = $('.county',this),
+                    oProvince = $('.province', this),
+                    oCity = $('.city', this),
+                    oCounty = $('.county', this),
                     provinces = oCityJson.province,
                     citys = oCityJson.city,
                     countys = oCityJson.county;
 
             //创建省
-            this.creatProvince = function(){
+            this.creatProvince = function () {
                 var html = '';
-                for(var i=0; i<provinces.length; i++){
-                    html += '<option value='+provinces[i].id+'>'+provinces[i].name+'</option>';
+                for (var i = 0; i < provinces.length; i++) {
+                    html += '<option value=' + provinces[i].id + '>' + provinces[i].name + '</option>';
                 }
                 oProvince.append(html);
             };
 
-            this.creat = function(){
+            this.creat = function () {
                 oProvince.html('<option value="0">选择省</option>');
                 this.creatProvince();
-                if(this.options.defaultShow){
+                if (this.options.defaultShow) {
                     oCity.show();
                     oCounty.show();
                     oCity.html('<option value="0">选择市</option>');
                     oCounty.html('<option value="0">选择门店</option>');
-                };
+                }
+                ;
                 this.defaultCity();
                 this.checkProvince();
-                if(this.options.showCounty){
+                if (this.options.showCounty) {
                     this.checkCounty();
                 }
             };
 
             //默认城市
-            this.defaultCity = function(){
-                if(this.options.defaultCity.toString() == '0,0,0'){
+            this.defaultCity = function () {
+                if (this.options.defaultCity.toString() == '0,0,0') {
                     return;
-                };
+                }
+                ;
 
                 var optionsCity = '';
-                for(var i=0; i<provinces.length; i++){
-                    if(provinces[i].id == this.options.defaultCity[0]){
+                for (var i = 0; i < provinces.length; i++) {
+                    if (provinces[i].id == this.options.defaultCity[0]) {
                         oProvince.val(provinces[i].id);
-                        for(var j=0; j<citys.length; j++){
-                            if(citys[j].cid == provinces[i].id){
-                                optionsCity += '<option value='+citys[j].id+'>'+citys[j].name+'</option>'
+                        for (var j = 0; j < citys.length; j++) {
+                            if (citys[j].cid == provinces[i].id) {
+                                optionsCity += '<option value=' + citys[j].id + '>' + citys[j].name + '</option>'
                             }
                         }
                         oCity.append(optionsCity).show();
                     }
-                };
+                }
+                ;
 
                 var optionscounty = '';
-                for(var i=0; i<citys.length; i++){
-                    if(citys[i].id == this.options.defaultCity[1] && citys[i].cid == oProvince.val()){
+                for (var i = 0; i < citys.length; i++) {
+                    if (citys[i].id == this.options.defaultCity[1] && citys[i].cid == oProvince.val()) {
                         oCity.val(citys[i].id);
-                        if(this.options.showCounty){
-                            for(var j=0; j<countys.length; j++){
-                                if(countys[j].cid == citys[i].id){
-                                    optionscounty += '<option value='+countys[j].id+'>'+countys[j].name+'</option>';
+                        if (this.options.showCounty) {
+                            for (var j = 0; j < countys.length; j++) {
+                                if (countys[j].cid == citys[i].id) {
+                                    optionscounty += '<option value=' + countys[j].id + '>' + countys[j].name + '</option>';
                                 }
                             }
                             oCounty.append(optionscounty).show();
                         }
                     }
-                };
+                }
+                ;
 
-                if(this.options.showCounty){
-                    for(var i=0; i<countys.length; i++){
-                        if(countys[i].id == this.options.defaultCity[2] && countys[i].cid == oCity.val()){
+                if (this.options.showCounty) {
+                    for (var i = 0; i < countys.length; i++) {
+                        if (countys[i].id == this.options.defaultCity[2] && countys[i].cid == oCity.val()) {
                             oCounty.val(countys[i].id);
                         }
-                    };
+                    }
+                    ;
                 }
             }
 
 
-            this.checkProvince = function(){
-                oProvince.bind('change',function(){
+            this.checkProvince = function () {
+                oProvince.bind('change', function () {
                     var html = '<option value="0">选择市</option>';
                     var val = $(this).val();
-                    for(var i=0; i<citys.length; i++){
-                        if(citys[i].cid == val){
-                            html += '<option value='+citys[i].id+'>'+citys[i].name+'</option>'
+                    for (var i = 0; i < citys.length; i++) {
+                        if (citys[i].cid == val) {
+                            html += '<option value=' + citys[i].id + '>' + citys[i].name + '</option>'
                         }
                     }
                     oCity.html(html).show();
@@ -411,13 +428,13 @@
                 })
             };
 
-            this.checkCounty = function(){
-                oCity.bind('change',function(){
+            this.checkCounty = function () {
+                oCity.bind('change', function () {
                     var html = '<option value="0">选择门店</option>';
                     var val = $(this).val();
-                    for(var i=0; i<countys.length; i++){
-                        if(countys[i].cid == val){
-                            html += '<option value='+countys[i].code+ ' data-addr=' +countys[i].addr+'>'+countys[i].name+'</option>'
+                    for (var i = 0; i < countys.length; i++) {
+                        if (countys[i].cid == val) {
+                            html += '<option value=' + countys[i].code + ' data-addr=' + countys[i].addr + '>' + countys[i].name + '</option>'
                         }
                     }
                     oCounty.html(html).show();
@@ -427,9 +444,9 @@
         }
     }(jQuery, window, document))
 
-    $(function(){
+    $(function () {
         $('#selectItem').showCity({
-            "defaultCity" : [0,0,0],
+            "defaultCity": [0, 0, 0],
             "cityjson": cityjson
         });
     })

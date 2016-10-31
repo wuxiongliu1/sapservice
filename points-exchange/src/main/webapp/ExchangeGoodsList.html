@@ -18,7 +18,7 @@
 </head>
 <body style="background-color:#efeff4">
 
-<input type="hidden" th:value="${openId}" />
+<input type="hidden" th:value="${openId}"/>
 
 <p><img th:src="@{/resources/images/sdgrew.jpg}" style="width:100%; display:block"/></p>
 <div class="weui_cells" style="margin-top:0px;">
@@ -27,8 +27,11 @@
             <i style="font-size:12px">我的积分<span class="col" style="text-decoration:underline"
                                                 th:text="${points}">4300</span></i>
         </p>
-        <p class="f-frighttwo" style="position: absolute;right: 60px;"><a th:href="@{/sapservice/myShopCar(openId=${openId})}" style="color:red"><i style="font-size:12px">我的购物车 |</i></a></p>
-        <p class="f-frighttwo"><a th:href="@{/sapservice/myExchangeRecord(openId=${openId})}" style="color:red"><i style="font-size:12px">我的兑换</i></a></p>
+        <p class="f-frighttwo" style="position: absolute;right: 60px;"><a
+                th:href="@{/sapservice/myShopCar(openId=${openId})}" style="color:red"><i style="font-size:12px">我的购物车
+            |</i></a></p>
+        <p class="f-frighttwo"><a th:href="@{/sapservice/myExchangeRecord(openId=${openId})}" style="color:red"><i
+                style="font-size:12px">我的兑换</i></a></p>
     </div>
 </div>
 <div class="weui_navbar bn" style="z-index:12; position:relative;">
@@ -42,47 +45,89 @@
 <div class="cont-zhbox">
     <div class="activity level_1200">
         <div style="margin-bottom: 10px;" class="cont-zhbox-t" th:each="activity1 : ${level1200ActivityList}">
-            <a href="javascript:void(0)"
-               th:href="@{/sapservice/toExchange(openId=${openId},level=1,meal=${activity1.activityLevel.getCode()})}" class="bz">
+            <div th:if="${activity1.isEnable} == 1">
+                <a href="javascript:void(0)"
+                   th:href="@{/sapservice/toExchange(openId=${openId},level=1,meal=${activity1.activityLevel.getCode()})}"
+                   class="bz">
+                    <div class="cont-zhbox-img">
+                        <img th:src='${activity1.imgName}' style="width:100%"/>
+                        <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${activity1.isEnable} == 0">
+
                 <div class="cont-zhbox-img">
                     <img th:src='${activity1.imgName}' style="width:100%"/>
-                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right;background-color:#FF0000;">该套餐已兑换完</p>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
     <div class="activity level_2200" style="display: none">
-        <div class="cont-zhbox-t" th:each="activity2 : ${level2200ActivityList}">
-            <a th:href="@{/sapservice/toExchange(openId=${openId},level=2,meal=${activity2.activityLevel.getCode()})}" class="bz">
+        <div style="margin-bottom: 10px;" class="cont-zhbox-t" th:each="activity2 : ${level2200ActivityList}">
+            <div th:if="${activity2.isEnable} == 1">
+                <a href="javascript:void(0)"
+                   th:href="@{/sapservice/toExchange(openId=${openId},level=1,meal=${activity2.activityLevel.getCode()})}"
+                   class="bz">
+                    <div class="cont-zhbox-img">
+                        <img th:src='${activity2.imgName}' style="width:100%"/>
+                        <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${activity2.isEnable} == 0">
+
                 <div class="cont-zhbox-img">
                     <img th:src='${activity2.imgName}' style="width:100%"/>
-                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right;background-color:#FF0000;">该套餐已兑换完</p>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
     <div class="activity level_3200" style="display: none">
-        <div class="cont-zhbox-t" th:each="activity3 : ${level3200ActivityList}">
-            <a th:href="@{/sapservice/toExchange(openId=${openId},level=3,meal=${activity3.activityLevel.getCode()})}" class="bz">
+        <div style="margin-bottom: 10px;" class="cont-zhbox-t" th:each="activity3 : ${level3200ActivityList}">
+            <div th:if="${activity3.isEnable} == 1">
+                <a th:href="@{/sapservice/toExchange(openId=${openId},level=3,meal=${activity3.activityLevel.getCode()})}"
+                   class="bz">
+                    <div class="cont-zhbox-img">
+                        <img th:src='${activity3.imgName}' style="width:100%"/>
+                        <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${activity3.isEnable} == 0">
+
                 <div class="cont-zhbox-img">
                     <img th:src='${activity3.imgName}' style="width:100%"/>
-                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right;background-color:#FF0000;">该套餐已兑换完</p>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
 
     <div class="activity level_5000" style="display: none">
-        <div class="cont-zhbox-t" th:each="activity4 : ${level5000ActivityList}">
-            <a th:href="@{/sapservice/toExchange(openId=${openId},level=4,meal=${activity4.activityLevel.getCode()})}" class="bz">
+
+        <div style="margin-bottom: 10px;" class="cont-zhbox-t" th:each="activity4 : ${level5000ActivityList}">
+            <div th:if="${activity4.isEnable} == 1">
+                <a th:href="@{/sapservice/toExchange(openId=${openId},level=4,meal=${activity4.activityLevel.getCode()})}"
+                   class="bz">
+                    <div class="cont-zhbox-img">
+                        <img th:src='${activity4.imgName}' style="width:100%"/>
+                        <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    </div>
+                </a>
+            </div>
+            <div th:if="${activity4.isEnable} == 0">
+
                 <div class="cont-zhbox-img">
                     <img th:src='${activity4.imgName}' style="width:100%"/>
-                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right">我要兑换</p>
+                    <p class="cont-zhbox-nav" style="margin-bottom:0px;float: right;background-color:#FF0000;">该套餐已兑换完</p>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
@@ -90,12 +135,12 @@
     <p style="text-align:center; font-size:12px; color:#ccc; margin-top:4px"></p>
 
     <!--<div class="cont-zhbox-t">-->
-        <!--<a href="#" class="bz">-->
-            <!--<div class="cont-zhbox-img">-->
-                <!--<img th:src="@{/resources/images/14108328872969.jpg}" style="width:100%"/>-->
-                <!--<p class="cont-zhbox-nav" style="margin-bottom:0px">我要兑换</p>-->
-            <!--</div>-->
-        <!--</a>-->
+    <!--<a href="#" class="bz">-->
+    <!--<div class="cont-zhbox-img">-->
+    <!--<img th:src="@{/resources/images/14108328872969.jpg}" style="width:100%"/>-->
+    <!--<p class="cont-zhbox-nav" style="margin-bottom:0px">我要兑换</p>-->
+    <!--</div>-->
+    <!--</a>-->
     <!--</div>-->
 </div>
 
@@ -110,8 +155,8 @@
 <!--</div>-->
 
 <script>
-    $(document).ready(function(){
-        $(".level_bn").click(function(){
+    $(document).ready(function () {
+        $(".level_bn").click(function () {
             $(this).addClass("weui_bar_item_on");
             $(this).siblings().removeClass("weui_bar_item_on");
             var index = $(".weui_navbar > a").index($(this));

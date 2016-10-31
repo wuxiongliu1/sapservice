@@ -30,4 +30,6 @@ public interface ActivityInfoService {
     List<ExchangeActivity> findByLevelGroup(int levelGroup);
 
     ExchangeActivity findByLevel(int level);
+
+    List<ExchangeActivity> findAllActivity();
 }

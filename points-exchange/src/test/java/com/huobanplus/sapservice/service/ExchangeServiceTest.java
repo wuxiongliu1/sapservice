@@ -7,6 +7,7 @@ import com.huobanplus.sapservice.model.ExchangeActivity;
 import com.huobanplus.sapservice.model.ExchangeDetail;
 import com.huobanplus.sapservice.model.ExchangeInfo;
 import com.huobanplus.sapservice.model.MemberInfoSearch;
+import com.huobanplus.sapservice.utils.AESSecurityUtil;
 import com.huobanplus.sapservice.utils.StringUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -153,7 +154,9 @@ public class ExchangeServiceTest extends TestBase{
     }
 
     @Test
-    public void testnothing(){
+    public void testnothing() throws Exception {
+        String encryptData = AESSecurityUtil.encrypt(Constant.PLY_PASSWORD,Constant.AES_KEY);
+        System.out.println("\nencypt data:"+encryptData);
 
     }
 }

@@ -51,8 +51,16 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
         exchangeActivity.setGiftsName(StringUtil.splitStrToArray(activityInfo.getGiftsName(),","));
         exchangeActivity.setPoints(activityInfo.getPoints());
         exchangeActivity.setImgName(activityInfo.getImgName());
+        exchangeActivity.setIsEnable(activityInfo.getIsEnable());
+
 
         return exchangeActivity;
+    }
+
+    @Override
+    public List<ExchangeActivity> findAllActivity() {
+        List<ActivityInfo> activityInfoList = activityInfoRepository.findAll();
+        return convertEntityToModel(activityInfoList);
     }
 
     private List<ExchangeActivity> convertEntityToModel(List<ActivityInfo> activityInfoList){
@@ -66,6 +74,7 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
             exchangeActivity.setGiftsCode(StringUtil.splitStrToArray(activityInfo.getGiftsCode(),","));
             exchangeActivity.setImgName(activityInfo.getImgName());
             exchangeActivity.setPoints(activityInfo.getPoints());
+            exchangeActivity.setIsEnable(activityInfo.getIsEnable());
 
             exchangeActivityList.add(exchangeActivity);
         });

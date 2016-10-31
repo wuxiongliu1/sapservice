@@ -1,0 +1,546 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui.min-dd-diy.css}"/>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui-diy-blys.css}"/>
+
+    <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.js"></script>
+    <script src="./resources/cityInfo.js" th:src="@{/resources/cityInfo.js}"></script>
+    <title>套餐列表</title>
+</head>
+
+<body style=" background-color:#efeff4">
+<input type="hidden" th:value="${openId}" id="openId"/>
+<input type="hidden" th:value="${userPoints}" id="userPoints"/>
+<div class="weui_tab_bd_item weui_tab_bd_item_active">
+    <div class="ddbg">
+        <div class="weui_panel weui_panel_access ko">
+
+            <div class="weui_panel weui_panel_access"
+                 style="border:1px solid #E8E8E8; border-top:0px;border-bottom:0px;">
+                <div class="weui_cells weui_cells_access" style="margin-top:0px; font-size:14px;white-space:nowrap; ">
+                    <a class="weui_cell yzys" href="javascript:;" style="padding-left:0px;margin-left:5px;">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <p>套餐列表</p>
+                        </div>
+
+
+                        <div class="weui_cell_ft"></div>
+                    </a>
+
+                </div>
+
+                <div class="weui_panel_bd fa">
+
+                    <div class="ddzdy weui_media_box qudiao" th:each="item,itemStat : ${activityList}" style="border-bottom: 1px solid #C0C0C0;">
+
+                        <input type="hidden" class="level_code"
+                               th:value="${item.activityLevel.getCode()}"/>
+
+                        <div class="weui_media_box weui_media_appmsg">
+                            <div class="weui_media_hd jf">
+                                <img class="weui_media_appmsg_thumb level_image" src="/resources/images/1200-a.png"
+                                     alt=""
+                                     th:src="${item.imgName}"/></div>
+                            <div class="weui_media_bd">
+                                <div>
+                                    <div class="weui_media_desc bddx s"
+                                         th:text="${item.activityLevel.getName()}">1200分A套餐(水漾系列)
+                                    </div>
+
+                                    <div class="weui_media_desc bddx s" style="margin:3px 0px; font-size:14px;">
+                                        <span >套餐状态:</span>
+                                        <span  style="margin:3px 0px; color:#00B738; font-size:14px;"
+                                                                th:if="${item.isEnable==1}">不缺货</span>
+                                        <span  style="margin:3px 0px; color:#FF0000; font-size:14px;"
+                                               th:if="${item.isEnable==0}">缺货</span>
+                                    </div>
+                                    <div class="bddxs">
+
+
+                                        <p class="ddfr activity_points" style="font-size:12px;width: 100%;"><b><a href="javascript:void(0);" class="delete_item"
+                                            th:onclick="|enableActivity('${item.activityCode}',0)|"
+                                            style="margin:0 3px;float:right; color:#FF0000; font-size:14px; padding:4px 8px;">缺货</a></b>
+                                            <b>
+                                            <a href="javascript:void(0);" class="delete_item"
+                                               th:onclick="|enableActivity('${item.activityCode}',1)|"
+                                               style="margin:0 3px;float:right; color:#00B738; font-size:14px;padding:4px 8px;">不缺货</a></b>
+                                        </p>
+                                        <!--小数点为零的不显示-->
+                                        <p class="ddfr"
+                                           style="font-size:12px; color:#999; margin-top:-5px;clear: both;"></p>
+                                    </div>
+                                    <p style="clear:both;"></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <p style="clear:both"></p>
+        </div>
+    </div>
+
+</div>
+
+<script type="application/javascript" data-th-inline="javascript">
+    /*<![CDATA[*/
+
+    function enableActivity(activityCode, enable) {
+
+        if (enable == 1) {
+            $.modal({
+                title: "提示",
+                text: "确定折该套餐为不缺货吗?",
+                buttons: [
+                    {
+                        text: "确定", onClick: function () {
+                        $.ajax({
+                            url: "/sapservice/enableActivity",
+                            type: "post",
+                            data: {"activityCode": activityCode, "enable": enable},
+                            success: function (resp) {
+                                location.reload();
+                            },
+                            error: function (resp) {
+
+                            }
+                        });
+                    }
+                    },
+
+                    {text: "取消", className: "default"},
+                ]
+            });
+        } else if (enable == 0) {
+            $.modal({
+                title: "提示",
+                text: "确定折该套餐为缺货吗?",
+                buttons: [
+                    {
+                        text: "确定", onClick: function () {
+                        $.ajax({
+                            url: "/sapservice/enableActivity",
+                            type: "post",
+                            data: {"activityCode": activityCode, "enable": enable},
+                            success: function (resp) {
+                                location.reload();
+                            },
+                            error: function (resp) {
+
+                            }
+                        });
+                    }
+                    },
+
+                    {text: "取消", className: "default"},
+                ]
+            });
+        }
+
+
+    }
+
+    $(document).ready(function () {
+
+        var openId = $("#openId").val();
+
+        $(".btn-minus").click(function () {
+            var index = $(".btn-minus").index($(this));
+            var $levelNum = $(".level_num").eq(index);
+            var levelNum = $levelNum.val();
+            var points = parseInt($(".activity_points").eq(index).text()) / levelNum;
+
+            var levelCode = $(".level_code").eq(index).val();
+            if (levelNum == 1) {
+                $(this).attr("disabled", true);
+            } else {
+                levelNum -= 1;
+                $levelNum.val(levelNum);
+                updateNum(openId, levelCode, 0);
+                $(".activity_points").eq(index).text(points * levelNum);
+
+                // 当前行必须选中,更新总积分
+                if ($(".activity_checkbox").eq(index).prop("checked")) {
+                    var totalPoints = parseInt($("#total_points").text());
+                    $("#total_points").text(totalPoints - points);
+                    checkPointsEnough(parseInt($("#total_points").text()));
+                }
+                ;
+            }
+        });
+
+        $(".btn-plus").click(function () {
+            var index = $(".btn-plus").index($(this));
+            var $levelNum = $(".level_num").eq(index);
+            var levelNum = parseInt($levelNum.val());
+            var points = parseInt($(".activity_points").eq(index).text()) / levelNum;
+
+            levelNum += 1;
+            $levelNum.val(levelNum);
+            var levelCode = $(".level_code").eq(index).val();
+            updateNum(openId, levelCode, 1);
+            $(".activity_points").eq(index).text(points * levelNum);
+
+            // 当前行必须选中,更新总积分
+            if ($(".activity_checkbox").eq(index).prop("checked")) {
+                var totalPoints = parseInt($("#total_points").text());
+                $("#total_points").text(totalPoints + points);
+                checkPointsEnough(parseInt($("#total_points").text()));
+            }
+            ;
+        });
+
+        function updateNum(openId, level, flag) {
+            $.ajax({
+                url: "/sapservice/addToShopCar",
+                type: "post",
+                data: {"openId": openId, "level": level, "flag": flag},
+                success: function (resp) {
+//                    location.reload();
+                },
+                error: function (resp) {
+
+                }
+            });
+        }
+
+
+        $(".activity_checkbox").click(function () {
+            var index = $(".activity_checkbox").index($(this));
+            var points = parseInt($(".activity_points").eq(index).text());
+            var total_points = parseInt($("#total_points").text());
+
+            if ($(this).prop("checked")) {
+                $("#total_points").text(total_points + points);
+            } else {
+                $("#total_points").text(total_points - points);
+            }
+
+            checkPointsEnough(parseInt($("#total_points").text()));
+        });
+
+//        $("#select_province").on("change", function () {
+//            var province = $(this).val();
+//            $.ajax({
+//                url: "/sapservice/changeProvince",
+//                type: "get",
+//                data: {"provinceName": province},
+//                success: function (resp) {
+//                    var list = resp.data;
+//                    var options = "<option value=0>请选择所在城市</option>";
+//                    for (var i = 0; i < list.length; i++) {
+//                        options += "<option value='" + list[i] + "'>" + list[i] + "</option>";
+//                    }
+//                    $("#select_city").html(options);
+//                }
+//            });
+//        });
+
+
+//        function changeShop(city) {
+//            $.ajax({
+//                url: "/sapservice/changeCity",
+//                type: "get",
+//                data: {"cityName": city},
+//                success: function (resp) {
+//                    var list = resp.data;
+//                    var options = "<option value=0>请选择兑换门店</option>";
+//                    for (var i = 0; i < list.length; i++) {
+//                        options += "<option value='" + list[i].shopCode + "' data-addr='" + list[i].shopAddr + "'>" + list[i].shopName + "</option>";
+//                    }
+//                    $("#select_shop").html(options);
+//                }
+//            });
+//        }
+
+        function checkPointsEnough(totalPoints) {
+            console.log(totalPoints);
+
+            var userPoints = parseInt($("#userPoints").val());
+            if (userPoints < totalPoints) {
+
+                console.log(userPoints);
+
+                $("#exchange").hide();
+                $("#no_enough_points").show();
+            } else {
+
+                console.log(userPoints);
+
+                $("#exchange").show();
+                $("#no_enough_points").hide();
+            }
+        }
+
+//        $("#select_city").on("change", function () {
+//            var city = $(this).val();
+//            changeShop(city);
+//        });
+
+        $("#select_shop").on("change", function () {
+            var shopAddr = $("#select_shop option:selected").attr("data-addr");
+            console.log(shopAddr);
+            $("#shop_addr").text(shopAddr);
+        });
+
+        $("#exchange").click(function () {
+
+            if ($(".activity_checkbox:checked").length == 0) {
+                $.alert("请选择要兑换的套餐");
+                return;
+            } else {
+                var provinceVal = $("#select_province option:selected").val();
+                var cityVal = $("#select_city option:selected").val();
+                var shopVal = $("#select_shop option:selected").val();
+
+                if (provinceVal == 0 || cityVal == 0 || shopVal == 0) {
+                    $.alert("请选择省市及兑换门店");
+                    return;
+                }
+
+
+                var isFirstExchange = /*[[${isFirstExchange}]]*/ 1;
+                var isBenefit = /*[[${isBenefit}]]*/ 1;
+
+                var text = "";
+                if (isBenefit == 0) {// 不优惠
+                    text = "本次兑换将扣除您" + $("#total_points").text() + "积分,确定兑换吗?";
+                } else {// 优惠200积分
+                    text = "本次兑换只扣除您" + ($("#total_points").text() - 200) + "积分,确定兑换吗?";
+                }
+
+                var level = [];
+                $(".activity_checkbox:checked").each(function () {
+                    level.push($(this).val());
+                });
+
+                var num = [];// 数量
+                var imgUrl = [];
+
+                $(".activity_checkbox:checked").each(function () {
+                    var index = $(".activity_checkbox").index($(this));
+                    num.push($(".level_num").eq(index).val());
+                    imgUrl.push($(".level_image").eq(index).attr("src"));
+                });
+
+                $.modal({
+                    title: "兑换",
+                    text: text,
+                    buttons: [
+                        {
+                            text: "确定兑换", onClick: function () {
+                            var counterCode = $("#select_shop option:selected").val();
+                            var shopName = $("#select_shop option:selected").text();
+                            var shopAddr = $("#select_shop option:selected").attr("data-addr");
+                            var points = 1000;
+
+                            $.showLoading("正在处理");
+
+                            $.ajax({
+                                url: "/sapservice/exchange",
+                                type: "post",
+                                data: {
+                                    "level": level, "num": num, "points": points, "counterCode": counterCode,
+                                    "shopName": shopName, "shopAddr": shopAddr, "openId": openId
+                                },
+                                success: function (resp) {
+                                    $.hideLoading();
+
+                                    if (resp.resultCode == 200) {
+
+                                        for (var i = 0; i < level.length; i++) {
+                                            $.ajax({
+                                                url: "/sapservice/removeItem",
+                                                type: "post",
+                                                data: {"openId": openId, "level": level[i]},
+                                                success: function (resp) {
+                                                },
+                                                error: function (resp) {
+
+                                                }
+                                            });
+                                        }
+
+                                        window.location.href = "/sapservice/toSuccess?shopName=" + shopName +
+                                                "&shopAddr=" + shopAddr +
+                                                "&imgUrl=" + imgUrl + "&num=" + num;
+                                    } else {
+                                        $.alert(resp.resultMsg);
+                                    }
+                                },
+                                error: function (resp) {
+
+                                }
+                            })
+                        }
+                        },
+
+                        {text: "放弃兑换", className: "default"},
+                    ]
+                });
+
+            }
+
+
+        });
+
+    });
+    /*]]>*/
+</script>
+
+<script type="application/javascript" data-th-inline="javascript">
+    /*<![CDATA[*/
+
+    ;
+    (function ($, window, document, undefined) {
+        $.fn.showCity = function (opt) {
+            this.defaults = {
+                'cityjson': "",     //json字符串变量名
+                'defaultShow': true,        //市、县是否显示,默认不显示
+                'showCounty': true,         //是否显示县
+                'defaultCity': [0, 0, 0]       //默认城市，对应id
+            };
+            this.options = $.extend({}, this.defaults, opt);
+
+            var oCityJson = this.options.cityjson,
+                    oProvince = $('.province', this),
+                    oCity = $('.city', this),
+                    oCounty = $('.county', this),
+                    provinces = oCityJson.province,
+                    citys = oCityJson.city,
+                    countys = oCityJson.county;
+
+            //创建省
+            this.creatProvince = function () {
+                var html = '';
+                for (var i = 0; i < provinces.length; i++) {
+                    html += '<option value=' + provinces[i].id + '>' + provinces[i].name + '</option>';
+                }
+                oProvince.append(html);
+            };
+
+            this.creat = function () {
+                oProvince.html('<option value="0">选择省</option>');
+                this.creatProvince();
+                if (this.options.defaultShow) {
+                    oCity.show();
+                    oCounty.show();
+                    oCity.html('<option value="0">选择市</option>');
+                    oCounty.html('<option value="0">选择门店</option>');
+                }
+                ;
+                this.defaultCity();
+                this.checkProvince();
+                if (this.options.showCounty) {
+                    this.checkCounty();
+                }
+            };
+
+            //默认城市
+            this.defaultCity = function () {
+                if (this.options.defaultCity.toString() == '0,0,0') {
+                    return;
+                }
+                ;
+
+                var optionsCity = '';
+                for (var i = 0; i < provinces.length; i++) {
+                    if (provinces[i].id == this.options.defaultCity[0]) {
+                        oProvince.val(provinces[i].id);
+                        for (var j = 0; j < citys.length; j++) {
+                            if (citys[j].cid == provinces[i].id) {
+                                optionsCity += '<option value=' + citys[j].id + '>' + citys[j].name + '</option>'
+                            }
+                        }
+                        oCity.append(optionsCity).show();
+                    }
+                }
+                ;
+
+                var optionscounty = '';
+                for (var i = 0; i < citys.length; i++) {
+                    if (citys[i].id == this.options.defaultCity[1] && citys[i].cid == oProvince.val()) {
+                        oCity.val(citys[i].id);
+                        if (this.options.showCounty) {
+                            for (var j = 0; j < countys.length; j++) {
+                                if (countys[j].cid == citys[i].id) {
+                                    optionscounty += '<option value=' + countys[j].id + '>' + countys[j].name + '</option>';
+                                }
+                            }
+                            oCounty.append(optionscounty).show();
+                        }
+                    }
+                }
+                ;
+
+                if (this.options.showCounty) {
+                    for (var i = 0; i < countys.length; i++) {
+                        if (countys[i].id == this.options.defaultCity[2] && countys[i].cid == oCity.val()) {
+                            oCounty.val(countys[i].id);
+                        }
+                    }
+                    ;
+                }
+            }
+
+
+            this.checkProvince = function () {
+                oProvince.bind('change', function () {
+                    var html = '<option value="0">选择市</option>';
+                    var val = $(this).val();
+                    for (var i = 0; i < citys.length; i++) {
+                        if (citys[i].cid == val) {
+                            html += '<option value=' + citys[i].id + '>' + citys[i].name + '</option>'
+                        }
+                    }
+                    oCity.html(html).show();
+                    oCounty.html('<option value="0">选择门店</option>');
+                })
+            };
+
+            this.checkCounty = function () {
+                oCity.bind('change', function () {
+                    var html = '<option value="0">选择门店</option>';
+                    var val = $(this).val();
+                    for (var i = 0; i < countys.length; i++) {
+                        if (countys[i].cid == val) {
+                            html += '<option value=' + countys[i].code + ' data-addr=' + countys[i].addr + '>' + countys[i].name + '</option>'
+                        }
+                    }
+                    oCounty.html(html).show();
+                })
+            };
+            return this.creat();
+        }
+    }(jQuery, window, document))
+
+    $(function () {
+        $('#selectItem').showCity({
+            "defaultCity": [0, 0, 0],
+            "cityjson": cityjson
+        });
+    })
+    /*]]>*/
+</script>
+
+</body>
+</html>

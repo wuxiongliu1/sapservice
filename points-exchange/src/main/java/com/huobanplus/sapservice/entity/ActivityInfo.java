@@ -71,4 +71,9 @@ public class ActivityInfo {
      */
     private String imgName;
 
+    /**
+     * 是否可用
+     */
+    private int isEnable;
+
 }

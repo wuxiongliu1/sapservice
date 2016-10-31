@@ -53,4 +53,9 @@ public class ExchangeActivity {
      */
     private String imgName;
 
+    /**
+     * 是否可用
+     */
+    private int isEnable;
+
 }

@@ -25,4 +25,6 @@ public interface ActivityInfoRepository extends JpaRepository<ActivityInfo,Integ
     List<ActivityInfo> findByLevelGroup(int levelGroup);
 
     ActivityInfo findByActivityLevel(SapServiceEnum.ActivityLevel activityLevel);
+
+    ActivityInfo findByActivityCode(String activityCode);
 }

@@ -22,6 +22,7 @@ import com.huobanplus.sapservice.repository.*;
 import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
+import com.huobanplus.sapservice.utils.AESSecurityUtil;
 import com.huobanplus.sapservice.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -533,5 +534,44 @@ public class IndexController {
         } else {
             return ApiResult.resultWith(ResultCode.ERROR);
         }
+    }
+
+    @RequestMapping(value = "/activityManage")
+    public String activityManage(String pd,Model model){
+        try{
+            if(AESSecurityUtil.decrypt(pd,Constant.AES_KEY).equals(Constant.PLY_PASSWORD)){
+                model.addAttribute("activityList",activityInfoService.findAllActivity());
+                return "ActivityManage";
+            } else{
+                model.addAttribute("errorMsg","没有权限");
+                return "error";
+            }
+        } catch (Exception e){
+            model.addAttribute("errorMsg","没有权限");
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "/enableActivity")
+    @ResponseBody
+    public ApiResult enableActivity(String passWord,String activityCode,int enable) throws Exception {
+        ActivityInfo activityInfo = activityInfoRepository.findByActivityCode(activityCode);
+        if(activityInfo != null){
+
+            activityInfo.setIsEnable(enable);
+            activityInfoRepository.save(activityInfo);
+            return ApiResult.resultWith(ResultCode.SUCCESS);
+        } else{
+            return ApiResult.resultWith(ResultCode.ERROR,"该套餐不存在",null);
+        }
+    }
+
+
+
+    private String checkActivityDate(){
+        Date now = new Date();
+        String nowStr = StringUtil.DateFormat(now,StringUtil.DATE_PATTERN);
+
+        return "";
     }
 }

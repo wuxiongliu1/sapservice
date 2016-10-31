@@ -69,7 +69,7 @@
         <div style="margin-bottom: 10px;" class="cont-zhbox-t" th:each="activity2 : ${level2200ActivityList}">
             <div th:if="${activity2.isEnable} == 1">
                 <a href="javascript:void(0)"
-                   th:href="@{/sapservice/toExchange(openId=${openId},level=1,meal=${activity2.activityLevel.getCode()})}"
+                   th:href="@{/sapservice/toExchange(openId=${openId},level=2,meal=${activity2.activityLevel.getCode()})}"
                    class="bz">
                     <div class="cont-zhbox-img">
                         <img th:src='${activity2.imgName}' style="width:100%"/>

@@ -121,8 +121,8 @@ public class DataInitServiceImpl implements DataInitService {
 
         List<ExchangeActivity> level1200 = new ArrayList<>();
         ExchangeActivity level1200A = new ExchangeActivity();
-        String[] level1200ACode = {"10005818","10008775","DH000212"};
-        String[] level1200ABarcode = {"10005818CX","10008775CX","DH000212"};
+        String[] level1200ACode = {"10005818","10008775","DH000196"};
+        String[] level1200ABarcode = {"10005818CX","10008775CX","DH000196"};
         String[] level1200AName = {"珀莱雅水漾肌密柔滑洁面膏120ml会员专享","睛彩珍珠净化提亮炭黑眼膜6g*6片-会员专享",
                 "1200分A套餐(水漾系列)"};
         level1200A.setActivityCode(env.getProperty("level1200_A"));
@@ -134,8 +134,8 @@ public class DataInitServiceImpl implements DataInitService {
         level1200A.setImgName("/resources/images/1200-a.png");
 
         ExchangeActivity level1200B = new ExchangeActivity();
-        String[] level1200BCode = {"10008210","DH000213"};
-        String[] level1200BBarcode = {"10008210CX","DH000213"};
+        String[] level1200BCode = {"10008210","DH000197"};
+        String[] level1200BBarcode = {"10008210CX","DH000197"};
         String[] level1200BName = {"靓白肌密如瓷透白隔离霜40ml/146元(紫色)","1200分B套餐(靓白系列)"};
         level1200B.setActivityCode(env.getProperty("level1200_B"));
         level1200B.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_1200_B);
@@ -146,8 +146,8 @@ public class DataInitServiceImpl implements DataInitService {
         level1200B.setImgName("/resources/images/1200-b.png");
 
         ExchangeActivity level1200C = new ExchangeActivity();
-        String[] level1200CCode = {"10008772","10008777","DH000214"};
-        String[] level1200CBarcode = {"10008772CX","10008777CX","DH000214"};
+        String[] level1200CCode = {"10008772","10008777","DH000198"};
+        String[] level1200CBarcode = {"10008772CX","10008777CX","DH000198"};
         String[] level1200CName = {"光采贝壳水润靓颜晶透冻膜6g*2-会员专享","珀莱雅紧致肌密洁面乳霜120ml-16版会员专享","1200分C套餐(紧致系列)"};
         level1200C.setActivityCode(env.getProperty("level1200_C"));
         level1200C.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_1200_C);
@@ -158,8 +158,8 @@ public class DataInitServiceImpl implements DataInitService {
         level1200C.setImgName("/resources/images/1200-c.png");
 
         ExchangeActivity level1200D = new ExchangeActivity();
-        String[] level1200DCode = {"10006714","DH000215"};
-        String[] level1200DBarcode = {"10006714CX","DH000215"};
+        String[] level1200DCode = {"10006714","DH000199"};
+        String[] level1200DBarcode = {"10006714CX","DH000199"};
         String[] level1200DName = {"深海致臻塑颜洁面霜120ml-14版会员专享","1200分D套餐(深海致臻系列)"};
         level1200D.setActivityCode(env.getProperty("level1200_D"));
         level1200D.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_1200_D);
@@ -183,8 +183,8 @@ public class DataInitServiceImpl implements DataInitService {
         List<ExchangeActivity> level2200 = new ArrayList<>();
 
         ExchangeActivity level2200A = new ExchangeActivity();
-        String[] level2200ACode = {"10008762","10008776","DH000216"};
-        String[] level2200ABarcode = {"10008762CX","10008776CX","DH000216"};
+        String[] level2200ACode = {"10008762","10008776","DH000200"};
+        String[] level2200ABarcode = {"10008762CX","10008776CX","DH000200"};
         String[] level2200AName = {"泡叶藻补水保湿柔润面膜25ml*6片-会员专享","珀莱雅水漾肌密恒润霜50g-16版会员专享",
         "2200分A套餐(水漾系列)"};
 
@@ -197,8 +197,8 @@ public class DataInitServiceImpl implements DataInitService {
         level2200A.setImgName("/resources/images/2200-a.png");
 
         ExchangeActivity level2200B = new ExchangeActivity();
-        String[] level2200BCode = {"10008210","10008762","DH000217"};
-        String[] level2200BBarcode = {"10008210CX","10008762CX","DH000217"};
+        String[] level2200BCode = {"10008210","10008762","DH000201"};
+        String[] level2200BBarcode = {"10008210CX","10008762CX","DH000201"};
         String[] level2200BName = {"靓白肌密如瓷透白隔离霜40ml/146元（紫色）","泡叶藻补水保湿柔润面膜25ml*6片-会员专享","2200分B套餐(靓白系列)"};
         level2200B.setActivityCode(env.getProperty("level2200_B"));
         level2200B.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_2200_B);
@@ -209,8 +209,8 @@ public class DataInitServiceImpl implements DataInitService {
         level2200B.setImgName("/resources/images/2200-b.png");
 
         ExchangeActivity level2200C = new ExchangeActivity();
-        String[] level2200CCode = {"10007530","DH000218"};
-        String[] level2200CBarcode = {"10007530CX","DH000218"};
+        String[] level2200CCode = {"10007530","DH000202"};
+        String[] level2200CBarcode = {"10007530CX","DH000202"};
         String[] level2200CName = {"深海美肌可弹套盒/268元（内含6片面膜）","2200分C套餐(紧致系列)"};
         level2200C.setActivityCode(env.getProperty("level2200_C"));
         level2200C.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_2200_C);
@@ -221,8 +221,8 @@ public class DataInitServiceImpl implements DataInitService {
         level2200C.setImgName("/resources/images/2200-c.png");
 
         ExchangeActivity level2200D = new ExchangeActivity();
-        String[] level2200DCode = {"10006757","DH000219"};
-        String[] level2200DBarcode = {"10006757CX","DH000219"};
+        String[] level2200DCode = {"10006757","DH000203"};
+        String[] level2200DBarcode = {"10006757CX","DH000203"};
         String[] level2200DName = {"深海致臻塑颜紧肤水滋润型150ml-会员专享","2200分D套餐(深海致臻系列)"};
         level2200D.setActivityCode(env.getProperty("level2200_D"));
         level2200D.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_2200_D);
@@ -246,8 +246,8 @@ public class DataInitServiceImpl implements DataInitService {
 
         List<ExchangeActivity> level3200 = new ArrayList<>();
         ExchangeActivity level3200A = new ExchangeActivity();
-        String[] level3200ACode = {"10005818","10008763","10008776","DH000220"};
-        String[] level3200ABarcode = {"10005818CX","10008763CX","10008776CX","DH000220"};
+        String[] level3200ACode = {"10005818","10008763","10008776","DH000204"};
+        String[] level3200ABarcode = {"10005818CX","10008763CX","10008776CX","DH000204"};
         String[] level3200AName = {"珀莱雅水漾肌密柔滑洁面膏120ml会员专享","麒麟藻密集保湿丝滑面膜25ml*6片-会员专享","珀莱雅水漾肌密恒润霜50g-16版会员专享","3200分A套餐(水漾系列)"};
         level3200A.setActivityCode(env.getProperty("level3200_A"));
         level3200A.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_3200_A);
@@ -258,8 +258,8 @@ public class DataInitServiceImpl implements DataInitService {
         level3200A.setImgName("/resources/images/3200-a.png");
 
         ExchangeActivity level3200B = new ExchangeActivity();
-        String[] level3200BCode = {"10007301","10008210","10008764","DH000221"};
-        String[] level3200BBarcode = {"10007301CX","10008210CX","10008764CX","DH000221"};
+        String[] level3200BCode = {"10007301","10008210","10008764","DH000205"};
+        String[] level3200BBarcode = {"10007301CX","10008210CX","10008764CX","DH000205"};
         String[] level3200BName = {"肌密柔润洁面乳120ml会员专享-15版会员专享","靓白肌密如瓷透白隔离霜40ml/146元（紫色）","黑顶藻净化亮肤炭黑面膜25ml*6片-会员专享","3200分B套餐(靓白系列)"};
         level3200B.setActivityCode(env.getProperty("level3200_B"));
         level3200B.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_3200_B);
@@ -270,8 +270,8 @@ public class DataInitServiceImpl implements DataInitService {
         level3200B.setImgName("/resources/images/3200-b.png");
 
         ExchangeActivity level3200C = new ExchangeActivity();
-        String[] level3200CCode = {"10006755","10008211","DH000222"};
-        String[] level3200CBarcode = {"10006755CX","10008211CX","DH000222"};
+        String[] level3200CCode = {"10006755","10008211","DH000206"};
+        String[] level3200CBarcode = {"10006755CX","10008211CX","DH000206"};
         String[] level3200CName = {"紧致肌密凝时滋养水150ml-14版会员专享","珀莱雅紧致肌密弹力修护霜50g-16版会员专享","3200分C套餐(紧致系列)"};
         level3200C.setActivityCode(env.getProperty("level3200_C"));
         level3200C.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_3200_C);
@@ -282,8 +282,8 @@ public class DataInitServiceImpl implements DataInitService {
         level3200C.setImgName("/resources/images/3200-c.png");
 
         ExchangeActivity level3200D = new ExchangeActivity();
-        String[] level3200DCode = {"10006759","10008772","DH000223"};
-        String[] level3200DBarcode = {"10006759CX","10008772CX","DH000223"};
+        String[] level3200DCode = {"10006759","10008772","DH000207"};
+        String[] level3200DBarcode = {"10006759CX","10008772CX","DH000207"};
         String[] level3200DName = {"深海致臻塑颜抚纹细肤精华液40ml-会员专享","光采贝壳水润靓颜晶透冻膜6g*2-会员专享","3200分D套餐(深海致臻系列)"};
         level3200D.setActivityCode(env.getProperty("level3200_D"));
         level3200D.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_3200_D);
@@ -306,8 +306,8 @@ public class DataInitServiceImpl implements DataInitService {
 
         List<ExchangeActivity> level5000 = new ArrayList<>();
         ExchangeActivity level5000B = new ExchangeActivity();
-        String[] level5000BCode = {"10007301","10007816","10008210","10008762","10008775","DH000224"};
-        String[] level5000BBarcode = {"10007301CX","10007816CX","10008210CX","10008762CX","10008775CX","DH000224"};
+        String[] level5000BCode = {"10007301","10007816","10008210","10008762","10008775","DH000208"};
+        String[] level5000BBarcode = {"10007301CX","10007816CX","10008210CX","10008762CX","10008775CX","DH000208"};
         String[] level5000BName = {"肌密柔润洁面乳120ml会员专享-15版会员专享","珀莱雅靓白肌密明星电眼霜20g-15版会员专享","靓白肌密如瓷透白隔离霜40ml/146元（紫色）","泡叶藻补水保湿柔润面膜25ml*6片-会员专享","睛彩珍珠净化提亮炭黑眼膜6g*6片-会员专享","5000分B套餐(靓白系列)"};
         level5000B.setActivityCode(env.getProperty("level5000_B"));
         level5000B.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_5000_B);
@@ -318,8 +318,8 @@ public class DataInitServiceImpl implements DataInitService {
         level5000B.setImgName("/resources/images/5000-b.png");
 
         ExchangeActivity level5000A = new ExchangeActivity();
-        String[] level5000ACode = {"10005818","10006754","10008764","10008775","10008776","DH000225"};
-        String[] level5000ABarcode = {"10005818CX","10006754CX","10008764CX","10008775CX","10008776CX","DH000225"};
+        String[] level5000ACode = {"10005818","10006754","10008764","10008775","10008776","DH000209"};
+        String[] level5000ABarcode = {"10005818CX","10006754CX","10008764CX","10008775CX","10008776CX","DH000209"};
         String[] level5000AName = {"珀莱雅水漾肌密柔滑洁面膏120ml会员专享","珀莱雅水漾肌密眼部凝露20g-14版会员专享","黑顶藻净化亮肤炭黑面膜25ml*6片-会员专享","睛彩珍珠净化提亮炭黑眼膜6g*6片-会员专享","珀莱雅水漾肌密恒润霜50g-16版会员专享","5000分A套餐(水漾系列)"};
         level5000A.setActivityCode(env.getProperty("level5000_A"));
         level5000A.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_5000_A);
@@ -330,8 +330,8 @@ public class DataInitServiceImpl implements DataInitService {
         level5000A.setImgName("/resources/images/5000-a.png");
 
         ExchangeActivity level5000D = new ExchangeActivity();
-        String[] level5000DCode = {"10006714","10006759","10008764","DH000226"};
-        String[] level5000DBarcode = {"10006714CX","10006759CX","10008764CX","DH000226"};
+        String[] level5000DCode = {"10006714","10006759","10008764","DH000210"};
+        String[] level5000DBarcode = {"10006714CX","10006759CX","10008764CX","DH000210"};
         String[] level5000DName = {"深海致臻塑颜洁面霜120ml-14版会员专享","深海致臻塑颜抚纹细肤精华液40ml-会员专享","黑顶藻净化亮肤炭黑面膜25ml*6片-会员专享","5000分D套餐(深海致臻系列)"};
         level5000D.setActivityCode(env.getProperty("level5000_D"));
         level5000D.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_5000_D);
@@ -342,8 +342,8 @@ public class DataInitServiceImpl implements DataInitService {
         level5000D.setImgName("/resources/images/5000-d.png");
 
         ExchangeActivity level5000C = new ExchangeActivity();
-        String[] level5000CCode = {"10006755","10008211","10008762","10008772","10008777","DH000227"};
-        String[] level5000CBarcode = {"10006755CX","10008211CX","10008762CX","10008772CX","10008777CX","DH000227"};
+        String[] level5000CCode = {"10006755","10008211","10008762","10008772","10008777","DH000211"};
+        String[] level5000CBarcode = {"10006755CX","10008211CX","10008762CX","10008772CX","10008777CX","DH000211"};
         String[] level5000CName = {"紧致肌密凝时滋养水150ml-14版会员专享","珀莱雅紧致肌密弹力修护霜50g-16版会员专享","泡叶藻补水保湿柔润面膜25ml*6片-会员专享","光采贝壳水润靓颜晶透冻膜6g*2-会员专享","珀莱雅紧致肌密洁面乳霜120ml-16版会员专享","5000分C套餐(紧致系列)"};
         level5000C.setActivityCode(env.getProperty("level5000_C"));
         level5000C.setActivityLevel(SapServiceEnum.ActivityLevel.LEVEL_5000_C);

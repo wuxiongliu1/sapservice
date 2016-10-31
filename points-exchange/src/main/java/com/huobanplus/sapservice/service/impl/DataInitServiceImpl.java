@@ -65,6 +65,7 @@ public class DataInitServiceImpl implements DataInitService {
                 activityInfo.setPoints(level1200A.getPoints());
                 activityInfo.setImgName(level1200A.getImgName());
                 activityInfo.setLevelGroup(1);
+                activityInfo.setIsEnable(1);
                 activityInfoRepository.save(activityInfo);
 
             });
@@ -79,6 +80,7 @@ public class DataInitServiceImpl implements DataInitService {
                 activityInfo.setPoints(activity.getPoints());
                 activityInfo.setImgName(activity.getImgName());
                 activityInfo.setLevelGroup(2);
+                activityInfo.setIsEnable(1);
                 activityInfoRepository.save(activityInfo);
 
             });
@@ -93,6 +95,7 @@ public class DataInitServiceImpl implements DataInitService {
                 activityInfo.setPoints(activity.getPoints());
                 activityInfo.setImgName(activity.getImgName());
                 activityInfo.setLevelGroup(3);
+                activityInfo.setIsEnable(1);
                 activityInfoRepository.save(activityInfo);
 
             });
@@ -107,6 +110,7 @@ public class DataInitServiceImpl implements DataInitService {
                 activityInfo.setPoints(activity.getPoints());
                 activityInfo.setImgName(activity.getImgName());
                 activityInfo.setLevelGroup(4);
+                activityInfo.setIsEnable(1);
                 activityInfoRepository.save(activityInfo);
 
             });

@@ -75,6 +75,16 @@ public class IndexController {
     @RequestMapping(value = {"/index"})
     public String index(@RequestParam(name = "usermobile") String openId, HttpServletRequest request, Model model) throws Exception {
 
+        // 判断活动是否在活动期间
+        String nowStr = StringUtil.DateFormat(new Date(),StringUtil.DATE_PATTERN);
+        if(nowStr.compareTo(activityDate.getBenefitStartDate())<0){
+            model.addAttribute("errorMsg","活动未开始");
+            return "error";
+        } if(nowStr.compareTo(activityDate.getBenefitEndDate())>0){
+            model.addAttribute("errorMsg","活动已经结束");
+            return "error";
+        }
+
 
         // 先判断该用户是否是珀莱雅的会员，如果不是，则进入会员注册页面
         MemberInfoSearch memberInfoBean = new MemberInfoSearch();

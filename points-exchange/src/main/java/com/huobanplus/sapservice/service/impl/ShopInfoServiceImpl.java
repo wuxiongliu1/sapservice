@@ -41,14 +41,15 @@ public class ShopInfoServiceImpl implements ShopInfoService {
 
         if(info == null){// 未初始化过数据，则初始化，否则不初始化
 
-            InputStream fin = ShopInfoServiceImpl.class.getResourceAsStream("/shop_info_10.17.xlsx");
+            InputStream fin = ShopInfoServiceImpl.class.getResourceAsStream("/shop_info_10.28.xlsx");
             XSSFWorkbook workbook= new XSSFWorkbook(fin);
-            for(int i=0;i<workbook.getNumberOfSheets();i++){
-                XSSFSheet sheet = workbook.getSheetAt(i);
+//            for(int i=0;i<workbook.getNumberOfSheets();i++){
+            int sheetIndex = 2;
+                XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
                 for(int rowIndex = 1;rowIndex<=sheet.getLastRowNum();rowIndex++){
                     XSSFRow row = sheet.getRow(rowIndex);
                     ShopInfo shopInfo = new ShopInfo();
-                    shopInfo.setShopType(row.getCell(1)!=null?row.getCell(1).toString():"");
+                    shopInfo.setShopType(row.getCell(0)!=null?row.getCell(0).toString():"");
                     shopInfo.setProvince(row.getCell(2)!=null?row.getCell(2).toString():"");
                     shopInfo.setCity(row.getCell(3)!=null?row.getCell(3).toString():"");
                     shopInfo.setCrmCode(row.getCell(4)!=null?row.getCell(4).toString():"");
@@ -59,7 +60,7 @@ public class ShopInfoServiceImpl implements ShopInfoService {
                     shopInfoRepository.save(shopInfo);
                     log.info("柜台数据初始化中.....");
                 }
-            }
+//            }
             log.info("柜台数据初始化完成");
         }
     }

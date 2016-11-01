@@ -101,7 +101,6 @@ public class IndexController {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 int points = jsonObject.getIntValue("CurrentPoint");
 
-
                 WxUser wxUser = wxUserRepository.findByOpenId(openId);
                 if (wxUser == null) {
                     wxUser = new WxUser();

@@ -22,6 +22,7 @@ import com.huobanplus.sapservice.repository.*;
 import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
+import com.huobanplus.sapservice.service.WxUserService;
 import com.huobanplus.sapservice.utils.AESSecurityUtil;
 import com.huobanplus.sapservice.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,8 @@ public class IndexController {
     private ActivityDate activityDate;
     @Autowired
     private ActivityInfoService activityInfoService;
+    @Autowired
+    private WxUserService wxUserService;
 
 
     /**
@@ -102,19 +105,7 @@ public class IndexController {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 int points = jsonObject.getIntValue("CurrentPoint");
 
-                WxUser wxUser = wxUserRepository.findByOpenId(openId);
-                if (wxUser == null) {
-                    wxUser = new WxUser();
-                    wxUser.setPoints(points);// 首次积分
-                    wxUser.setFirstExchange(true);
-                    wxUser.setOpenId(openId);
-                    wxUser.setWxName("");
-                    wxUser.setWxImgUrl("");
-                    wxUserRepository.save(wxUser);
-                } else {
-                    wxUser.setPoints(points);// TODO: 2016-10-18
-                    wxUserRepository.save(wxUser);
-                }
+                WxUser wxUser = wxUserService.updateOrSaveUser(openId, points);
 
                 List<ExchangeActivity> level1200ActivityList = activityInfoService.findByLevelGroup(1);
                 List<ExchangeActivity> level2200ActivityList = activityInfoService.findByLevelGroup(2);

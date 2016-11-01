@@ -72,7 +72,7 @@ public class ExchangeServiceTest extends TestBase{
 //
 //        exchangeInfo.setDetailList(exchangeDetails);
 
-        ExchangeInfo exchangeInfo = createExchangeInfo("15067134475",2,"0731004S",new int[]{1,2},false);
+        ExchangeInfo exchangeInfo = createExchangeInfo("15067134476", 2, "0731004S", new int[]{1, 2}, false);
 
         ApiResult apiResult = exchangeService.exchangePoints(exchangeInfo);
         System.out.println("\n************************");

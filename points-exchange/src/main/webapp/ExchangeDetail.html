@@ -305,7 +305,8 @@
                             }
                         },
                         error: function (resp) {
-
+                            $.hideLoading();
+                            $.alert("服务器已关闭,请求失败");
                         }
                     })
                 }

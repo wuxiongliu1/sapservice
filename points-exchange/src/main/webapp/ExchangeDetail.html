@@ -65,7 +65,7 @@
                     <a class="btn minus off"></a>
                 </p>
                 <p class="btn-input">
-                    <input class="level_num" type="tel" max="151" min="1" value="1"/>
+                    <input class="level_num" type="tel" max="151" min="1" value="1" disabled="disabled"/>
                 </p>
                 <p class="btn-plus">
                     <a class="btn plus" max="151"></a>
@@ -264,7 +264,7 @@
             text = "本次兑换将扣除您" + parseInt($("#need_points").text()) + "积分,确定兑换吗?";
             points = parseInt($("#need_points").text());
         } else {// 优惠200积分
-            text = "本次兑换只扣除您" + (parseInt($("#need_points").text()) - 200) + "积分,确定兑换吗?";
+            text = "微信首次兑换优惠200积分,本次兑换只扣除您" + (parseInt($("#need_points").text()) - 200) + "积分,确定兑换吗?";
             points = parseInt($("#need_points").text()) - 200;
         }
 

@@ -23,8 +23,8 @@ import com.huobanplus.sapservice.service.ActivityInfoService;
 import com.huobanplus.sapservice.service.DataInitService;
 import com.huobanplus.sapservice.service.ExchangeService;
 import com.huobanplus.sapservice.service.WxUserService;
-import com.huobanplus.sapservice.utils.AESSecurityUtil;
 import com.huobanplus.sapservice.utils.StringUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -539,18 +539,9 @@ public class IndexController {
 
     @RequestMapping(value = "/activityManage")
     public String activityManage(String pd,Model model){
-        try{
-            if(AESSecurityUtil.decrypt(pd,Constant.AES_KEY).equals(Constant.PLY_PASSWORD)){
-                model.addAttribute("activityList",activityInfoService.findAllActivity());
-                return "ActivityManage";
-            } else{
-                model.addAttribute("errorMsg","没有权限");
-                return "error";
-            }
-        } catch (Exception e){
-            model.addAttribute("errorMsg","没有权限");
-            return "error";
-        }
+        model.addAttribute("activityList", activityInfoService.findAllActivity());
+        return "ActivityManage";
+
     }
 
     @RequestMapping(value = "/enableActivity")
@@ -558,7 +549,6 @@ public class IndexController {
     public ApiResult enableActivity(String passWord,String activityCode,int enable) throws Exception {
         ActivityInfo activityInfo = activityInfoRepository.findByActivityCode(activityCode);
         if(activityInfo != null){
-
             activityInfo.setIsEnable(enable);
             activityInfoRepository.save(activityInfo);
             return ApiResult.resultWith(ResultCode.SUCCESS);
@@ -567,12 +557,21 @@ public class IndexController {
         }
     }
 
-
-
-    private String checkActivityDate(){
-        Date now = new Date();
-        String nowStr = StringUtil.DateFormat(now,StringUtil.DATE_PATTERN);
-
-        return "";
+    @RequestMapping(value = "/admin/login")
+    public String login(HttpServletRequest request, String password, Model model) {
+        String md5Str = DigestUtils.md5Hex(password.getBytes());
+        if (md5Str.equals(Constant.PLY_MD5_PASSWORD)) {
+            request.getSession().setAttribute("password", password);
+            return "redirect:/sapservice/activityManage";
+        } else {
+            return "redirect:/sapservice/admin/toLogin?errorMsg=密码错误";
+        }
     }
+
+    @RequestMapping(value = "/admin/toLogin")
+    public String toLogin(String errorMsg, Model model) {
+        model.addAttribute("errorMsg", errorMsg);
+        return "Login";
+    }
+
 }

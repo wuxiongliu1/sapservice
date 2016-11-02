@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" content=""/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui.min-dd-diy.css}"/>
+    <link rel="stylesheet" type="text/css" href="./resources/css/weui.min-dd-diy.css"
+          th:href="@{/resources/css/weui.min-dd-diy.css}"
+          data-th-href="@{/resources/css/weui-diy-blys.css}"/>
+
+    <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.js"></script>
+    <script src="./resources/cityInfo.js" th:src="@{/resources/cityInfo.js}"></script>
+    <title>登录</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <form action="/sapservice/admin/login" th:action="@{/sapservice/admin/login}" method="post">
+
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="password" placeholder="请输入密码" name="password"/>
+                </div>
+                <input class="weui_btn weui_btn_mini weui_btn_primary" type="submit" value="登录"/>
+            </div>
+            <div class="weui_cell">
+                <p th:text="${errorMsg}" style="text-align: center;color: red;font-size: 5px;">error</p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -9,6 +9,9 @@
 
 package com.huobanplus.sapservice.controller;
 
+import com.huobanplus.sapservice.commons.Constant;
+import com.huobanplus.sapservice.utils.StringUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,18 @@ public class PlatformInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        String userMobile = request.getParameter("usermobile");
-        request.setAttribute("openId", "15067134475");
+//        String username = (String) request.getSession().getAttribute("username");
+        String password = (String) request.getSession().getAttribute("password");
+        if (StringUtil.isEmpty(password)) {
+            response.sendRedirect("/sapservice/admin/toLogin");
+            return false;
+        }
+        String md5Str = DigestUtils.md5Hex(password.getBytes());
+        if (md5Str.equals(Constant.PLY_MD5_PASSWORD)) {
+            return true;
+        } else {
+            response.getWriter().write("登录失败,密码错误");
+        }
         return true;
     }
 }

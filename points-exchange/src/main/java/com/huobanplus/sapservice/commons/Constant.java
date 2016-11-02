@@ -30,4 +30,6 @@ public class Constant {
     public static String UNBIND_USER_REDIRECT_URL = "http://proya.huobanmall.com/UserCenter/Securitycenter/proya/ProyaMobileBind.aspx?customerid=" + CUSTOMER_ID;
 
     public static String PLY_PASSWORD = "PLY_123_WXL";
+
+    public static String PLY_MD5_PASSWORD = "91a5df2d0e5024f33b76a68a3de5525e";
 }

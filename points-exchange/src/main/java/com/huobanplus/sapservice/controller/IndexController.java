@@ -202,78 +202,8 @@ public class IndexController {
                               @RequestParam(value = "level[]") int[] level,
                               @RequestParam(value = "num[]") int[] num,
                               int points) {
-        // 判断是否是第一次兑换，并且当前时间是在珀莱雅的优惠期间里，如果是，则优惠200积分，否则不优惠
-        WxUser wxUser = wxUserRepository.findByOpenId(openId);
-        if(points > wxUser.getPoints()){
-            return ApiResult.resultWith(ResultCode.ERROR,"积分不足",null);
-        }
-        int totalPoints = 0;
-
-        if (wxUser != null) {
-            ExchangeInfo exchangeInfo = createExchangeInfo(openId, counterCode, num,level, wxUser.isFirstExchange());
-
-            ApiResult apiResult = exchangeService.exchangePoints(exchangeInfo);
-            if (apiResult.getResultCode() == ResultCode.SUCCESS.getResultCode()) {
-
-                for(int i=0;i<level.length;i++){
-
-                    ExchangeActivity activity = activityInfoService.findByLevel(level[i]);
-                    totalPoints += activity.getPoints()*num[i];
-
-                    ResultMap resultMap = (ResultMap) apiResult.getData();
-                    // 保存积分兑换记录
-
-                    ExchangeRecord exchangeRecord = new ExchangeRecord();
-                    exchangeRecord.setExchangeCode(resultMap.getCouponCode());
-                    exchangeRecord.setExchangeShop(shopName);
-                    exchangeRecord.setVerification(false);
-                    exchangeRecord.setStartDate(resultMap.getObtainFromDate());
-                    exchangeRecord.setEndDate(resultMap.getObtainToDate());
-                    exchangeRecord.setWxOpenId(wxUser.getOpenId());
-                    exchangeRecord.setShopName(shopName);
-                    exchangeRecord.setShopAddr(shopAddr);
-                    exchangeRecord.setNum(num[i]);
-                    exchangeRecord.setCreateTime(StringUtil.DateFormat(new Date(), StringUtil.TIME_PATTERN));
-
-                    ExchangeGoods exchangeGoods = new ExchangeGoods();
-                    exchangeGoods.setGoodsName(activity.getGiftsName()[activity.getGiftsName().length - 1]);
-                    exchangeGoods.setExchangePoints(activity.getPoints());
-                    exchangeGoods.setLevelCode(level[i]);
-                    exchangeGoods.setUnitCode(StringUtil.parseArrarToCommaStr(activity.getGiftsCode()));
-                    exchangeGoods.setBarCode(StringUtil.parseArrarToCommaStr(activity.getGiftsBarCode()));
-                    exchangeGoods.setImgUrl(activity.getImgName());
-
-                    exchangeRecord.setExchangeGoods(exchangeGoods);
-
-                    exchangeRecordRepository.save(exchangeRecord);
-                }
-
-
-
-                boolean isFirstExchange = wxUser.isFirstExchange();
-
-
-                String exchangeDate = StringUtil.DateFormat(new Date(), StringUtil.DATE_PATTERN);
-
-
-                if (isFirstExchange && exchangeDate.compareTo(activityDate.getBenefitStartDate()) >= 0
-                        && exchangeDate.compareTo(activityDate.getBenefitEndDate()) <= 0) {
-                    wxUser.setPoints(wxUser.getPoints() - (totalPoints - 200));
-                } else {
-                    wxUser.setPoints(wxUser.getPoints() - totalPoints);
-                }
-
-                wxUser.setFirstExchange(false);
-
-                wxUserRepository.save(wxUser);
-
-                return ApiResult.resultWith(ResultCode.SUCCESS);
-            } else {
-                return ApiResult.resultWith(ResultCode.ERROR,apiResult.getResultMsg(),null);
-            }
-        } else {
-            return ApiResult.resultWith(ResultCode.ERROR);
-        }
+        ApiResult apiResult = exchangeService.syncExchangePoints(openId, counterCode, shopName, shopAddr, level, num, points);
+        return apiResult;
     }
 
     /**
@@ -562,6 +492,7 @@ public class IndexController {
         String md5Str = DigestUtils.md5Hex(password.getBytes());
         if (md5Str.equals(Constant.PLY_MD5_PASSWORD)) {
             request.getSession().setAttribute("password", password);
+            request.getSession().setMaxInactiveInterval(1200);// session过期时间20分钟
             return "redirect:/sapservice/activityManage";
         } else {
             return "redirect:/sapservice/admin/toLogin?errorMsg=密码错误";

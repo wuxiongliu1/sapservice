@@ -25,6 +25,22 @@ public interface ExchangeService {
      */
     public ApiResult exchangePoints(ExchangeInfo exchangeInfo);
 
+
+    /**
+     * 同步积分兑换
+     *
+     * @param openId
+     * @param counterCode
+     * @param shopName
+     * @param shopAddr
+     * @param level
+     * @param num
+     * @param points
+     * @return
+     */
+    public ApiResult syncExchangePoints(String openId, String counterCode, String shopName, String shopAddr,
+                                        int[] level, int[] num, int points);
+
     /**
      *  会员查询
      * @param memberInfoBean

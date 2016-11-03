@@ -56,7 +56,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 
     @Override
-    public synchronized ApiResult exchangePoints(ExchangeInfo exchangeInfo) {
+    public ApiResult exchangePoints(ExchangeInfo exchangeInfo) {
 
         String exchageInfoJson = JSON.toJSONString(exchangeInfo);
         Map<String,Object> requestMap = new HashMap<>();
@@ -100,7 +100,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public synchronized ApiResult memberInfoQuery(MemberInfoSearch memberInfoBean) {
+    public ApiResult memberInfoQuery(MemberInfoSearch memberInfoBean) {
         String dataJson = JSON.toJSONString(memberInfoBean);
         log.info("requestJson:"+dataJson);
 

@@ -10,7 +10,7 @@ public class Md5Test {
 
     @Test
     public void testMd5() {
-        String pwd = "ply201611";
+        String pwd = "proya201611";
         String md5Str = DigestUtils.md5Hex(pwd.getBytes());
         System.out.println(md5Str);
     }

@@ -31,5 +31,5 @@ public class Constant {
 
     public static String PLY_PASSWORD = "PLY_123_WXL";
 
-    public static String PLY_MD5_PASSWORD = "91a5df2d0e5024f33b76a68a3de5525e";
+    public static String PLY_MD5_PASSWORD = "663a0875b6b2c12e81ddf375301025f1";
 }

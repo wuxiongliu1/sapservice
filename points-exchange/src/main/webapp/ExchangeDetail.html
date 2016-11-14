@@ -147,7 +147,13 @@
 
     $(document).ready(function () {
 
-        checkPointsEnough(parseInt($("#need_points").text()));
+        var benefit = /*[[${isBenefit}]]*/ 1;
+        if (benefit == 0) {
+            checkPointsEnough(parseInt($("#need_points").text()));
+        } else {
+            checkPointsEnough(parseInt($("#need_points").text()) - 200);
+
+        }
 
 //        $("#select_province").on("change", function () {
 //            var province = $(this).val();

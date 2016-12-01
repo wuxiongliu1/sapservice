@@ -46,7 +46,7 @@ public class ExchangeRecord {
     private boolean isVerification;
 
     /**
-     * 微信用户id (自增字段id,不是openId)
+     * 微信用户id
      */
     private String wxOpenId;
 

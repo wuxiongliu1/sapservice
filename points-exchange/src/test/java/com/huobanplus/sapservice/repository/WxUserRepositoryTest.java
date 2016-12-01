@@ -4,9 +4,9 @@ import com.huobanplus.sapservice.TestBase;
 import com.huobanplus.sapservice.entity.ExchangeGoods;
 import com.huobanplus.sapservice.entity.ExchangeRecord;
 import com.huobanplus.sapservice.entity.WxUser;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +46,13 @@ public class WxUserRepositoryTest extends TestBase{
         Long id = 1L;
         WxUser wxUser = wxUserRepository.findOne(id);
         System.out.println(wxUser);
+    }
+
+    @Test
+    public void testFindByIsFirstExchange() {
+        List<WxUser> wxUsers = wxUserRepository.findByIsFirstExchange(false);
+        for (WxUser wxUser : wxUsers) {
+            Assert.assertFalse(wxUser.isFirstExchange());
+        }
     }
 }

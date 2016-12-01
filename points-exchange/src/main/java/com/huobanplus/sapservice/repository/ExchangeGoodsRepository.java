@@ -11,9 +11,11 @@ package com.huobanplus.sapservice.repository;
 
 import com.huobanplus.sapservice.entity.ExchangeGoods;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by wuxiongliu on 2016-10-14.
  */
+@Repository
 public interface ExchangeGoodsRepository extends JpaRepository<ExchangeGoods,Long> {
 }

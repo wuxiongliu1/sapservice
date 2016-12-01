@@ -11,11 +11,17 @@ package com.huobanplus.sapservice.repository;
 
 import com.huobanplus.sapservice.entity.WxUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by wuxiongliu on 2016-10-14.
  */
+@Repository
 public interface WxUserRepository extends JpaRepository<WxUser,Long> {
 
     WxUser findByOpenId(String openId);
+
+    List<WxUser> findByIsFirstExchange(boolean isFirstExchange);
 }

@@ -84,10 +84,10 @@ public class IndexController {
 //            model.addAttribute("errorMsg","活动未开始");
 //            return "error";
 //        }
-        if(nowStr.compareTo(activityDate.getBenefitEndDate())>0){
-            model.addAttribute("errorMsg","活动已经结束");
-            return "error";
-        }
+//        if(nowStr.compareTo(activityDate.getBenefitEndDate())>0){
+//            model.addAttribute("errorMsg","活动已经结束");
+//            return "error";
+//        }
 
 
         // 先判断该用户是否是珀莱雅的会员，如果不是，则进入会员注册页面

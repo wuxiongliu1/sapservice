@@ -147,7 +147,13 @@
 
     $(document).ready(function () {
 
-        checkPointsEnough(parseInt($("#need_points").text()));
+        var benefit = /*[[${isBenefit}]]*/ 1;
+        if (benefit == 0) {
+            checkPointsEnough(parseInt($("#need_points").text()));
+        } else {
+            checkPointsEnough(parseInt($("#need_points").text()) - 200);
+
+        }
 
 //        $("#select_province").on("change", function () {
 //            var province = $(this).val();
@@ -257,7 +263,12 @@
 
                 var points = $("#need_points").text() - $("#activity_points").val();
                 $("#need_points").text(points);
-                checkPointsEnough(parseInt($("#need_points").text()));
+                if (benefit == 1) {
+
+                    checkPointsEnough(parseInt($("#need_points").text() - 200));
+                } else {
+                    checkPointsEnough(parseInt($("#need_points").text()));
+                }
             }
 
         });
@@ -269,7 +280,13 @@
             var points = parseInt($("#need_points").text()) + parseInt($("#activity_points").val());
 
             $("#need_points").text(points);
-            checkPointsEnough(parseInt($("#need_points").text()));
+            if (benefit == 1) {
+
+                checkPointsEnough(parseInt($("#need_points").text() - 200));
+            } else {
+                checkPointsEnough(parseInt($("#need_points").text()));
+
+            }
         });
 
 
